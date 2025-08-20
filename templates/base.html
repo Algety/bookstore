@@ -36,7 +36,18 @@
   </head>
   <body>
 
-    <header class = "container-fluid fixed-top"></header>
+    <header class = "container-fluid fixed-top">
+       <div class="row bg-white">
+      <nav class="navbar navbar-expand-lg navbar-light w-100">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
+          aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        {% include 'includes/mobile-top-header.html' %}
+        {% include 'includes/main-nav.html' %}
+      </nav>
+    </div>
+    </header>
     {% if messages %}
       <div class = "messsage-container"></div>
     {% endif %}
