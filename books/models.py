@@ -4,6 +4,10 @@ from slugify import slugify
 
 # Create your models here.
 class Category(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+        
     CATEGORY_TYPES = [
         ('age', 'Age Group'),
         ('genre', 'Genre'),
