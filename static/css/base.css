@@ -1,3 +1,8 @@
+/* * {
+  outline: 1px solid red;
+} */
+
+
 /* Root color and font variables */
 :root {
     --main-color: #1B75C1;
@@ -47,26 +52,33 @@ body {
     color: var(--main-color) !important;
 }
 
-/* Main logo styling */
+/* Logo image */
 #logo {
     background-image: url('/static/images/fayno_logo_transparent_book.png');
-    /* width: fit-content; */
-    width: 120px;
-    height: 100px;
+    width: 70px;
+    height: 50px;
     background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
     flex-shrink: 0;
     margin-right: -8px;
+    margin-left: 0px;
 }
 
 /* Logo container for flex alignment */
 .logo-container {
     display: flex;
     align-items: center;
-    max-width: 300px;
+    max-width: 200px;
 }
 
+.nav-link {
+    padding: 0 !important;
+}
+
+.nav-text {
+    font-size: 50%;
+}
 /* 
 .logo-ornament {
     width: 40%;
@@ -78,7 +90,7 @@ body {
 }
 */
 
-/* Logo text headings styling */
+/* Logo title styling */
 .logo-text h1,
 .logo-text h2 {
     display: flex;
@@ -91,7 +103,7 @@ body {
 /* Logo main title */
 .logo-title {
     font-family: 'Volkhov', sans-serif;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: var(--main-color);
     text-align: center;
     margin: 3px 0 -6px 0;
@@ -100,7 +112,7 @@ body {
 /* Logo subtitle */
 .logo-subtitle {
     font-family: 'Source Sans Pro', serif;
-    font-size: 1.3rem;
+    font-size: 0.8rem;
     letter-spacing: 0.05em;
     text-align: center;
     color: var(--main-color);
@@ -117,21 +129,78 @@ body {
 }
 
 .overlay {
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	position: fixed;
-	background: white;
-	z-index: -1;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: white;
+    z-index: -1;
 }
 
 .promo-font {
-    display: inline-block; /* background wraps the text */
-  background-color: white;
-  padding: 0 1rem; /* horizontal breathing room */
-  line-height: 1.2;
-  color: var(--main-color);
+    display: inline-block;
+    background-color: white;
+    padding: 0 1rem;
+    line-height: 1.2;
+    color: var(--main-color);
     font-family: 'Source Sans Pro', serif;
     text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.fa-lg {
+    font-size: 1em !important;
+}
+
+/* ------------------------------------------------------ */
+
+@media (min-width: 400px) {
+    #logo {
+        width: 90px;
+        height: 70px;
+    }
+
+    .nav-link {
+        padding: .5rem 1rem !important;
+    }
+
+    .logo-title {
+        font-size: 1.9rem;
+    }
+
+    .logo-subtitle {
+        font-size: 1rem;
+    }
+
+    .fa-lg {
+        font-size: 1.25em !important;
+    }
+}
+
+@media (min-width: 576px) {
+    #logo {
+        width: 120px;
+        height: 100px;
+    }
+
+    .nav-link {
+        padding: .5rem 1rem !important;
+    }
+
+    .logo-title {
+        font-size: 2.5rem;
+    }
+
+    .logo-subtitle {
+        font-size: 1.3rem;
+    }
+
+    .nav-text {
+        font-size: 100%;
+    }
+
+    .promo-font {
+        font-size: 1.5rem;
+    }
 }
