@@ -3,11 +3,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-
     {% block meta %}
-    <meta charset="utf-8">
-    <meta http-equiv = "X - UA - compatible" content = "ie = edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% endblock %}
 
     {% block extra_meta %}
@@ -32,24 +31,128 @@
     {% block extra_js %}
     {% endblock %}
 
-    <title>Ukrainian Bookstore  {% block extratitle %} {% endblock %}</title>
+    <title>
+      Fayno Ukrainian Bookstore
+      {% block extratitle %}{% endblock %}
+    </title>
+
+    <!-- Meta tags for search engines -->
+    <meta name="description"
+      content="Ukrainian bookstore online in the UK. Books in Ukrainian. Books of Ukrainian publishers. Books about Ukraine.">
+    <meta name="keywords" content="Ukrainian books, Ukrainian literature, books in Ukrainian, UK, England, Wales, Scotland, Ireland">
+
+    <!-- Google font embedding -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <!-- Favicon icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
   </head>
   <body>
+    <header class="container-fluid fixed-top">
+      <div id="topnav" class="row pt-lg-2 d-none d-lg-flex">
 
-    <header class = "container-fluid fixed-top">
-       <div class="row bg-white">
-      <nav class="navbar navbar-expand-lg navbar-light w-100">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
-          aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        {% include 'includes/mobile-top-header.html' %}
-        {% include 'includes/main-nav.html' %}
-      </nav>
-    </div>
+        <!-- Logo -->
+        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
+          <a href="{% url 'home' %}" class="nav-link main-logo-link">
+            <div class="logo-container">
+              <div class="logo-ornament" id="logo"></div>
+              <div class="logo-text">
+                <div class="logo-title">
+                  <h1 class="logo-title">FAYNO</h1>
+                </div>
+                <div class="logo-subtitle">
+                  <h2 class="logo-subtitle">Ukrainian Bookstore</h2>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Search -->
+        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
+          <form method="GET" action="">
+            {% csrf_token %}
+            <div class="input-group w-100">
+              <input class="form-control  rounded-1" type="text" name="q"
+                placeholder="Search">
+              <div class="input-group-append">
+                <button class="form-control btn border rounded-1" type="submit">
+                  <span class="icon">
+                    <i class="fas fa-search"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Account and cart -->
+        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
+          <ul class="list-inline list-unstyled text-center text-lg-right my-0">
+            <!-- Account -->
+            <li class="list-inline-item dropdown">
+              <a class="text-blue nav-link" href="#" id="user-options" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <div class="text-center">
+                  <div><i class="fas fa-user fa-lg"></i></div>
+                  <p class="my-0">My Account</p>
+                </div>
+              </a>
+              <div class="dropdown-menu border-0" aria-labelledby="user-options">
+                {% if request.user.is_authenticated %}
+                  {% if request.user.is_superuser %}
+                    <a href="" class="dropdown-item">Product Management</a>
+                  {% endif %}
+                  <a href="" class="dropdown-item">My Profile</a>
+                  <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+                {% else %}
+                  <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
+                  <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+                {% endif %}
+              </div>
+            </li>
+            
+            <!-- Cart -->
+            <li class="list-inline-item">
+              <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-blue{% endif %} nav-link" href="">
+                <div class="text-center">
+                  <div><i class="fas fa-shopping-bag fa-lg"></i></div>
+                  <p class="my-0">
+                    {% if grand_total %}
+                      ${{ grand_total|floatformat:2 }}
+                    {% else %}
+                      £0.00
+                    {% endif %}
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row bg-white">
+        <nav class="navbar navbar-expand-lg navbar-light w-100">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
+            aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          {% include 'includes/mobile-top-header.html' %}
+          {% include 'includes/main-nav.html' %}
+        </nav>
+      </div>
+      <div id="promo-banner" class="row text-center">
+        <div class="col bg-blue">
+          <h4 class="promo-font my-1">Free delivery on orders over £{{ free_shipping_threshold }}</h4>
+        </div>
+      </div>
     </header>
     {% if messages %}
-      <div class = "messsage-container"></div>
+      <div class="messsage-container"></div>
     {% endif %}
 
     {% block page_header %}
@@ -60,6 +163,5 @@
 
     {% block postloadedjs %}
     {% endblock %}
-
   </body>
 </html>

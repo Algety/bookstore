@@ -1,0 +1,137 @@
+/* Root color and font variables */
+:root {
+    --main-color: #1B75C1;
+    --second-color: #FCC126;
+    --third-color: #198754;
+    --font-size: 16px;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: calc(100vh - 164px);
+}
+
+/* Font Source Sans Pro */
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('/static/fonts/SourceSansPro-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    color: var(--main-color);
+}
+
+.btn-blue {
+    background: var(--main-color);
+    color: white;
+}
+
+.btn-blue:hover,
+.btn-blue:active,
+.btn-blue:focus {
+    background: #126fba;
+    color: white;
+}
+
+.text-blue {
+    color: var(--main-color) !important;
+}
+
+/* Main logo styling */
+#logo {
+    background-image: url('/static/images/fayno_logo_transparent_book.png');
+    /* width: fit-content; */
+    width: 120px;
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    flex-shrink: 0;
+    margin-right: -8px;
+}
+
+/* Logo container for flex alignment */
+.logo-container {
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+}
+
+/* 
+.logo-ornament {
+    width: 40%;
+    height: 40px;
+    background-image: url('/static/images/fayno_logo_transparent_7.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+}
+*/
+
+/* Logo text headings styling */
+.logo-text h1,
+.logo-text h2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Logo main title */
+.logo-title {
+    font-family: 'Volkhov', sans-serif;
+    font-size: 2.5rem;
+    color: var(--main-color);
+    text-align: center;
+    margin: 3px 0 -6px 0;
+}
+
+/* Logo subtitle */
+.logo-subtitle {
+    font-family: 'Source Sans Pro', serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: var(--main-color);
+    text-transform: uppercase;
+    line-height: 0.9;
+}
+
+.bg-blue {
+    /* background: #FCC126 !important;   */
+    background-image: url('/static/images/promo_border_7.png');
+    background-repeat: repeat-x;
+    background-size: auto 100%; /* scales the pattern to fill the row height */
+    background-position: center;
+}
+
+.overlay {
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: fixed;
+	background: white;
+	z-index: -1;
+}
+
+.promo-font {
+    display: inline-block; /* background wraps the text */
+  background-color: white;
+  padding: 0 1rem; /* horizontal breathing room */
+  line-height: 1.2;
+  color: var(--main-color);
+    font-family: 'Source Sans Pro', serif;
+    text-transform: uppercase;
+}
