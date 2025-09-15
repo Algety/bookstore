@@ -54,8 +54,8 @@
   </head>
   <body>
     <header class="container-fluid fixed-top">
-      <!-- Layout for xs screens (<768px) -->
-      <div class="d-md-none">
+      <!-- Layout for xs screens (<576px) -->
+      <div class="d-sm-none">
         <div class="row">
           <!-- Logo -->
           <div class="col-6 my-auto py-1 text-left">
@@ -137,10 +137,10 @@
         </div>
       </div>
 
-      <!-- Layout for md and up (≥768px) -->
-      <div id="topnav" class="row d-none d-md-flex pt-lg-2">
+      <!-- Layout for md and up (≥576px) -->
+      <div id="topnav" class="row d-none d-sm-flex pt-lg-2">
         <!-- Logo -->
-        <div class="col-md-4 my-auto py-1 text-center text-md-left">
+        <div class="col-sm-5 my-auto py-1 text-center text-md-left">
           <a href="{% url 'home' %}" class="nav-link main-logo-link">
             <div class="logo-container">
               <div class="logo-ornament" id="logo"></div>
@@ -156,10 +156,10 @@
           </a>
         </div>
         <!-- Search + Account + Cart -->
-        <div class="col-md-8 my-auto py-1 d-flex justify-content-end">
+        <div class="col-sm-7 my-auto py-1 d-flex justify-content-end">
           <div class="d-flex align-items-center">
             <!-- Search -->
-            <form method="GET" action="" class="mr-3" style="min-width: 220px; max-width: 350px;">
+            <form method="GET" action="" class="mr-3" id="search">
               {% csrf_token %}
               <div class="input-group">
                 <input class="form-control rounded-1" type="text" name="q" placeholder="Search">

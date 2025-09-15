@@ -1,2 +1,93 @@
 <a href="https://www.flaticon.com/free-icons/books" title="books icons">Books icons created by Freepik - Flaticon</a>
 - no image available from flaticon
+
+<a href='https://pngtree.com/freepng/book-icon-vector-image_8926794.html'>png image from pngtree.com/</a> - no image available icon
+
+
+    <div class="container-fluid">
+  <div class="row">
+    <div class="col-11 mx-auto">
+
+      <!-- Sort Button Row -->
+      <div class="row mb-3">
+        <div class="col d-flex justify-content-end">
+          <button class="btn btn-outline-secondary">
+            <i class="fas fa-sort mr-1"></i> Sort
+          </button>
+        </div>
+      </div>
+
+      <!-- Toggle Button for Categories (visible <992px) -->
+      <div class="row mb-3 d-lg-none">
+        <div class="col">
+          <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#categoryMenu" aria-expanded="false" aria-controls="categoryMenu">
+            <i class="fas fa-bars mr-1"></i> Categories
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Content Row -->
+      <div class="row">
+        <!-- Categories Sidebar (visible ≥992px) -->
+        <div class="col-lg-2 d-none d-lg-block">
+          <div class="bg-light p-3 rounded">
+            <h5>Children</h5>
+            <ul class="list-unstyled">
+              <li>Fiction and Fairy tales</li>
+              <li>Non-fiction</li>
+              <li>Education and Learning</li>
+              <li>Craft and Activity</li>
+            </ul>
+            <h5>Teens and Youth</h5>
+            <ul class="list-unstyled">
+              <li>Fiction and Fairy tales</li>
+              <li>Non-fiction</li>
+              <li>Education and Learning</li>
+              <li>Craft and Activity</li>
+            </ul>
+            <h5>Adults</h5>
+            <ul class="list-unstyled">
+              <li>Fiction and Fairy tales</li>
+              <li>Non-fiction</li>
+              <li>Education and Learning</li>
+              <li>Craft and Activity</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Collapsible Categories (visible <992px) -->
+        <div class="col-12 collapse mb-3" id="categoryMenu">
+          <div class="bg-light p-3 rounded">
+            <!-- Same category structure as above -->
+          </div>
+        </div>
+
+        <!-- Books Display Area -->
+        <div class="col-sm-12 col-lg-9">
+          <div class="container">
+            <div class="row">
+              {% for book in books %}
+              <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+                <div class="card h-100 border-0">
+                  <div class="aspect-ratio-box">
+                    <img src="{{ book.image.url }}" alt="{{ book.title }}">
+                  </div>
+                  <div class="card-body pb-0">
+                    <p class="mb-0">{{ book.title }}</p>
+                  </div>
+                  <div class="card-footer bg-white pt-0 border-0 text-left">
+                    <p class="lead mb-0 font-weight-bold">${{ book.price }}</p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

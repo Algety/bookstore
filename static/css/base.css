@@ -2,7 +2,6 @@
   outline: 1px solid red;
 } */
 
-
 /* Root color and font variables */
 :root {
     --main-color: #1B75C1;
@@ -17,6 +16,28 @@ html {
 
 body {
     height: calc(100vh - 164px);
+}
+
+header {
+  background-color: white;
+  z-index: 1030; /* higher than Bootstrap's default navbar (which is 1020) */
+}
+
+.categories-container {
+  position: fixed;
+  top: calc(164px + 60px); /* header + title height */
+  background-color: white;
+  z-index: 1010;
+  padding: 1rem;
+}
+
+.section-title-fixed {
+  position: fixed;
+  top: 180px;
+  background-color: white;
+  z-index: 1020;
+  padding: 1rem 0;
+
 }
 
 /* Font Source Sans Pro */
@@ -76,9 +97,6 @@ body {
     padding: 0 !important;
 }
 
-.nav-text {
-    font-size: 50%;
-}
 /* 
 .logo-ornament {
     width: 40%;
@@ -120,6 +138,22 @@ body {
     line-height: 0.9;
 }
 
+.aspect-ratio-box {
+  position: relative;
+  width: 100%;
+  padding-top: 133%; /* 4:3 ratio → adjust as needed */
+  overflow: hidden;
+}
+
+.aspect-ratio-box img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .bg-blue {
     /* background: #FCC126 !important;   */
     background-image: url('/static/images/promo_border_7.png');
@@ -128,15 +162,19 @@ body {
     background-position: center;
 }
 
-.overlay {
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    position: fixed;
-    background: white;
-    z-index: -1;
-}
+/* .overlay {
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: fixed;
+	background: white;
+	z-index: -1;
+} */
+
+ .header-container {
+        padding-top: 140px;
+    }
 
 .promo-font {
     display: inline-block;
@@ -151,6 +189,42 @@ body {
 
 .fa-lg {
     font-size: 1em !important;
+}
+
+#search {
+    min-width: 150px;
+    max-width: 350px;
+}
+
+/* Fixed title below header */
+.section-title-fixed {
+  position: fixed;
+  top: 164px; /* match your fixed header height */
+  width: 100%;
+  background-color: white;
+  z-index: 1030;
+  padding: 1rem 0;
+
+}
+
+/* Sticky sidebar for ≥lg screens */
+.categories-container {
+  position: fixed;
+  top: calc(164px + 70px); /* header + title height */
+  left: 0;
+  width: 16.6667%;
+  height: calc(100vh - (164px + 70px));
+  overflow-y: auto;
+  background-color: white;
+  padding: 1rem;
+  z-index: 1020;
+  box-shadow: 1px 0 4px rgba(0,0,0,0.05);
+}
+
+/* Push catalog content to the right of fixed sidebar */
+.catalog-wrapper {
+  margin-left: 16.6667%; /* same as sidebar width */
+  padding-top: calc(164px + 70px); /* header + title height */
 }
 
 /* ------------------------------------------------------ */
@@ -176,9 +250,19 @@ body {
     .fa-lg {
         font-size: 1.25em !important;
     }
+
+     .header-container {
+        padding-top: 150px;
+    }
 }
 
 @media (min-width: 576px) {
+ .header-container {
+        padding-top: 124px;
+    }
+}
+
+@media (min-width: 776px) {
     #logo {
         width: 120px;
         height: 100px;
@@ -202,5 +286,19 @@ body {
 
     .promo-font {
         font-size: 1.5rem;
+    }
+
+     .header-container {
+        padding-top: 160px;
+    }
+}
+
+@media (min-width: 992px) {
+ .fixed-top-desktop-only {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
     }
 }

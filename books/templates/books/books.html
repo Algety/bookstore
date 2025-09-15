@@ -1,12 +1,92 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-    <div class = "container">
+{% block page_header %}
+    <div class="container header-container">
         <div class="row">
-            <div class="col">
-                {{ books }}
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <!-- Fixed Section Title -->
+    <div class="section-title-fixed text-center">
+        <h2 class="logo-font mb-0">Products</h2>
+        <hr class="w-50 mb-0">
+    </div>
+    <!-- Categories Toggle for Small Screens -->
+    <div class="categories-toggle d-lg-none text-center mt-2">
+        <button class="btn-blue" type="button" data-toggle="collapse" data-target="#categoriesCollapse" aria-expanded="false" aria-controls="categoriesCollapse">
+            <i class="fas fa-bars mr-1"></i> Categories
+        </button>
+    </div>
+
+    <!-- Catalog Layout -->
+    <div class="container-fluid catalog-wrapper">
+        <div class="row">
+            <!-- Categories Sidebar (≥lg) -->
+            <div class="col-lg-2 d-none d-lg-block">
+                <div class="categories-container">
+                    Children
+                </div>
+            </div>
+            <!-- Books -->
+            <div class="product-container col-8 offset-1">
+                <div class="row mt-1 mb-2"></div>
+                <div class="row">
+                    {% for book in books %}
+                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="card h-100 border-0">
+                                {% if book.image %}
+                                    <a href="{% url 'book_detail' book.id %}">
+                                        <div class="aspect-ratio-box">
+                                            <img src="{{ book.image.url }}" alt="{{ book.title }}">
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'book_detail' book.id %}">
+                                        <div class="aspect-ratio-box">
+                                            <img src="{% static 'images/no_image.png' %}" alt="{{ book.title }}">
+                                        </div>
+                                    </a>
+                                {% endif %}
+                                <div class="card-body pb-0">
+                                    <p class="mb-0">{{ book.title }}</p>
+                                </div>
+                                <div class="card-footer bg-white pt-0 border-0 text-left">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="lead mb-0 text-left font-weight-bold">${{ book.price }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:1 %}
+                            <div class="col-12 d-sm-none mb-5">
+                                <hr>
+                            </div>
+                        {% endif %}
+                        {% if forloop.counter|divisibleby:2 %}
+                            <div class="col-12 d-none d-sm-block d-md-block d-lg-none mb-5">
+                                <hr>
+                            </div>
+                        {% endif %}
+                        {% if forloop.counter|divisibleby:3 %}
+                            <div class="col-12 d-none d-lg-block d-xl-none mb-5">
+                                <hr>
+                            </div>
+                        {% endif %}
+                        {% if forloop.counter|divisibleby:4 %}
+                            <div class="col-12 d-none d-xl-block mb-5">
+                                <hr>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>    
+    </div>
 {% endblock %}
