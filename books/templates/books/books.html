@@ -12,32 +12,150 @@
 {% block content %}
     <div class="overlay"></div>
     <!-- Fixed Section Title -->
-    <div class="section-title-fixed text-center">
-        <h2 class="logo-font mb-0">Products</h2>
+    <div class="controls-fixed text-center">
+        <h2 class="section-font mb-0">Book catalog</h2>
+        <!-- Functional Toggles for Small Screens -->
+        <div class="d-flex mb-3 justify-content-end controls">
+            <div class="control d-lg-none text-center mt-2 dropdown">
+                <!-- Categories Button -->
+                <button class="btn-grey btn border rounded-1" type="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-bars d-sm-none"></i>
+                    <span class="d-none d-sm-block">Categories</span>                    
+                </button>
+                <div class="dropdown-menu p-2 border-0" aria-labelledby="categoriesDropdown" style="width: 280px;" data-bs-auto-close="false">
+                    <ul class="list-unstyled mb-0">
+                        <!-- Children -->
+                        <li class="category-list">
+                            <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#childrenCollapse" aria-expanded="false" aria-controls="childrenCollapse">
+                                Children
+                            </button>
+                            <div class="collapse ps-3 subcategory-list text-blue" id="childrenCollapse">
+                                <a class="dropdown-item" href="#">Fiction and Fairy Tales</a>
+                                <a class="dropdown-item" href="#">Non-fiction</a>
+                                <a class="dropdown-item" href="#">Early Learning</a>
+                                <a class="dropdown-item" href="#">Craft and Activity</a>
+                            </div>
+                        </li>
+                        <!-- Teens and Youth -->
+                        <li>
+                            <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#teensCollapse" aria-expanded="false" aria-controls="teensCollapse">
+                                Teens and Youth
+                            </button>
+                            <div class="collapse ps-3 subcategory-list" id="teensCollapse">
+                                <a class="dropdown-item" href="#">Fiction</a>
+                                <a class="dropdown-item" href="#">Non-fiction</a>
+                                <a class="dropdown-item" href="#">Study and School</a>
+                                <a class="dropdown-item" href="#">Hobby</a>
+                            </div>
+                        </li>
+                        <!-- Adults -->
+                        <li>
+                            <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#adultsCollapse" aria-expanded="false" aria-controls="adultsCollapse">
+                                Adults
+                            </button>
+                            <div class="collapse ps-3 subcategory-list" id="adultsCollapse">
+                                <a class="dropdown-item" href="#">Fiction</a>
+                                <a class="dropdown-item" href="#">Non-fiction</a>
+                                <a class="dropdown-item" href="#">Hobby</a>
+                            </div>
+                        </li>
+                        <!-- Studying English -->
+                        <li>
+                            <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#englishCollapse" aria-expanded="false" aria-controls="englishCollapse">
+                                Studying English
+                            </button>
+                            <div class="collapse ps-3 subcategory-list" id="englishCollapse">
+                                <a class="dropdown-item" href="#">A1 – A2</a>
+                                <a class="dropdown-item" href="#">B1 – B2</a>
+                                <a class="dropdown-item" href="#">C1 – C2</a>
+                            </div>
+                        </li>
+                        <!-- Collectible and Gift Editions -->
+                        <li>
+                            <a class="dropdown-item category-dropdown" href="#">Collectible and Gift Editions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="control text-center mt-2 dropdown">
+                <button class="btn-grey btn border rounded-1" type="button" data-bs-toggle="dropdown" id=""sortingDropdown data-target="#sortingDropdown" aria-expanded="false">
+                    <i class="fa-solid fa-arrow-down-wide-short d-sm-none"></i>
+                    <span class="d-none d-sm-block">Sort</span>
+                </button>
+                <ul class="dropdown-menu border-0" aria-labelledby="sortingDropdown">
+                    <li><a class="dropdown-item" href="#">Prices low to high</a></li>
+                    <li><a class="dropdown-item" href="#">Prices high to low</a></li>
+                </ul>
+            </div>
+            <div class="control text-center mt-2 dropdown">
+                <button class="btn-grey btn border rounded-1" type="button" data-bs-toggle="dropdown" data-target="#filterDropdown" aria-expanded="false">
+                    <i class="fa-solid fa-filter d-sm-none"></i>
+                    <span class="d-none d-sm-block">Filter</span>
+                </button>
+                <ul class="dropdown-menu border-0" aria-labelledby="filterDropdown">
+                    <li><a class="dropdown-item" href="#">Language</a></li>
+                    <div class="collapse ps-3 subcategory-list text-blue" id="childrenCollapse">
+                                <a class="dropdown-item" href="#">Fiction and Fairy Tales</a>
+                                <a class="dropdown-item" href="#">Non-fiction</a>
+                                <a class="dropdown-item" href="#">Early Learning</a>
+                                <a class="dropdown-item" href="#">Craft and Activity</a>
+                            </div>
+                </ul>
+            </div>
+        </div>
         <hr class="w-50 mb-0">
-    </div>
-    <!-- Categories Toggle for Small Screens -->
-    <div class="categories-toggle d-lg-none text-center mt-2">
-        <button class="btn-blue" type="button" data-toggle="collapse" data-target="#categoriesCollapse" aria-expanded="false" aria-controls="categoriesCollapse">
-            <i class="fas fa-bars mr-1"></i> Categories
-        </button>
     </div>
 
     <!-- Catalog Layout -->
     <div class="container-fluid catalog-wrapper">
         <div class="row">
             <!-- Categories Sidebar (≥lg) -->
-            <div class="col-lg-2 d-none d-lg-block">
+            <div class="col-lg-3 d-none d-lg-block">
                 <div class="categories-container">
-                    Children
+                    <div class="bookstore-sidebar">
+                        <ul class="category-list">
+                            <li class="category">Children
+                                <ul class="subcategory-list">
+                                    <li>Fiction and Fairy tales</li>
+                                    <li>Non-fiction</li>
+                                    <li>Early Learning</li>
+                                    <li>Craft and Activity</li>
+                                </ul>
+                            </li>
+                            <li class="category">Teens and Youth
+                                <ul class="subcategory-list">
+                                    <li>Fiction</li>
+                                    <li>Non-fiction</li>
+                                    <li>Study and school</li>
+                                    <li>Hobby</li>
+                                </ul>
+                            </li>
+                            <li class="category">Adults
+                                <ul class="subcategory-list">
+                                    <li>Fiction</li>
+                                    <li>Non-fiction</li>
+                                    <li>Hobby</li>
+                                </ul>
+                            </li>
+                            <li class="category">Studying English
+                                <ul class="subcategory-list">
+                                    <li>A1 - A2</li>
+                                    <li>B1 - B2</li>
+                                    <li>C1 - C2</li>
+                                </ul>
+                            </li>
+                            <li class="category">Collectible and Gift Editions
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <!-- Books -->
-            <div class="product-container col-8 offset-1">
+            <div class="product-container col-12 col-lg-9">
                 <div class="row mt-1 mb-2"></div>
-                <div class="row">
+                <div class="row d-flex justify-content-center">
                     {% for book in books %}
-                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">
                             <div class="card h-100 border-0">
                                 {% if book.image %}
                                     <a href="{% url 'book_detail' book.id %}">
@@ -58,13 +176,18 @@
                                 <div class="card-footer bg-white pt-0 border-0 text-left">
                                     <div class="row">
                                         <div class="col">
-                                            <p class="lead mb-0 text-left font-weight-bold">${{ book.price }}</p>
+                                            <p class="lead mb-0 text-left font-weight-bold">£{{ book.price }}</p>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card-body pb-0">
+                                    <button class="btn-grey buy-btn btn border rounded-1" type="button" data-toggle="collapse" data-target="#sortingCollapse" aria-expanded="false" aria-controls="sortingCollapse">
+                                        <span class="d-none d-sm-block buy-btn">Add to cart</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        {% if forloop.counter|divisibleby:1 %}
+                        <!-- {% if forloop.counter|divisibleby:1 %}
                             <div class="col-12 d-sm-none mb-5">
                                 <hr>
                             </div>
@@ -83,10 +206,17 @@
                             <div class="col-12 d-none d-xl-block mb-5">
                                 <hr>
                             </div>
-                        {% endif %}
+                        {% endif %} -->
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+    <script>
+document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+});
+</script>
 {% endblock %}

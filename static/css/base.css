@@ -6,7 +6,7 @@
 :root {
     --main-color: #1B75C1;
     --second-color: #FCC126;
-    --third-color: #198754;
+    /* --third-color: #198754; */
     --font-size: 16px;
 }
 
@@ -23,21 +23,89 @@ header {
   z-index: 1030; /* higher than Bootstrap's default navbar (which is 1020) */
 }
 
-.categories-container {
+ .header-container {
+        padding-top: 140px;
+    }
+
+/* Fix the controls container (sorting, filter) */
+ .controls-fixed {
   position: fixed;
-  top: calc(164px + 60px); /* header + title height */
+  top: 148px;
+  width: 100%;
   background-color: white;
-  z-index: 1010;
-  padding: 1rem;
+  z-index: 1030;
+  padding: 1rem 0;
 }
 
-.section-title-fixed {
-  position: fixed;
-  top: 180px;
-  background-color: white;
-  z-index: 1020;
-  padding: 1rem 0;
+.controls {
+    margin-right: 15px;
+}
 
+.section-font {
+    font-size: 24px;
+}
+
+ /* .categories-toggle {
+  position: fixed;
+  top: calc(164px + 100px); /* header + title height */
+  /* background-color: red;
+  z-index: 1010;
+  padding: 1rem;
+} */ 
+
+/* Sticky sidebar for ≥lg screens */
+.categories-container {
+  position: fixed;
+  top: calc(164px + 135px); /* header + title height */
+  left: 0;
+  width: 20%;
+  height: calc(100vh - (164px + 150px));
+  overflow-y: auto;
+  background-color: white;
+  padding: 1rem;
+  z-index: 1020;
+  box-shadow: 1px 0 4px rgba(0,0,0,0.05);
+}
+
+/* Category list (top-level) */
+.category-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.category {
+  font-weight: bold !important;
+  margin-bottom: 1rem;
+  padding-left: 0.5rem; /* slight left spacing */
+}
+
+.category-dropdown {
+  font-weight: !important;
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem; /* slight left spacing */
+}
+
+/* Subcategory list with custom dots */
+ .subcategory-list {
+  list-style: none;
+  margin-top: 0.5rem;
+  padding-left: 1.5rem; 
+}
+
+.subcategory-list li {
+  position: relative;
+  padding-left: .5rem;
+  margin-bottom: 0.4rem;
+  font-weight: normal;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Push catalog content to the right of fixed sidebar */
+.catalog-wrapper {
+  /* margin-left: 20 !important; same as sidebar width */
+  padding-top: calc(120px);
 }
 
 /* Font Source Sans Pro */
@@ -62,15 +130,22 @@ header {
     color: white;
 }
 
-.btn-blue:hover,
-.btn-blue:active,
-.btn-blue:focus {
-    background: #126fba;
-    color: white;
+.btn-grey {
+ display: inline-block;
+  padding: 0.375rem 0.75rem;
+  margin-right: 10px;
+  font-size: 0.8rem !important;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .text-blue {
     color: var(--main-color) !important;
+    font-size: 0.8rem;
 }
 
 /* Logo image */
@@ -141,7 +216,7 @@ header {
 .aspect-ratio-box {
   position: relative;
   width: 100%;
-  padding-top: 133%; /* 4:3 ratio → adjust as needed */
+  padding-top: 133%;
   overflow: hidden;
 }
 
@@ -151,18 +226,16 @@ header {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 .bg-blue {
-    /* background: #FCC126 !important;   */
     background-image: url('/static/images/promo_border_7.png');
     background-repeat: repeat-x;
     background-size: auto 100%; /* scales the pattern to fill the row height */
     background-position: center;
 }
 
-/* .overlay {
+.overlay {
 	height: 100%;
 	width: 100%;
 	top: 0;
@@ -170,11 +243,7 @@ header {
 	position: fixed;
 	background: white;
 	z-index: -1;
-} */
-
- .header-container {
-        padding-top: 140px;
-    }
+}
 
 .promo-font {
     display: inline-block;
@@ -184,7 +253,7 @@ header {
     color: var(--main-color);
     font-family: 'Source Sans Pro', serif;
     text-transform: uppercase;
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .fa-lg {
@@ -196,48 +265,28 @@ header {
     max-width: 350px;
 }
 
-/* Fixed title below header */
-.section-title-fixed {
-  position: fixed;
-  top: 164px; /* match your fixed header height */
-  width: 100%;
-  background-color: white;
-  z-index: 1030;
-  padding: 1rem 0;
-
+.buy-btn {
+    background-color: var(--second-color) !important;
 }
 
-/* Sticky sidebar for ≥lg screens */
-.categories-container {
-  position: fixed;
-  top: calc(164px + 70px); /* header + title height */
-  left: 0;
-  width: 16.6667%;
-  height: calc(100vh - (164px + 70px));
-  overflow-y: auto;
-  background-color: white;
-  padding: 1rem;
-  z-index: 1020;
-  box-shadow: 1px 0 4px rgba(0,0,0,0.05);
+.dropdown-menu {
+  display: block; 
+  position: absolute;
+  z-index: 1000;
 }
 
-/* Push catalog content to the right of fixed sidebar */
-.catalog-wrapper {
-  margin-left: 16.6667%; /* same as sidebar width */
-  padding-top: calc(164px + 70px); /* header + title height */
-}
 
 /* ------------------------------------------------------ */
 
-@media (min-width: 400px) {
+@media (min-width: 350px) {
     #logo {
         width: 90px;
         height: 70px;
     }
 
-    .nav-link {
-        padding: .5rem 1rem !important;
-    }
+    /* .nav-link {
+        padding: .4rem 0.9rem !important;
+    } */
 
     .logo-title {
         font-size: 1.9rem;
@@ -254,12 +303,24 @@ header {
      .header-container {
         padding-top: 150px;
     }
+
+    .text-blue {
+        font-size: 0.9rem;
+    }
 }
 
 @media (min-width: 576px) {
  .header-container {
         padding-top: 124px;
     }
+
+ .controls-fixed {
+  top: 102px;
+}
+
+.btn-grey {
+    font-size: 1rem !important;
+}
 }
 
 @media (min-width: 776px) {
@@ -291,6 +352,10 @@ header {
      .header-container {
         padding-top: 160px;
     }
+
+     .controls-fixed {
+  top: 159px;
+}
 }
 
 @media (min-width: 992px) {
@@ -301,4 +366,8 @@ header {
         left: 0;
         z-index: 1030;
     }
+
+.product-container {
+  margin-left: 25%;
+}
 }
