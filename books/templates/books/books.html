@@ -11,7 +11,7 @@
 
 {% block content %}
     <div class="overlay"></div>
-    <!-- Fixed Section Title -->
+    <!-- Fixed Section with controls -->
     <div class="controls-fixed text-center">
         <h2 class="section-font mb-0">Book catalog</h2>
         <!-- Functional Toggles for Small Screens -->
@@ -25,7 +25,7 @@
                 <div class="dropdown-menu p-2 border-0" aria-labelledby="categoriesDropdown" style="width: 280px;" data-bs-auto-close="false">
                     <ul class="list-unstyled mb-0">
                         <!-- Children -->
-                        <li class="category-list">
+                        <!-- <li class="category-list">
                             <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#childrenCollapse" aria-expanded="false" aria-controls="childrenCollapse">
                                 Children
                             </button>
@@ -35,13 +35,39 @@
                                 <a class="dropdown-item" href="#">Early Learning</a>
                                 <a class="dropdown-item" href="#">Craft and Activity</a>
                             </div>
-                        </li>
+                        </li> -->
+                        <li class="category-list">
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Link to all Children books -->
+    <a class="dropdown-item flex-grow-1 text-start" href="{% url 'books' %}?category=Children">
+      Children2
+    </a>
+
+    <!-- Toggle button for subcategories -->
+    <button class="btn btn-sm" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#childrenCollapse"
+            aria-expanded="false"
+            aria-controls="childrenCollapse">
+      <i class="bi bi-chevron-down"></i> <!-- Use any icon you like -->
+    </button>
+  </div>
+
+  <!-- Subcategories -->
+  <div class="collapse ps-3 subcategory-list text-blue" id="childrenCollapse">
+    <a class="dropdown-item" href="{% url 'books' %}?category=Fiction">Fiction and Fairy Tales</a>
+    <a class="dropdown-item" href="{% url 'books' %}?category=Non-fiction">Non-fiction</a>
+    <a class="dropdown-item" href="{% url 'books' %}?category=Early Learning">Early Learning</a>
+    <a class="dropdown-item" href="{% url 'books' %}?category=Craft and Activity">Craft and Activity</a>
+  </div>
+</li>
+
                         <!-- Teens and Youth -->
                         <li>
                             <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#teensCollapse" aria-expanded="false" aria-controls="teensCollapse">
                                 Teens and Youth
                             </button>
-                            <div class="collapse ps-3 subcategory-list" id="teensCollapse">
+                            <div class="collapse ps-3 subcategory-list text-blue" id="teensCollapse">
                                 <a class="dropdown-item" href="#">Fiction</a>
                                 <a class="dropdown-item" href="#">Non-fiction</a>
                                 <a class="dropdown-item" href="#">Study and School</a>
@@ -53,7 +79,7 @@
                             <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#adultsCollapse" aria-expanded="false" aria-controls="adultsCollapse">
                                 Adults
                             </button>
-                            <div class="collapse ps-3 subcategory-list" id="adultsCollapse">
+                            <div class="collapse ps-3 subcategory-list text-blue" id="adultsCollapse">
                                 <a class="dropdown-item" href="#">Fiction</a>
                                 <a class="dropdown-item" href="#">Non-fiction</a>
                                 <a class="dropdown-item" href="#">Hobby</a>
@@ -64,7 +90,7 @@
                             <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#englishCollapse" aria-expanded="false" aria-controls="englishCollapse">
                                 Studying English
                             </button>
-                            <div class="collapse ps-3 subcategory-list" id="englishCollapse">
+                            <div class="collapse ps-3 subcategory-list text-blue" id="englishCollapse">
                                 <a class="dropdown-item" href="#">A1 – A2</a>
                                 <a class="dropdown-item" href="#">B1 – B2</a>
                                 <a class="dropdown-item" href="#">C1 – C2</a>
@@ -93,12 +119,12 @@
                     <span class="d-none d-sm-block">Filter</span>
                 </button>
                 <ul class="dropdown-menu border-0" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="#">Language</a></li>
-                    <div class="collapse ps-3 subcategory-list text-blue" id="childrenCollapse">
-                                <a class="dropdown-item" href="#">Fiction and Fairy Tales</a>
-                                <a class="dropdown-item" href="#">Non-fiction</a>
-                                <a class="dropdown-item" href="#">Early Learning</a>
-                                <a class="dropdown-item" href="#">Craft and Activity</a>
+                    <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#englishCollapse" aria-expanded="false" aria-controls="englishCollapse">
+                                Language
+                            </button>
+                            <div class="collapse ps-3 subcategory-list text-blue" id="englishCollapse">
+                                <a class="dropdown-item" href="#">Ukrainian</a>
+                                <a class="dropdown-item" href="#">English</a>
                             </div>
                 </ul>
             </div>
@@ -172,6 +198,13 @@
                                 {% endif %}
                                 <div class="card-body pb-0">
                                     <p class="mb-0">{{ book.title }}</p>
+                                    <em class="mb-0">
+  {% for author in book.authors.all %}
+    {{ author.name }}{% if not forloop.last %}, 
+    {% endif %}
+  {% endfor %}
+                                    </em>
+
                                 </div>
                                 <div class="card-footer bg-white pt-0 border-0 text-left">
                                     <div class="row">
@@ -187,26 +220,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- {% if forloop.counter|divisibleby:1 %}
-                            <div class="col-12 d-sm-none mb-5">
-                                <hr>
-                            </div>
-                        {% endif %}
-                        {% if forloop.counter|divisibleby:2 %}
-                            <div class="col-12 d-none d-sm-block d-md-block d-lg-none mb-5">
-                                <hr>
-                            </div>
-                        {% endif %}
-                        {% if forloop.counter|divisibleby:3 %}
-                            <div class="col-12 d-none d-lg-block d-xl-none mb-5">
-                                <hr>
-                            </div>
-                        {% endif %}
-                        {% if forloop.counter|divisibleby:4 %}
-                            <div class="col-12 d-none d-xl-block mb-5">
-                                <hr>
-                            </div>
-                        {% endif %} -->
                     {% endfor %}
                 </div>
             </div>

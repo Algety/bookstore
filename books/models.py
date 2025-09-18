@@ -13,10 +13,14 @@ class Category(models.Model):
         ('genre', 'Genre'),
     ]
     name = models.CharField(max_length=100)
+    screen_name = models.CharField(max_length=254, null=True, blank=True)
     type = models.CharField(max_length=20, choices=CATEGORY_TYPES)
 
     def __str__(self):
         return f"{self.name} ({self.get_type_display()})"
+    
+    def get_screen_name(self):
+        return self.screen_name
 
 
 class BookContributor(models.Model):

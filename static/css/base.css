@@ -20,7 +20,7 @@ body {
 
 header {
   background-color: white;
-  z-index: 1030; /* higher than Bootstrap's default navbar (which is 1020) */
+  z-index: 1030;
 }
 
  .header-container {
@@ -81,7 +81,7 @@ header {
 }
 
 .category-dropdown {
-  font-weight: !important;
+  /* font-weight: !important; */
   margin-bottom: 0.5rem;
   padding-left: 0.5rem; /* slight left spacing */
 }
@@ -104,7 +104,6 @@ header {
 
 /* Push catalog content to the right of fixed sidebar */
 .catalog-wrapper {
-  /* margin-left: 20 !important; same as sidebar width */
   padding-top: calc(120px);
 }
 
