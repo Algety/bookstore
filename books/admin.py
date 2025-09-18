@@ -20,7 +20,13 @@ class BookAdmin(admin.ModelAdmin):
     ordering = ('title',)
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type')
+    list_display = ('genre', 'get_age_groups', 'name', 'screen_name')
+
+    def get_age_groups(self, obj):
+        return ", ".join(obj.get_age_group_labels())
+
+    get_age_groups.short_description = 'Age Groups'
+
 
 class BookContributorAdmin(admin.ModelAdmin):
     list_display = ('name', 'role', 'photo')

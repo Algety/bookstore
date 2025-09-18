@@ -1,26 +1,44 @@
 from django.db import models
 from slugify import slugify
-
+from multiselectfield import MultiSelectField
 
 # Create your models here.
 class Category(models.Model):
 
-    class Meta:
-        verbose_name_plural = 'Categories'
-        
-    CATEGORY_TYPES = [
-        ('age', 'Age Group'),
-        ('genre', 'Genre'),
+    GENRE_CHOICES = [
+        ('fiction', 'Fiction'),
+        ('nonfiction', 'Non-fiction'),
+        ('learning', 'Learning'),
+        ('hobby', 'Hobby'),   
+        ('specials', 'Specials'),
     ]
+
+
+    AGE_GROUP_CHOICES = [
+        ('children', 'Children'),
+        ('teens', 'Teens'),
+        ('adults', 'Adults'),
+        ('all', 'All'),
+    ]
+
     name = models.CharField(max_length=100)
     screen_name = models.CharField(max_length=254, null=True, blank=True)
-    type = models.CharField(max_length=20, choices=CATEGORY_TYPES)
+    genre = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True, blank=True)
+    age_group = models.CharField(max_length=50, choices=AGE_GROUP_CHOICES, null=True, blank=True)
+    age_groups = MultiSelectField(choices=AGE_GROUP_CHOICES, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
-        return f"{self.name} ({self.get_type_display()})"
+        return f"{self.name}"
     
     def get_screen_name(self):
         return self.screen_name
+    
+    def get_age_group_labels(self):
+        label_map = dict(self.AGE_GROUP_CHOICES)
+        return [label_map.get(code, code) for code in self.age_groups or []]
 
 
 class BookContributor(models.Model):
@@ -124,3 +142,4 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+    
