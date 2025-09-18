@@ -13,7 +13,6 @@ class Category(models.Model):
         ('specials', 'Specials'),
     ]
 
-
     AGE_GROUP_CHOICES = [
         ('children', 'Children'),
         ('teens', 'Teens'),
@@ -23,9 +22,18 @@ class Category(models.Model):
 
     name = models.CharField(max_length=100)
     screen_name = models.CharField(max_length=254, null=True, blank=True)
-    genre = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True, blank=True)
-    age_group = models.CharField(max_length=50, choices=AGE_GROUP_CHOICES, null=True, blank=True)
+    subcategory = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True, blank=True)
     age_groups = MultiSelectField(choices=AGE_GROUP_CHOICES, blank=True, null=True)
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='subcategories',
+        limit_choices_to={'subcategory__isnull': True}
+    )
+    order = models.PositiveIntegerField(default=0, help_text="Lower numbers appear first")
+    active = models.BooleanField(default=True, help_text="Uncheck to hide this category from public view")
 
     class Meta:
         verbose_name_plural = 'Categories'

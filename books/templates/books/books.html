@@ -25,7 +25,7 @@
                 <div class="dropdown-menu p-2 border-0" aria-labelledby="categoriesDropdown" style="width: 280px;" data-bs-auto-close="false">
                     <ul class="list-unstyled mb-0">
                         <!-- Children -->
-                        <!-- <li class="category-list">
+                        <li class="category-list">
                             <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#childrenCollapse" aria-expanded="false" aria-controls="childrenCollapse">
                                 Children
                             </button>
@@ -35,32 +35,8 @@
                                 <a class="dropdown-item" href="#">Early Learning</a>
                                 <a class="dropdown-item" href="#">Craft and Activity</a>
                             </div>
-                        </li> -->
-                        <li class="category-list">
-  <div class="d-flex justify-content-between align-items-center">
-    <!-- Link to all Children books -->
-    <a class="dropdown-item flex-grow-1 text-start" href="{% url 'books' %}?category=Children">
-      Children2
-    </a>
-
-    <!-- Toggle button for subcategories -->
-    <button class="btn btn-sm" type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#childrenCollapse"
-            aria-expanded="false"
-            aria-controls="childrenCollapse">
-      <i class="bi bi-chevron-down"></i> <!-- Use any icon you like -->
-    </button>
-  </div>
-
-  <!-- Subcategories -->
-  <div class="collapse ps-3 subcategory-list text-blue" id="childrenCollapse">
-    <a class="dropdown-item" href="{% url 'books' %}?category=Fiction">Fiction and Fairy Tales</a>
-    <a class="dropdown-item" href="{% url 'books' %}?category=Non-fiction">Non-fiction</a>
-    <a class="dropdown-item" href="{% url 'books' %}?category=Early Learning">Early Learning</a>
-    <a class="dropdown-item" href="{% url 'books' %}?category=Craft and Activity">Craft and Activity</a>
-  </div>
-</li>
+                        </li> 
+                       
 
                         <!-- Teens and Youth -->
                         <li>
@@ -139,40 +115,31 @@
             <div class="col-lg-3 d-none d-lg-block">
                 <div class="categories-container">
                     <div class="bookstore-sidebar">
-                        <ul class="category-list">
-                            <li class="category">Children
-                                <ul class="subcategory-list">
-                                    <li>Fiction and Fairy tales</li>
-                                    <li>Non-fiction</li>
-                                    <li>Early Learning</li>
-                                    <li>Craft and Activity</li>
-                                </ul>
-                            </li>
-                            <li class="category">Teens and Youth
-                                <ul class="subcategory-list">
-                                    <li>Fiction</li>
-                                    <li>Non-fiction</li>
-                                    <li>Study and school</li>
-                                    <li>Hobby</li>
-                                </ul>
-                            </li>
-                            <li class="category">Adults
-                                <ul class="subcategory-list">
-                                    <li>Fiction</li>
-                                    <li>Non-fiction</li>
-                                    <li>Hobby</li>
-                                </ul>
-                            </li>
-                            <li class="category">Studying English
-                                <ul class="subcategory-list">
-                                    <li>A1 - A2</li>
-                                    <li>B1 - B2</li>
-                                    <li>C1 - C2</li>
-                                </ul>
-                            </li>
-                            <li class="category">Collectible and Gift Editions
-                            </li>
-                        </ul>
+
+<ul class="category-list">
+    {% for category in categories %}
+        <li class="category">
+            <!-- Link for top-level category -->
+            <a href="{% url 'books' %}?category={{ category.id }}" class="category-link">
+                {{ category.get_screen_name }}
+            </a>
+
+            {% if category.visible_subcategories %}
+                <ul class="subcategory-list ps-3 text-blue">
+                    {% for subcategory in category.visible_subcategories %}
+                        <li>
+                            <!-- Link for subcategory with parent context -->
+                            <a href="{% url 'books' %}?subcategory={{ subcategory.id }}&parent={{ category.id }}" class="subcategory-link">
+                                {{ subcategory.get_screen_name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
                     </div>
                 </div>
             </div>

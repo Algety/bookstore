@@ -78,6 +78,22 @@ header {
   font-weight: bold !important;
   margin-bottom: 1rem;
   padding-left: 0.5rem; /* slight left spacing */
+   color: #222;
+
+}
+
+.category-link {
+  text-decoration: none;
+  color: #222;
+}
+
+.subcategory-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.category-link:hover, .subcategory-link:hover {
+  text-decoration: none;
 }
 
 .category-dropdown {
@@ -91,6 +107,9 @@ header {
   list-style: none;
   margin-top: 0.5rem;
   padding-left: 1.5rem; 
+  text-decoration: none;
+  color: #333;
+
 }
 
 .subcategory-list li {
@@ -100,6 +119,8 @@ header {
   font-weight: normal;
   font-size: 0.95rem;
   color: #333;
+  text-decoration: none;
+
 }
 
 /* Push catalog content to the right of fixed sidebar */
