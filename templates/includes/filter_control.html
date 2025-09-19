@@ -1,0 +1,22 @@
+<div class="control text-center mt-2 dropdown">
+    <button class="btn-grey btn border rounded-1" type="button" data-bs-toggle="dropdown" data-target="#filterDropdown" aria-expanded="false">
+        <i class="fa-solid fa-filter d-sm-none"></i>
+        <span class="d-none d-sm-block">Filter</span>
+    </button>
+    <ul class="dropdown-menu border-0" aria-labelledby="filterDropdown">
+        <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#englishCollapse" aria-expanded="false" aria-controls="englishCollapse">
+            Language  <i class="fa-regular fa-square-plus"></i>
+        </button>
+        <div class="collapse ps-3 subcategory-list text-blue" id="englishCollapse">
+            <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}language=ukr">
+                Ukrainian
+            </a>
+            <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}language=eng">
+                English
+            </a>
+            <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}">
+                All languages
+            </a>
+        </div>
+    </ul>
+</div>

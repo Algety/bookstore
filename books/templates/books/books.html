@@ -16,85 +16,9 @@
         <h2 class="section-font mb-0">Book catalog</h2>
         <!-- Functional Toggles for Small Screens -->
         <div class="d-flex mb-3 justify-content-end controls">
-            <div class="control d-lg-none text-center mt-2 dropdown">
-                <!-- Categories Button -->
-                <button class="btn-grey btn border rounded-1" type="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-bars d-sm-none"></i>
-                    <span class="d-none d-sm-block">Categories</span>
-                </button>
-                <div class="dropdown-menu p-2 border-0" aria-labelledby="categoriesDropdown" style="width: 280px;" data-bs-auto-close="false">
-                    <ul class="list-unstyled mb-0">
-                        {% for category in categories %}
-                            <li class="category-list">
-                                <button class="dropdown-item w-100 text-start category-dropdown" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse{{ category.id }}"
-                                        aria-expanded="false"
-                                        aria-controls="collapse{{ category.id }}">
-                                    {{ category.get_screen_name }}
-                                </button>
-                                {% if category.visible_subcategories %}
-                                    <div class="collapse ps-3 subcategory-list text-blue" id="collapse{{ category.id }}">
-                                        <a class="dropdown-item"
-                                           href="{% url 'books' %}?category={{ category.id }}">
-                                            View all
-                                        </a>
-                                        {% for subcategory in category.visible_subcategories %}
-                                            <a class="dropdown-item"
-                                               href="{% url 'books' %}?subcategory={{ subcategory.id }}&parent={{ category.id }}">
-                                                {{ subcategory.get_screen_name }}
-                                            </a>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            <div class="control text-center mt-2 dropdown">
-                <button class="btn-grey btn border rounded-1" type="button" data-bs-toggle="dropdown" id="sortingDropdown" data-target="#sortingDropdown" aria-expanded="false">
-                    <i class="fa-solid fa-arrow-down-wide-short d-sm-none"></i>
-                    <span class="d-none d-sm-block">Sort</span>
-                </button>
-                <ul class="dropdown-menu border-0" aria-labelledby="sortingDropdown">
-                    <li>
-                        <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'sort' %}{{ key }}={{ value }}&{% endif %}{% endfor %}sort=price_asc">
-                            <i class="fa-solid fa-arrow-down-short-wide me-2"></i> Prices low to high
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'sort' %}{{ key }}={{ value }}&{% endif %}{% endfor %}sort=price_desc">
-                            <i class="fa-solid fa-arrow-up-wide-short me-2"></i> Prices high to low
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="control text-center mt-2 dropdown">
-                <button class="btn-grey btn border rounded-1" type="button" data-bs-toggle="dropdown" data-target="#filterDropdown" aria-expanded="false">
-                    <i class="fa-solid fa-filter d-sm-none"></i>
-                    <span class="d-none d-sm-block">Filter</span>
-                </button>
-                <ul class="dropdown-menu border-0" aria-labelledby="filterDropdown">
-                    <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#englishCollapse" aria-expanded="false" aria-controls="englishCollapse">
-                        Language
-                    </button>
-                    <div class="collapse ps-3 subcategory-list text-blue" id="englishCollapse">
-                        <a class="dropdown-item"
-                           href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}language=ukr">
-                            Ukrainian
-                        </a>
-                        <a class="dropdown-item"
-                           href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}language=eng">
-                            English
-                        </a>
-                        <a class="dropdown-item"
-                           href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}">
-                            All languages
-                        </a>
-                    </div>
-                </ul>
-            </div>
+                {% include "includes/category_dropdown.html" %}
+                {% include "includes/sort_control.html" %}
+                {% include "includes/filter_control.html" %}
         </div>
         <hr class="w-50 mb-0">
     </div>
@@ -103,81 +27,14 @@
     <div class="container-fluid catalog-wrapper">
         <div class="row">
             <!-- Categories Sidebar (≥lg) -->
-            <div class="col-lg-3 d-none d-lg-block">
-                <div class="categories-container">
-                    <div class="bookstore-sidebar">
-                        <ul class="category-list">
-                            {% for category in categories %}
-                                <li class="category">
-                                    <!-- Link for top-level category -->
-                                    <a href="{% url 'books' %}?category={{ category.id }}" class="category-link">
-                                        {{ category.get_screen_name }}
-                                    </a>
-                                    {% if category.visible_subcategories %}
-                                        <ul class="subcategory-list ps-3 text-blue">
-                                            {% for subcategory in category.visible_subcategories %}
-                                                <li>
-                                                    <!-- Link for subcategory with parent context -->
-                                                    <a href="{% url 'books' %}?subcategory={{ subcategory.id }}&parent={{ category.id }}" class="subcategory-link">
-                                                        {{ subcategory.get_screen_name }}
-                                                    </a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
+             {% include "includes/sidebar.html" %}
+
             <!-- Books -->
-            <div class="product-container col-12 col-lg-9">
-                <div class="row mt-1 mb-2"></div>
-                <div class="row d-flex justify-content-center">
-                    {% for book in books %}
-                        <div class="col-6-custom col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                            <div class="card h-100 border-0">
-                                {% if book.image %}
-                                    <a href="{% url 'book_detail' book.id %}">
-                                        <div class="aspect-ratio-box">
-                                            <img src="{{ book.image.url }}" alt="{{ book.title }}">
-                                        </div>
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'book_detail' book.id %}">
-                                        <div class="aspect-ratio-box">
-                                            <img src="{% static 'images/no_image.png' %}" alt="{{ book.title }}">
-                                        </div>
-                                    </a>
-                                {% endif %}
-                                <div class="card-body pb-0">
-                                    <p class="mb-0">{{ book.title }}</p>
-                                    <em class="mb-0">
-                                        {% for author in book.authors.all %}
-                                            {{ author.name }}{% if not forloop.last %}, {% endif %}
-                                        {% endfor %}
-                                    </em>
-                                </div>
-                                <div class="card-footer bg-white pt-0 border-0 text-left">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="lead mb-0 text-left font-weight-bold">£{{ book.price }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body pb-0">
-                                    <button class="btn-grey buy-btn btn border rounded-1" type="button" data-toggle="collapse" data-target="#sortingCollapse" aria-expanded="false" aria-controls="sortingCollapse">
-                                        <span class="d-sm-block buy-btn">Add to cart</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
+             {% include "includes/catalog.html" %}
+
         </div>
     </div>
+
     <script>
     document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function(btn) {
         btn.addEventListener('click', function(e) {

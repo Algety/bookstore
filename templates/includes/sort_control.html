@@ -1,0 +1,18 @@
+<div class="control text-center mt-2 dropdown">
+    <button class="btn-grey btn border rounded-1" type="button" data-bs-toggle="dropdown" id="sortingDropdown" data-target="#sortingDropdown" aria-expanded="false">
+        <i class="fa-solid fa-arrow-down-wide-short d-sm-none"></i>
+        <span class="d-none d-sm-block">Sort</span>
+    </button>
+    <ul class="dropdown-menu border-0" aria-labelledby="sortingDropdown">
+        <li>
+            <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'sort' %}{{ key }}={{ value }}&{% endif %}{% endfor %}sort=price_asc">
+                <i class="fa-solid fa-arrow-down-short-wide me-2"></i> Prices low to high
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'sort' %}{{ key }}={{ value }}&{% endif %}{% endfor %}sort=price_desc">
+                <i class="fa-solid fa-arrow-up-wide-short me-2"></i> Prices high to low
+            </a>
+        </li>
+    </ul>
+</div>

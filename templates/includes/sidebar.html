@@ -1,0 +1,28 @@
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="categories-container">
+                    <div class="bookstore-sidebar">
+                        <ul class="category-list">
+                            {% for category in categories %}
+                                <li class="category">
+                                    <!-- Link for top-level category -->
+                                    <a href="{% url 'books' %}?category={{ category.id }}" class="category-link">
+                                        {{ category.get_screen_name }}
+                                    </a>
+                                    {% if category.visible_subcategories %}
+                                        <ul class="subcategory-list ps-3 text-blue">
+                                            {% for subcategory in category.visible_subcategories %}
+                                                <li>
+                                                    <!-- Link for subcategory with parent context -->
+                                                    <a href="{% url 'books' %}?subcategory={{ subcategory.id }}&parent={{ category.id }}" class="subcategory-link">
+                                                        {{ subcategory.get_screen_name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>

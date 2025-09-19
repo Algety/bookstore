@@ -1,0 +1,46 @@
+ {% load static %}
+           
+            <div class="product-container col-12 col-lg-9">
+                <div class="row mt-1 mb-2"></div>
+                <div class="row d-flex justify-content-center">
+                    {% for book in books %}
+                        <div class="col-6-custom col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                            <div class="card h-100 border-0">
+                                {% if book.image %}
+                                    <a href="{% url 'book_detail' book.id %}">
+                                        <div class="aspect-ratio-box">
+                                            <img src="{{ book.image.url }}" alt="{{ book.title }}">
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'book_detail' book.id %}">
+                                        <div class="aspect-ratio-box">
+                                            <img src="{% static 'images/no_image.png' %}" alt="{{ book.title }}">
+                                        </div>
+                                    </a>
+                                {% endif %}
+                                <div class="card-body pb-0">
+                                    <p class="mb-0">{{ book.title }}</p>
+                                    <em class="mb-0">
+                                        {% for author in book.authors.all %}
+                                            {{ author.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </em>
+                                </div>
+                                <div class="card-footer bg-white pt-0 border-0 text-left">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="lead mb-0 text-left font-weight-bold">£{{ book.price }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body pb-0">
+                                    <button class="btn-grey buy-btn btn border rounded-1" type="button" data-toggle="collapse" data-target="#sortingCollapse" aria-expanded="false" aria-controls="sortingCollapse">
+                                        <span class="d-sm-block buy-btn">Add to cart</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>

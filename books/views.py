@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib import messages
 from django.urls import reverse
@@ -90,8 +90,34 @@ def book_detail(request, book_id):
 
     book = get_object_or_404(Book, pk=book_id)
 
+    if request.GET:
+        if 'q' in request.GET:
+            query = request.GET['q']
+            if not query.strip():
+                messages.error(request, "Enter the search criteria")
+                return redirect(reverse('books'))
+
+            return redirect(f"{reverse('books')}?q={query}")
+
+            # words = re.findall(r'\w+', query.lower())
+            # books = Book.objects.all()  # ✅ Define books before filtering
+
+            # for word in words:
+            #     word_queries = (
+            #         Q(title__icontains=word) |
+            #         Q(description__icontains=word) |
+            #         Q(authors__name__icontains=word) |
+            #         Q(publisher__name__icontains=word)
+            #     )
+            #     books = books.filter(word_queries)
+
+    active_categories = Category.objects.filter(parent=None, active=True).order_by('order')
+    for category in active_categories:
+        category.visible_subcategories = category.subcategories.filter(active=True).order_by('order')
+
     context = {
         'book': book,
+        'categories': active_categories,
     }
 
     return render(request, 'books/book_detail.html', context)
