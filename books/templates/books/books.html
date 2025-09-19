@@ -20,73 +20,54 @@
                 <!-- Categories Button -->
                 <button class="btn-grey btn border rounded-1" type="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-bars d-sm-none"></i>
-                    <span class="d-none d-sm-block">Categories</span>                    
+                    <span class="d-none d-sm-block">Categories</span>
                 </button>
                 <div class="dropdown-menu p-2 border-0" aria-labelledby="categoriesDropdown" style="width: 280px;" data-bs-auto-close="false">
                     <ul class="list-unstyled mb-0">
-                        <!-- Children -->
-                        <li class="category-list">
-                            <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#childrenCollapse" aria-expanded="false" aria-controls="childrenCollapse">
-                                Children
-                            </button>
-                            <div class="collapse ps-3 subcategory-list text-blue" id="childrenCollapse">
-                                <a class="dropdown-item" href="#">Fiction and Fairy Tales</a>
-                                <a class="dropdown-item" href="#">Non-fiction</a>
-                                <a class="dropdown-item" href="#">Early Learning</a>
-                                <a class="dropdown-item" href="#">Craft and Activity</a>
-                            </div>
-                        </li> 
-                       
-
-                        <!-- Teens and Youth -->
-                        <li>
-                            <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#teensCollapse" aria-expanded="false" aria-controls="teensCollapse">
-                                Teens and Youth
-                            </button>
-                            <div class="collapse ps-3 subcategory-list text-blue" id="teensCollapse">
-                                <a class="dropdown-item" href="#">Fiction</a>
-                                <a class="dropdown-item" href="#">Non-fiction</a>
-                                <a class="dropdown-item" href="#">Study and School</a>
-                                <a class="dropdown-item" href="#">Hobby</a>
-                            </div>
-                        </li>
-                        <!-- Adults -->
-                        <li>
-                            <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#adultsCollapse" aria-expanded="false" aria-controls="adultsCollapse">
-                                Adults
-                            </button>
-                            <div class="collapse ps-3 subcategory-list text-blue" id="adultsCollapse">
-                                <a class="dropdown-item" href="#">Fiction</a>
-                                <a class="dropdown-item" href="#">Non-fiction</a>
-                                <a class="dropdown-item" href="#">Hobby</a>
-                            </div>
-                        </li>
-                        <!-- Studying English -->
-                        <li>
-                            <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#englishCollapse" aria-expanded="false" aria-controls="englishCollapse">
-                                Studying English
-                            </button>
-                            <div class="collapse ps-3 subcategory-list text-blue" id="englishCollapse">
-                                <a class="dropdown-item" href="#">A1 – A2</a>
-                                <a class="dropdown-item" href="#">B1 – B2</a>
-                                <a class="dropdown-item" href="#">C1 – C2</a>
-                            </div>
-                        </li>
-                        <!-- Collectible and Gift Editions -->
-                        <li>
-                            <a class="dropdown-item category-dropdown" href="#">Collectible and Gift Editions</a>
-                        </li>
+                        {% for category in categories %}
+                            <li class="category-list">
+                                <button class="dropdown-item w-100 text-start category-dropdown" type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ category.id }}"
+                                        aria-expanded="false"
+                                        aria-controls="collapse{{ category.id }}">
+                                    {{ category.get_screen_name }}
+                                </button>
+                                {% if category.visible_subcategories %}
+                                    <div class="collapse ps-3 subcategory-list text-blue" id="collapse{{ category.id }}">
+                                        <a class="dropdown-item"
+                                           href="{% url 'books' %}?category={{ category.id }}">
+                                            View all
+                                        </a>
+                                        {% for subcategory in category.visible_subcategories %}
+                                            <a class="dropdown-item"
+                                               href="{% url 'books' %}?subcategory={{ subcategory.id }}&parent={{ category.id }}">
+                                                {{ subcategory.get_screen_name }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
             <div class="control text-center mt-2 dropdown">
-                <button class="btn-grey btn border rounded-1" type="button" data-bs-toggle="dropdown" id=""sortingDropdown data-target="#sortingDropdown" aria-expanded="false">
+                <button class="btn-grey btn border rounded-1" type="button" data-bs-toggle="dropdown" id="sortingDropdown" data-target="#sortingDropdown" aria-expanded="false">
                     <i class="fa-solid fa-arrow-down-wide-short d-sm-none"></i>
                     <span class="d-none d-sm-block">Sort</span>
                 </button>
                 <ul class="dropdown-menu border-0" aria-labelledby="sortingDropdown">
-                    <li><a class="dropdown-item" href="#">Prices low to high</a></li>
-                    <li><a class="dropdown-item" href="#">Prices high to low</a></li>
+                    <li>
+                        <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'sort' %}{{ key }}={{ value }}&{% endif %}{% endfor %}sort=price_asc">
+                            <i class="fa-solid fa-arrow-down-short-wide me-2"></i> Prices low to high
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="?{% for key, value in request.GET.items %}{% if key != 'sort' %}{{ key }}={{ value }}&{% endif %}{% endfor %}sort=price_desc">
+                            <i class="fa-solid fa-arrow-up-wide-short me-2"></i> Prices high to low
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="control text-center mt-2 dropdown">
@@ -96,12 +77,22 @@
                 </button>
                 <ul class="dropdown-menu border-0" aria-labelledby="filterDropdown">
                     <button class="dropdown-item w-100 text-start category-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#englishCollapse" aria-expanded="false" aria-controls="englishCollapse">
-                                Language
-                            </button>
-                            <div class="collapse ps-3 subcategory-list text-blue" id="englishCollapse">
-                                <a class="dropdown-item" href="#">Ukrainian</a>
-                                <a class="dropdown-item" href="#">English</a>
-                            </div>
+                        Language
+                    </button>
+                    <div class="collapse ps-3 subcategory-list text-blue" id="englishCollapse">
+                        <a class="dropdown-item"
+                           href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}language=ukr">
+                            Ukrainian
+                        </a>
+                        <a class="dropdown-item"
+                           href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}language=eng">
+                            English
+                        </a>
+                        <a class="dropdown-item"
+                           href="?{% for key, value in request.GET.items %}{% if key != 'language' %}{{ key }}={{ value }}&{% endif %}{% endfor %}">
+                            All languages
+                        </a>
+                    </div>
                 </ul>
             </div>
         </div>
@@ -115,31 +106,28 @@
             <div class="col-lg-3 d-none d-lg-block">
                 <div class="categories-container">
                     <div class="bookstore-sidebar">
-
-<ul class="category-list">
-    {% for category in categories %}
-        <li class="category">
-            <!-- Link for top-level category -->
-            <a href="{% url 'books' %}?category={{ category.id }}" class="category-link">
-                {{ category.get_screen_name }}
-            </a>
-
-            {% if category.visible_subcategories %}
-                <ul class="subcategory-list ps-3 text-blue">
-                    {% for subcategory in category.visible_subcategories %}
-                        <li>
-                            <!-- Link for subcategory with parent context -->
-                            <a href="{% url 'books' %}?subcategory={{ subcategory.id }}&parent={{ category.id }}" class="subcategory-link">
-                                {{ subcategory.get_screen_name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
-
+                        <ul class="category-list">
+                            {% for category in categories %}
+                                <li class="category">
+                                    <!-- Link for top-level category -->
+                                    <a href="{% url 'books' %}?category={{ category.id }}" class="category-link">
+                                        {{ category.get_screen_name }}
+                                    </a>
+                                    {% if category.visible_subcategories %}
+                                        <ul class="subcategory-list ps-3 text-blue">
+                                            {% for subcategory in category.visible_subcategories %}
+                                                <li>
+                                                    <!-- Link for subcategory with parent context -->
+                                                    <a href="{% url 'books' %}?subcategory={{ subcategory.id }}&parent={{ category.id }}" class="subcategory-link">
+                                                        {{ subcategory.get_screen_name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -166,12 +154,10 @@
                                 <div class="card-body pb-0">
                                     <p class="mb-0">{{ book.title }}</p>
                                     <em class="mb-0">
-  {% for author in book.authors.all %}
-    {{ author.name }}{% if not forloop.last %}, 
-    {% endif %}
-  {% endfor %}
+                                        {% for author in book.authors.all %}
+                                            {{ author.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
                                     </em>
-
                                 </div>
                                 <div class="card-footer bg-white pt-0 border-0 text-left">
                                     <div class="row">
@@ -193,10 +179,10 @@
         </div>
     </div>
     <script>
-document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-        e.stopPropagation();
+    document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     });
-});
-</script>
+    </script>
 {% endblock %}

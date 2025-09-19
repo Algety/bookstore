@@ -1,7 +1,10 @@
 from django.shortcuts import render
-
-# Create your views here.
+from books.models import Book
 
 def index(request):
-    """ A view to return an index page """
-    return render(request, "books/books.html")
+    books = Book.objects.all()
+    context = {
+        'books': books,
+        # 'banners': ['banner1.jpg', 'banner2.jpg'],
+    }
+    return render(request, 'home/index.html', context)
