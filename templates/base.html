@@ -106,12 +106,12 @@
               </li>
               <!-- Cart -->
               <li class="list-inline-item justify-content-md-end">
-                <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-blue{% endif %} nav-link" href="">
+                <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-blue{% endif %} nav-link" href="{% url 'view_cart' %}">
                   <div class="d-flex align-items-center justify-content-end">
                     <i class="fas fa-shopping-bag fa-lg mr-2"></i>
                     <span class="my-0">
                       {% if grand_total %}
-                        ${{ grand_total|floatformat:2 }}
+                        £{{ grand_total|floatformat:2 }}
                       {% else %}
                         £0.00
                       {% endif %}
@@ -206,7 +206,7 @@
                   <i class="fas fa-shopping-bag fa-lg mr-2"></i>
                   <span class="my-0 nav-text">
                     {% if grand_total %}
-                      ${{ grand_total|floatformat:2 }}
+                      £{{ grand_total|floatformat:2 }}
                     {% else %}
                       £0.00
                     {% endif %}
