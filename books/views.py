@@ -99,18 +99,6 @@ def book_detail(request, book_id):
 
             return redirect(f"{reverse('books')}?q={query}")
 
-            # words = re.findall(r'\w+', query.lower())
-            # books = Book.objects.all()  # ✅ Define books before filtering
-
-            # for word in words:
-            #     word_queries = (
-            #         Q(title__icontains=word) |
-            #         Q(description__icontains=word) |
-            #         Q(authors__name__icontains=word) |
-            #         Q(publisher__name__icontains=word)
-            #     )
-            #     books = books.filter(word_queries)
-
     active_categories = Category.objects.filter(parent=None, active=True).order_by('order')
     for category in active_categories:
         category.visible_subcategories = category.subcategories.filter(active=True).order_by('order')

@@ -128,6 +128,22 @@ header {
   padding-top: calc(120px);
 }
 
+.carousel-frame {
+    max-height: 250px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px;
+}
+
+.carousel-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
 /* Font Source Sans Pro */
 @font-face {
     font-family: 'Source Sans Pro';
