@@ -12,16 +12,16 @@
 {% block content %}
     <!-- <div class="overlay"></div> -->
     <div class="controls-fixed text-center">
-        <h2 class="section-font mb-0">Shopping bag</h2>
+        <h2 class="section-font mb-0">Your cart</h2>
         <hr class="w-50 mb-0">
     </div>
 
         <div class="row">
             <div class="col">
-                {% if bag_items %}
+                {% if cart_items %}
                     <div class="table-responsive rounded"></div>
                 {% else %}
-                    <p class="lead mb-5">Your bag is empty.</p>
+                    <p class="lead mb-5">Your cart is empty.</p>
                     <a href="{% url 'books' %}" class="btn btn-outline-black rounded-0 btn-lg">
                         <span class="icon">
                             <i class="fas fa-chevron-left"></i>
