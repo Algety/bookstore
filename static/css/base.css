@@ -16,6 +16,7 @@ html {
 
 body {
     height: calc(100vh - 164px);
+    font-size: 0.9rem !important;
 }
 
 header {
@@ -56,7 +57,20 @@ header {
 /* Sticky sidebar for ≥lg screens */
 .categories-container {
   position: fixed;
-  top: calc(164px + 135px); /* header + title height */
+  top: 245px;
+  left: 0;
+  width: 20%;
+  height: calc(100vh - (164px + 150px));
+  overflow-y: auto;
+  background-color: white;
+  padding: 1rem;
+  z-index: 1020;
+  box-shadow: 1px 0 4px rgba(0,0,0,0.05);
+}
+
+.categories-container-catalog {
+  position: fixed;
+  top: 265px;
   left: 0;
   width: 20%;
   height: calc(100vh - (164px + 150px));
@@ -123,9 +137,9 @@ header {
 
 }
 
-/* Push catalog content to the right of fixed sidebar */
+/* Push catalog content lower */
 .catalog-wrapper {
-  padding-top: calc(120px);
+  padding-top: calc(115px);
 }
 
 .carousel-frame {
@@ -167,7 +181,7 @@ header {
 }
 
 .btn-grey {
- display: inline-block;
+  display: inline-block;
   padding: 0.375rem 0.75rem;
   margin-right: 10px;
   font-size: 0.8rem !important;
@@ -261,7 +275,7 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .bg-blue {
@@ -303,6 +317,7 @@ header {
 
 .buy-btn {
     background-color: var(--second-color) !important;
+    font-size: 0.8rem !important;
     width: auto !important;
     min-width: fit-content !important;
     min-height:fit-content !important;
@@ -316,6 +331,16 @@ header {
   z-index: 1000;
 }
 
+.form-control {
+  max-width: 100px;
+  max-height: 30px !important;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+}
+
+.img-fluid {
+    max-width: 90% !important;
+}
 
 /* ------------------------------------------------------ */
 @media (min-width: 350px) {  
@@ -365,16 +390,13 @@ header {
 }
 
 @media (min-width: 576px) {
+
  .header-container {
         padding-top: 124px;
     }
 
  .controls-fixed {
   top: 102px;
-}
-
-.btn-grey {
-    font-size: 1rem !important;
 }
 
   .col-6-custom {
@@ -384,6 +406,13 @@ header {
 }
 
 @media (min-width: 776px) {
+    .body {
+    font-size: rem;
+}
+.btn-grey {
+    font-size: 1rem !important;
+}
+
     #logo {
         width: 120px;
         height: 100px;
@@ -421,6 +450,10 @@ header {
         flex: 0 0 25% !important;
         max-width: 25% !important;
     }
+
+    .catalog-wrapper {
+    padding-top: calc(130px);
+}
   
 }
 
@@ -436,4 +469,13 @@ header {
 .product-container {
   margin-left: 25%;
 }
+
+.offset-lg-2 {
+    margin-left: 25% !important;
+}
+
+.catalog-wrapper {
+  padding-top: calc(110px);
+}
+
 }

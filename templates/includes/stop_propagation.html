@@ -1,0 +1,8 @@
+<!-- A user stays on the same place of the page -->
+    <script>
+    document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    });
+    </script>

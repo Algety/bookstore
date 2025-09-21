@@ -34,12 +34,12 @@
 
         </div>
     </div>
+{% endblock %}
 
-    <script>
-    document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    });
-    </script>
+{% block postloadjs %}
+<!-- A user stays on the same place of the page -->
+    {{ block.super }}
+    {% include 'includes/stop_propagation.html' %}
+
+    {% include 'books/includes/quantity_input_script.html' %}
 {% endblock %}

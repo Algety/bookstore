@@ -19,8 +19,17 @@
                                         </div>
                                     </a>
                                 {% endif %}
+
                                 <div class="card-body pb-0">
-                                    <p class="mb-0">{{ book.title }}</p>
+                                                                    <form class="add-to-cart-form" action="{% url 'add_to_cart' book.id %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="redirect_url" value="{{ request.path }}">
+        <button type="submit" class="buy-btn border rounded-1">
+            <span class="d-sm-block ">Add to cart</span>
+        </button>
+    </form>
+                                    <p class="mb-0 mt-3">{{ book.title }}</p>
                                     <em class="mb-0">
                                         {% for author in book.authors.all %}
                                             {{ author.name }}{% if not forloop.last %}, {% endif %}
@@ -35,12 +44,24 @@
                                     </div>
                                 </div>
                                 <div class="card-body pb-0">
-                                    <button class="btn-grey buy-btn btn border rounded-1" type="button" data-toggle="collapse" data-target="#sortingCollapse" aria-expanded="false" aria-controls="sortingCollapse">
-                                        <span class="d-sm-block buy-btn">Add to cart</span>
-                                    </button>
-                                </div>
+</div>
+
                             </div>
                         </div>
                     {% endfor %}
              
-           
+<script>
+    document.querySelectorAll('form.add-to-cart-form').forEach(form => {
+        form.addEventListener('submit', function () {
+            localStorage.setItem('scrollPosition', window.scrollY);
+        });
+    });
+
+    window.addEventListener('load', function () {
+        const scrollY = localStorage.getItem('scrollPosition');
+        if (scrollY !== null) {
+            window.scrollTo(0, parseInt(scrollY));
+            localStorage.removeItem('scrollPosition');
+        }
+    });
+</script>

@@ -7,18 +7,19 @@ def cart_contents(request):
 
     cart_items = []
     total = 0
-    book_count = 0
+    quantity = 0
     cart = request.session.get('cart', {})
 
-    for item_id, quantity in cart.items():
+    for item_id, qty in cart.items():
         book = get_object_or_404(Book, pk=item_id)
-        total += quantity * book.price
-        book_count += quantity
+        item_total = qty * book.price
+        total += item_total
+        quantity += qty
         cart_items.append({
             'item_id': item_id,
-            'quantity': quantity,
+            'quantity': qty,
             'book': book,
-            'total': total,
+            'total': item_total,
         })
 
     if total < settings.FREE_DELIVERY_THRESHOLD:
@@ -33,7 +34,7 @@ def cart_contents(request):
     context = {
         'cart_items': cart_items,
         'total': total,
-        'book_count': book_count,
+        'quantity': quantity,
         'delivery': delivery,
         'free_delivery_delta': free_delivery_delta,
         'free_delivery_threshold': settings.FREE_DELIVERY_THRESHOLD,

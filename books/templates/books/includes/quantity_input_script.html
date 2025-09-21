@@ -29,6 +29,7 @@
        $(closestInput).val(currentValue + 1);
        var itemId = $(this).data('item_id');
        handleEnableDisable(itemId);
+       $(closestInput).closest('form').submit();
     });
     
     // Decrement quantity
@@ -39,5 +40,6 @@
        $(closestInput).val(currentValue - 1);
        var itemId = $(this).data('item_id');
        handleEnableDisable(itemId);
+       $(closestInput).closest('form').submit();
     });
 </script>
