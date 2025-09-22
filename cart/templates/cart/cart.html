@@ -16,8 +16,9 @@
     <hr class="w-50 mb-0">
   </div>
 
+  <!-- 490px fix responsivness-->
   <div class="row catalog-wrapper justify-content-center">
-    <div class="col-8 col-lg-7">
+    <div class="col-12 col-md-9 col-lg-7">
       {% if cart_items %}
         <div class="table-responsive rounded">
           <table class="table table-sm table-borderless">
@@ -33,24 +34,24 @@
             </thead>
             {% for item in cart_items %}
               <tr>
-                <td class="p-3 text-right">
+                <td class="p-1 w-25 text-right">
                   {% if item.book.image and item.book.image.name %}
                     <img class="img-fluid rounded" src="{{ item.book.image.url }}" alt="{{ item.book.title }}">
                   {% else %}
                     <img class="img-fluid rounded" src="{% static 'images/no_image.png' %}" alt="{{ item.book.title }}">
                   {% endif %}
                 </td>
-                <td class="py-3 w-25">
+                <td class="py-1 w-25">
                   <p class="my-0"><strong>{{ item.book.title }}</strong></p>
                   {% for author in item.book.authors.all %}
                     <p class="mb-0">By <em>{{ author.name }}{% if not forloop.last %}, {% endif %}</em></p>
                   {% endfor %}
                   <p class="my-0"><strong>{{ item.book.publisher }}</strong></p>
                 </td>
-                <td class="py-3">
+                <td class="py-2">
                   <p class="my-0">£{{ item.book.price }}</p>
                 </td>
-                <td class="py-3 w-25 text-center">
+                <td class="py-1 w-25 text-center">
                   <form class="form update-form" method="POST" action="{% url 'adjust_cart' item.item_id %}">
                     {% csrf_token %}
                     <div class="form-group">
@@ -74,7 +75,7 @@
                     </div>
                   </form>
                 </td>
-                <td class="py-3 text-center">
+                <td class="py-0 text-center">
                   {% if item.quantity > 0 %}
                     <button class="btn btn-sm text-blue remove-item"
                             id="remove_{{ item.item_id }}" 
@@ -88,21 +89,43 @@
                     </button>
                   {% endif %}
                 </td>
-                <td class="py-3">
+                <td class="py-1">
                   <p class="my-0">£{{ item.total }}</p>
                 </td>
               </tr>
             {% endfor %}
+            <tr>
+                                <td colspan="8" class="pt-4 text-right">
+                                  <hr class="w-100 mb-0">
+                                    <h6><strong>Subtotal: £{{ total|floatformat:2 }}</strong></h6>
+                                    <h6>Delivery: £{{ delivery|floatformat:2 }}</h6>
+                                    <h5 class="mt-4"><strong>Total cost: £{{ grand_total|floatformat:2 }}</strong></h5>
+                                    {% if free_delivery_delta > 0 %}
+                                        <p class="mb-1 text-blue">
+                                            <strong>£{{ free_delivery_delta }}</strong> left for free delivery
+                                        </p>
+                                    {% endif %}
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td colspan="8" class="text-right">
+                                <div class="col-12 mt-3 d-flex flex-wrap justify-content-end gap-2">
+                                    <a href="{% url 'books' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap">
+                                        Keep Shopping
+                                    </a>
+                                    <a href="{% url 'checkout' %}" class="buy-btn btn btn-grey border rounded-1 text-uppercase">Checkout</a>
+
+                                </div>
+                                </td>
+                            </tr>
           </table>
         </div>
       {% else %}
         <p class="lead mb-5">Your cart is empty.</p>
-        <a href="{% url 'books' %}" class="btn btn-outline-black rounded-0 btn-lg">
-          <span class="icon">
-            <i class="fas fa-chevron-left"></i>
-          </span>
-          <span class="text-uppercase">Keep Shopping</span>
-        </a>
+        <a href="{% url 'books' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap">
+                                        Keep Shopping
+                                    </a>
       {% endif %}
     </div>
   </div>

@@ -40,7 +40,7 @@ def all_books(request):
         if 'q' in request.GET:
             query = request.GET['q']
             if not query.strip():
-                messages.error(request, "Enter the search criteria")
+                messages.error(request, "Enter your search criteria")
                 return redirect(reverse('books'))
 
             # Split query into individual words

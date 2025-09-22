@@ -87,6 +87,7 @@ class Publisher(models.Model):
 
 class Book(models.Model):
     categories = models.ManyToManyField(Category, related_name='books')
+    sku = models.CharField(max_length=254, null=True, blank=True)
     title = models.CharField(max_length=250)
     slug = models.SlugField(unique=True, blank=True)
     authors = models.ManyToManyField(

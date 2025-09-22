@@ -35,9 +35,9 @@ class BookAdmin(admin.ModelAdmin):
         return ", ".join([c.name for c in obj.illustrators.all()])
     display_illustrators.short_description = 'Illustrators'
 
-    list_display = ('display_categories','title', 'display_authors', 'display_illustrators',
+    list_display = ('display_categories','title', 'sku','display_authors', 'display_illustrators',
                      'publisher', 'language', 'price', 'stock_quantity','image')
-    ordering = ('title',)
+    ordering = ('sku','title',)
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('parent', 'active', 'order', 'subcategory', 'get_age_groups', 'name', 'screen_name')
