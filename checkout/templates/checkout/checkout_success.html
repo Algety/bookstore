@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+  
+    <div class="controls-fixed text-center">
+        <h2 class="section-font mb-0">Order status</h2>
+        <hr class="w-50 mb-0">
+    </div>
+    <div class="container">
+        <div class="row catalog-wrapper">
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="text-start">
+                    <p>Thank you for your order</p>
+                    <p>
+                        Your payment was successful! Your order number is <strong>{{ order_number }}</strong>.<br>
+                        A confirmation email will be sent to <strong>{{ order.email }}</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+<!-- A user stays on the same place of the page -->
+    {% include 'includes/stop_propagation.html' %}
+
+{% endblock %}
