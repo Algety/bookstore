@@ -60,8 +60,8 @@
                         </div>
                         <div class="col-12 col-md-8 text-md-end">
                             <p class="order-info mb-0">
-                                {% if order.address_line1 %}{{ order.address_line1 }}, {% endif %}
-                                {% if order.address_line2 %}{{ order.address_line2 }}, {% endif %}
+                                {% if order.address_street_address1 %}{{ order.street_address1 }}, {% endif %}
+                                {% if order.street_address2 %}{{ order.street_address2 }}, {% endif %}
                                 {% if order.county %}{{ order.county }}, {% endif %}
                                 {% if order.town_or_city %}{{ order.town_or_city }}, {% endif %}
                                 {% if order.postcode %}{{ order.postcode }}, {% endif %}

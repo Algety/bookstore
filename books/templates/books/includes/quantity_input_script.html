@@ -23,23 +23,32 @@
 
     // Increment quantity
     $('.increment-qty').click(function(e) {
-       e.preventDefault();
-       var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
-       var currentValue = parseInt($(closestInput).val());
-       $(closestInput).val(currentValue + 1);
-       var itemId = $(this).data('item_id');
-       handleEnableDisable(itemId);
-       $(closestInput).closest('form').submit();
+        e.preventDefault();
+        var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
+        var currentValue = parseInt($(closestInput).val());
+        $(closestInput).val(currentValue + 1);
+        var itemId = $(this).data('item_id');
+        handleEnableDisable(itemId);
+
+        // Only submit if the form has the class or attribute
+        var form = $(closestInput).closest('form');
+        if (form.hasClass('update-on-qty-change') || form.data('autosubmit')) {
+            form.submit();
+        }
     });
     
     // Decrement quantity
     $('.decrement-qty').click(function(e) {
-       e.preventDefault();
-       var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
-       var currentValue = parseInt($(closestInput).val());
-       $(closestInput).val(currentValue - 1);
-       var itemId = $(this).data('item_id');
-       handleEnableDisable(itemId);
-       $(closestInput).closest('form').submit();
+        e.preventDefault();
+        var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
+        var currentValue = parseInt($(closestInput).val());
+        $(closestInput).val(currentValue - 1);
+        var itemId = $(this).data('item_id');
+        handleEnableDisable(itemId);
+
+        var form = $(closestInput).closest('form');
+        if (form.hasClass('update-on-qty-change') || form.data('autosubmit')) {
+            form.submit();
+        }
     });
 </script>

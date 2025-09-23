@@ -41,19 +41,18 @@ def adjust_cart(request, item_id):
 
     quantity = int(request.POST.get('quantity'))
     cart = request.session.get('cart', {})
+    from_detail = request.POST.get('from_detail', None)
 
     if quantity > 0:
         cart[item_id] = quantity
-        messages.success(request, f'Updated {book.title} in your cart')
+        if from_detail == '1':
+            messages.success(request, f'Updated {book.title} in your cart')
     else:
         cart.pop(item_id, None)
         messages.success(request, f'Removed {book.title} from your cart')
 
     request.session['cart'] = cart
-    # return redirect(reverse('view_cart'))
-    return redirect('view_cart') 
-    # request.META['HTTP_REFERER']
-    # return redirect(request.META.get('HTTP_REFERER', 'view_cart'))
+    return redirect('view_cart')
 
 
 

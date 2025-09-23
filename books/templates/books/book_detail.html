@@ -75,7 +75,7 @@
             <div class="form-group mb-0">
                 <div class="input-group">
                     <div class="input-group-prepend mt-2">
-                        <button class="decrement-qty btn rounded-1"
+                        <button class="decrement-qty btn rounded-1" type="button"
                                 data-item_id="{{ book.id }}" id="decrement-qty_{{ book.id }}">
                             <span class="icon">
                                 <i class="fas fa-minus"></i>
@@ -86,7 +86,7 @@
                            min="1" max="99" data-item_id="{{ book.id }}" id="id_qty_{{ book.id }}"
                            style="max-width: 100px;">
                     <div class="input-group-append mt-2">
-                        <button class="increment-qty btn rounded-1"
+                        <button class="increment-qty btn rounded-1" type="button"
                                 data-item_id="{{ book.id }}" id="increment-qty_{{ book.id }}">
                             <span class="icon">
                                 <i class="fas fa-plus"></i>
@@ -107,6 +107,7 @@
 
 
     <input type="hidden" name="redirect_url" value="{{ request.path }}">
+    <input type="hidden" name="from_detail" value="1">
 </form>
                         </div>
                     </div>
