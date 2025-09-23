@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import OrderForm
 from .models import Order, OrderLineItem
@@ -117,3 +119,29 @@ def checkout_success(request, order_number):
         'order_number': order_number,
     }
     return render(request, template, context)
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    """ Stripe webhook handler """
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    webhook_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, webhook_secret
+        )
+    except ValueError:
+        print("Invalid payload")
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError:
+        print("Invalid signature")
+        return HttpResponse(status=400)
+    
+    import json
+    print("Stripe webhook received:")
+    print(json.dumps(event, indent=2))
+
+
+    return HttpResponse(status=200)
