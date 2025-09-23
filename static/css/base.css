@@ -332,7 +332,7 @@ header {
 }
 
 .form-control {
-  max-width: 100px;
+  /* max-width: 100px; */
   max-height: 30px !important;
   padding: 2px 6px;
   font-size: 0.8rem;
@@ -341,6 +341,13 @@ header {
 .img-fluid {
     max-width: 90% !important;
 }
+
+/* .bag-notification-wrapper {
+    height: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
+} */
+
 
 /* ------------------------------- bootstrap toasts */
 
