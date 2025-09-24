@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.conf import settings
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 
 from .forms import OrderForm
 from .models import Order, OrderLineItem
@@ -25,12 +24,12 @@ def cache_checkout_data(request):
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(request.session.get('cart', {})),
             'save_info': request.POST.get('save_info'),
-            'username': request.user.username if request.user.is_authenticated else 'anonymous',
+            'username': str(request.user) if request.user.is_authenticated else 'anonymous',
         })
         return HttpResponse(status=200)
     except Exception as e:
         messages.error(request, (
-            "Sorry, your payment cannot be processed right now."
+            "Sorry, your payment cannot be processed right now. "
             "Please try again later."
         ))
         return HttpResponse(content=e, status=400)
@@ -75,24 +74,20 @@ def checkout(request):
         order_form = OrderForm(form_data)
 
         if order_form.is_valid():
-            order = order_form.save()
+            order = order_form.save(commit=False)
+            pid = request.POST.get('client_secret').split('_secret')[0]
+            order.stripe_pid = pid
+            order.original_cart = json.dumps(cart)
+            order.save()
 
             for item_id, quantity in cart.items():
-                try:
-                    book = Book.objects.get(id=item_id)
-                    order_line_item = OrderLineItem(
-                        order=order,
-                        book=book,
-                        quantity=quantity,
-                    )
-                    order_line_item.save()
-                except Book.DoesNotExist:
-                    messages.error(request, (
-                        "We couldn’t retrieve one of the products in your cart. "
-                        "Please contact us for further assistance.")
-                    )
-                    order.delete()
-                    return redirect(reverse('view_cart'))
+                book = Book.objects.get(id=item_id)
+                order_line_item = OrderLineItem(
+                    order=order,
+                    book=book,
+                    quantity=quantity,
+                )
+                order_line_item.save()
 
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse('checkout_success', args=[order.order_number]))
@@ -124,7 +119,6 @@ def checkout(request):
 
 def checkout_success(request, order_number):
     """ Successful checkout """
-
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
 
@@ -162,8 +156,7 @@ def stripe_webhook(request):
     except stripe.error.SignatureVerificationError:
         print("Invalid signature")
         return HttpResponse(status=400)
-    
-    import json
+
     print("Stripe webhook received:")
     print(json.dumps(event, indent=2))
 
