@@ -41,13 +41,12 @@
                   <th class="px-2">Date</th>
                   <th class="px-2">Total</th>
                   <th class="px-2">Status</th>
-                  <th class="px-2">View</th>
                 </tr>
               </thead>
               <tbody>
                 {% for order in orders %}
                 <tr class="border rounded shadow-sm">
-                  <td class="p-3">{{ order.order_number|truncatechars:6 }}</td>
+                  <td class="p-3"><a href="{% url 'order_history' order.order_number %}">{{ order.order_number|truncatechars:6 }}</a></td>
                   <td class="p-3">{{ order.date|date:"d M Y H:i" }}</td>
                   <td class="p-3">£{{ order.grand_total|floatformat:2 }}</td>
                   <td class="p-3">
@@ -56,9 +55,6 @@
                     {% else %}
                       Pending
                     {% endif %}
-                  </td>
-                  <td class="p-3">
-                    <a href="" class="btn btn-sm btn-outline-primary">View</a>
                   </td>
                 </tr>
                 <tr><td colspan="5"><hr class="my-2"></td></tr>
