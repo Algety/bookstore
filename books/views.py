@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.urls import reverse
 from .models import Book, Category
+from .forms import BookForm
 import re
 
 def all_books(request):
@@ -109,3 +110,24 @@ def book_detail(request, book_id):
     }
 
     return render(request, 'books/book_detail.html', context)
+
+
+def add_book(request):
+    """
+    Allow superusers to add a new book to the catalog.
+    """
+    if request.method == 'POST':
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            book = form.save()
+            messages.success(request, f'Book "{book.title}" added successfully.')
+            return redirect('book_detail', slug=book.slug)
+        else:
+            messages.error(request, 'There was an error with your submission. Please check the form and try again.')
+    else:
+        form = BookForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'books/add_book.html', context)
