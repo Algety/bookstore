@@ -136,7 +136,16 @@
                                         More Shopping
                                     </a>
             </div>
-        </div>
+			{% if from_profile %}
+                <a href="{% url 'profile' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap">
+                    <span class="icon mr-2">
+                        <i class="fas fa-angle-left"></i>
+                    </span>
+                    <span class="text-uppercase">Back to Profile</span>
+                </a>
+            {% endif %}
+			</div>
+		</div>
     </div>
 {% endblock %}
 

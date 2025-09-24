@@ -15,14 +15,63 @@
 
 {% block content %}
     <!-- <div class="overlay"></div> -->
-    <div class="controls-fixed text-center">
-        <h2 class="section-font mb-0">Checkout</h2>
-        <hr class="w-50 mb-0">
+  <div class="controls-fixed text-center">
+    <h2 class="section-font mb-0">{{ user }}'s profile</h2>
+    <hr class="w-50 mb-0">
+  </div>
+  <div class="container">
+    <div class="row catalog-wrapper">
+      <div class="col-12 col-lg-6">
+        <p class="text-muted">Default Delivery Information</p>
+        <form class="mt-3" action="{% url 'profile' %}" method="POST" id="profile-update-form">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button class="btn btn-black buy-btn rounded-0 text-uppercase float-right">Update Information</button>
+        </form>
+      </div>
+      <div class="col-12 col-lg-6">
+        <p class="text-muted">Order History</p>
+        <div>
+          <form class="mt-3" action="" method="POST" id="order-history-form">
+            {% csrf_token %}
+            <table class="table-responsive w-100 border-0">
+              <thead style="background-color: #1B75C1; color: white;">
+                <tr>
+                  <th class="px-2">Order Number</th>
+                  <th class="px-2">Date</th>
+                  <th class="px-2">Total</th>
+                  <th class="px-2">Status</th>
+                  <th class="px-2">View</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in orders %}
+                <tr class="border rounded shadow-sm">
+                  <td class="p-3">{{ order.order_number|truncatechars:6 }}</td>
+                  <td class="p-3">{{ order.date|date:"d M Y H:i" }}</td>
+                  <td class="p-3">£{{ order.grand_total|floatformat:2 }}</td>
+                  <td class="p-3">
+                    {% if order.stripe_pid %}
+                      Paid
+                    {% else %}
+                      Pending
+                    {% endif %}
+                  </td>
+                  <td class="p-3">
+                    <a href="" class="btn btn-sm btn-outline-primary">View</a>
+                  </td>
+                </tr>
+                <tr><td colspan="5"><hr class="my-2"></td></tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center"><hr>You have no orders yet.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
     </div>
-
-    <div class="controls-fixed text-center">
-        <!-- <h2 class="section-font mb-0">{{ user.username }}` profile</h2> -->
-        <hr class="w-50 mb-0">
-    </div>
-
+  </div>
 {% endblock %}
