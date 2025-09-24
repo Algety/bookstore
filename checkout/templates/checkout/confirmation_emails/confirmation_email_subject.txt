@@ -1,0 +1,1 @@
+Fayno Bookstore: Order Number {{ order.order_number }} confirmed

@@ -1,0 +1,18 @@
+Hello, {{ order.full_name }}!
+
+Thank you for placing your order. 
+
+Details of your purchase:
+Order Number: {{ order.order_number }}
+Order Date: {{ order.date }}
+Items Total: ${{ order.order_total }}
+Delivery Cost: ${{ order.delivery_cost }}
+Grand Total: ${{ order.grand_total }}
+
+Your order will be shipped to {{ order.street_address1 }}, {{ order.town_or_city }}, {{ order.country }}.
+We’ve noted your contact number as {{ order.phone_number }}.
+
+
+Thank you again for shopping with us — we hope you enjoy your books!
+Warm regards,
+Fayno Bookstore
