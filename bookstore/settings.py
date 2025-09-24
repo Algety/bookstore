@@ -27,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-r21d6l@uz=bs%+qxh$(s4o@bpsed=bjh-cp=ol_!2yf9!jp(u%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'fayno-bookstore.herokuapp.com',
+    'fayno-bookstore-c94769ad5fcc.herokuapp.com',
 ]
 
 
