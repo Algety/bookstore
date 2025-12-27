@@ -24,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r21d6l@uz=bs%+qxh$(s4o@bpsed=bjh-cp=ol_!2yf9!jp(u%'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('1', 'true', 'yes')
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -187,23 +187,59 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-if 'USE_AWS' in os.environ:
-    # Bucket Config
-    AWS_STORAGE_BUCKET_NAME = 'fayno-bookstore-c94769ad5fcc'
-    AWS_S3_REGION_NAME = 'eu-north-1'
+USE_AWS = os.getenv('USE_AWS', 'False').lower() in ('1', 'true', 'yes')
+
+if USE_AWS:
+    # AWS S3 Configuration
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'eu-north-1')
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    
+    # Validate required AWS settings
+    required_aws_vars = [
+        AWS_STORAGE_BUCKET_NAME,
+        AWS_ACCESS_KEY_ID,
+        AWS_SECRET_ACCESS_KEY
+    ]
+    if not all(required_aws_vars):
+        from django.core.exceptions import ImproperlyConfigured
+        raise ImproperlyConfigured(
+            'USE_AWS is set but missing required AWS environment variables: '
+            'AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY'
+        )
+    
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
-    # Static and media files
-    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    # Django 5.x STORAGES configuration
+    STORAGES = {
+        "default": {
+            "BACKEND": "custom_storages.MediaStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "custom_storages.StaticStorage",
+        },
+    }
+    
+    # Storage locations
     STATICFILES_LOCATION = 'static'
-    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
     MEDIAFILES_LOCATION = 'media'
+    
+    # Legacy settings for backward compatibility
+    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
     # Override static and media URLs in production
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
+else:
+    # Require S3 on Heroku - no filesystem storage allowed
+    if os.getenv('DYNO'):
+        from django.core.exceptions import ImproperlyConfigured
+        raise ImproperlyConfigured(
+            'This app requires S3 on Heroku. '
+            'Set USE_AWS=1 and the AWS environment variables.'
+        )
 
 # Stripe
 FREE_DELIVERY_THRESHOLD = 50

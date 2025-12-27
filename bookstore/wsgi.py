@@ -14,15 +14,3 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bookstore.settings')
 
 application = get_wsgi_application()
-
-# try:
-#     import env
-# except ImportError:
-#     pass
-
-# from django.core.wsgi import get_wsgi_application
-
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bookstore.settings')
-
-# application = get_wsgi_application()
