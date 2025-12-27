@@ -10,6 +10,12 @@ def create_sample_data(apps, schema_editor):
     BookContributor = apps.get_model('books', 'BookContributor')
     Publisher = apps.get_model('books', 'Publisher')
     
+    # Clear any existing data first
+    Book.objects.all().delete()
+    Category.objects.all().delete()
+    BookContributor.objects.all().delete()
+    Publisher.objects.all().delete()
+    
     # Create categories
     fiction_cat = Category.objects.create(
         name="Fiction",
@@ -22,23 +28,27 @@ def create_sample_data(apps, schema_editor):
     
     # Create publisher
     publisher = Publisher.objects.create(
-        name="A-BA-BA-HA-LA-MA-HA"
+        name="A-BA-BA-HA-LA-MA-HA",
+        slug="a-ba-ba-ha-la-ma-ha"
     )
     
     # Create authors
     author1 = BookContributor.objects.create(
         name="Hans Christian Andersen",
+        slug="hans-christian-andersen",
         role="author"
     )
     
     illustrator1 = BookContributor.objects.create(
         name="Vladyslav Yerko",
+        slug="vladyslav-yerko",
         role="illustrator"
     )
     
     # Create books
     book1 = Book.objects.create(
         title="The Snow Queen",
+        slug="the-snow-queen",
         cover_type="hardcover",
         publisher=publisher,
         illustration_type="color",
@@ -52,6 +62,7 @@ def create_sample_data(apps, schema_editor):
     
     book2 = Book.objects.create(
         title="The Tinderbox",
+        slug="the-tinderbox",
         cover_type="hardcover",
         publisher=publisher,
         illustration_type="color",
