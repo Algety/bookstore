@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import os
 import sys
-import env  # Loads environment variables like STRIPE keys
 
 def main():
     """Run administrative tasks."""
