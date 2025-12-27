@@ -22,13 +22,27 @@ def create_sample_data(apps, schema_editor):
               "preserve existing data.")
         return
     
-    # Create categories (use get_or_create to avoid conflicts)
-    fiction_cat, created = Category.objects.get_or_create(
-        slug="fiction",
+    # Create categories with proper hierarchy (parent -> subcategory)
+    # First, create parent category (no subcategory field)
+    parent_fiction, created = Category.objects.get_or_create(
+        name="Fiction",
+        subcategory=None,  # Parent categories have no subcategory
         defaults={
-            "name": "Fiction",
             "screen_name": "Fiction",
-            "subcategory": "fiction",
+            "age_groups": ["children"],
+            "order": 1,
+            "active": True,
+            "parent": None
+        }
+    )
+    
+    # Then create subcategory under the parent
+    fiction_cat, created = Category.objects.get_or_create(
+        name="Children's Fiction",
+        subcategory="fiction",
+        parent=parent_fiction,
+        defaults={
+            "screen_name": "Children's Fiction",
             "age_groups": ["children"],
             "order": 1,
             "active": True
@@ -113,7 +127,9 @@ def remove_sample_data(apps, schema_editor):
     
     # Only remove the specific sample data we created
     Book.objects.filter(slug__in=['the-snow-queen', 'the-tinderbox']).delete()
-    Category.objects.filter(slug='fiction').delete()
+    Category.objects.filter(
+        name__in=['Fiction', "Children's Fiction"]
+    ).delete()
     BookContributor.objects.filter(
         slug__in=['hans-christian-andersen', 'vladyslav-yerko']
     ).delete()

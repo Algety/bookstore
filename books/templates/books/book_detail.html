@@ -35,11 +35,11 @@
                         <div class="image-container my-0">
                             {% if book.image %}
                                 <a href="{{ book.image.url }}" target="_blank">
-                                    <img class="img-fluid" src="{{ book.image.url }}" alt="{{ book.name }}">
+                                    <img class="img-fluid" src="{{ book.image.url }}" alt="{{ book.title }}">
                                 </a>
                             {% else %}
                                 <a href="">
-                                    <img class="img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ book.name }}">
+                                    <img class="img-fluid" src="{% static 'images/no_image.png' %}" alt="{{ book.title }}">
                                 </a>
                             {% endif %}
                         </div>
