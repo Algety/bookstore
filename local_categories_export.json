@@ -1,0 +1,234 @@
+[
+  {
+    "name": "children",
+    "screen_name": "Children",
+    "subcategory": null,
+    "age_groups": [
+      "children"
+    ],
+    "parent_name": null,
+    "order": 1,
+    "active": true
+  },
+  {
+    "name": "teens",
+    "screen_name": "Teens and Youth",
+    "subcategory": null,
+    "age_groups": [
+      "teens"
+    ],
+    "parent_name": null,
+    "order": 2,
+    "active": true
+  },
+  {
+    "name": "adults",
+    "screen_name": "Adults",
+    "subcategory": null,
+    "age_groups": [
+      "adults"
+    ],
+    "parent_name": null,
+    "order": 3,
+    "active": true
+  },
+  {
+    "name": "fiction",
+    "screen_name": "Fiction",
+    "subcategory": "fiction",
+    "age_groups": [
+      "teens"
+    ],
+    "parent_name": "teens",
+    "order": 1,
+    "active": true
+  },
+  {
+    "name": "nfiction",
+    "screen_name": "Non-fiction",
+    "subcategory": "nonfiction",
+    "age_groups": [
+      "children"
+    ],
+    "parent_name": "children",
+    "order": 2,
+    "active": true
+  },
+  {
+    "name": "hobby",
+    "screen_name": "Hobby",
+    "subcategory": "hobby",
+    "age_groups": [
+      "teens"
+    ],
+    "parent_name": "teens",
+    "order": 4,
+    "active": true
+  },
+  {
+    "name": "crafts",
+    "screen_name": "Craft and Activities",
+    "subcategory": "hobby",
+    "age_groups": [
+      "children"
+    ],
+    "parent_name": "children",
+    "order": 4,
+    "active": true
+  },
+  {
+    "name": "fiction",
+    "screen_name": "Fiction and Fairy tales",
+    "subcategory": "fiction",
+    "age_groups": [
+      "children"
+    ],
+    "parent_name": "children",
+    "order": 1,
+    "active": true
+  },
+  {
+    "name": "learning",
+    "screen_name": "Early Learning",
+    "subcategory": "learning",
+    "age_groups": [
+      "children"
+    ],
+    "parent_name": "children",
+    "order": 3,
+    "active": true
+  },
+  {
+    "name": "learning",
+    "screen_name": "Study and school",
+    "subcategory": "learning",
+    "age_groups": [
+      "teens"
+    ],
+    "parent_name": "teens",
+    "order": 3,
+    "active": true
+  },
+  {
+    "name": "alevel",
+    "screen_name": "A1 - A2",
+    "subcategory": "learning",
+    "age_groups": [
+      "children",
+      "teens",
+      "adults"
+    ],
+    "parent_name": "learn_english",
+    "order": 1,
+    "active": true
+  },
+  {
+    "name": "blevel",
+    "screen_name": "B1 - B2",
+    "subcategory": "learning",
+    "age_groups": [
+      "children",
+      "teens",
+      "adults"
+    ],
+    "parent_name": "learn_english",
+    "order": 2,
+    "active": true
+  },
+  {
+    "name": "clevel",
+    "screen_name": "C1 - C2",
+    "subcategory": "learning",
+    "age_groups": [
+      "children",
+      "teens",
+      "adults"
+    ],
+    "parent_name": "learn_english",
+    "order": 3,
+    "active": true
+  },
+  {
+    "name": "specials",
+    "screen_name": "Collectible and Gift Editions",
+    "subcategory": "specials",
+    "age_groups": [
+      "children",
+      "teens",
+      "adults"
+    ],
+    "parent_name": "specials",
+    "order": 1,
+    "active": true
+  },
+  {
+    "name": "specials",
+    "screen_name": "Collectible and Gift Editions",
+    "subcategory": null,
+    "age_groups": [
+      "children",
+      "teens",
+      "adults"
+    ],
+    "parent_name": null,
+    "order": 5,
+    "active": true
+  },
+  {
+    "name": "learn_english",
+    "screen_name": "Studying English",
+    "subcategory": null,
+    "age_groups": [
+      "children",
+      "teens",
+      "adults"
+    ],
+    "parent_name": null,
+    "order": 4,
+    "active": true
+  },
+  {
+    "name": "fiction",
+    "screen_name": "Fiction",
+    "subcategory": "fiction",
+    "age_groups": [
+      "adults"
+    ],
+    "parent_name": "adults",
+    "order": 1,
+    "active": true
+  },
+  {
+    "name": "nfiction",
+    "screen_name": "Non-fiction",
+    "subcategory": "nonfiction",
+    "age_groups": [
+      "teens"
+    ],
+    "parent_name": "teens",
+    "order": 2,
+    "active": true
+  },
+  {
+    "name": "nfiction",
+    "screen_name": "Non-fiction",
+    "subcategory": "nonfiction",
+    "age_groups": [
+      "adults"
+    ],
+    "parent_name": "adults",
+    "order": 2,
+    "active": true
+  },
+  {
+    "name": "hobby",
+    "screen_name": "Hobby",
+    "subcategory": "hobby",
+    "age_groups": [
+      "adults"
+    ],
+    "parent_name": "adults",
+    "order": 3,
+    "active": true
+  }
+]
