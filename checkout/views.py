@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
+from django.shortcuts import (
+    render, redirect, reverse, get_object_or_404, HttpResponse
+)
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.conf import settings
@@ -18,7 +20,8 @@ import json
 @require_POST
 def cache_checkout_data(request):
     """
-    Store cart and user info in the PaymentIntent metadata before final submission.
+    Store cart and user info in the PaymentIntent metadata before final
+    submission.
     """
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]

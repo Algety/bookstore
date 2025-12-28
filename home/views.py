@@ -27,10 +27,14 @@ def index(request):
 
         elif 'category' in request.GET:
             try:
-                category_ids = [int(cid) for cid in request.GET['category'].split(',')]
+                category_ids = [
+                    int(cid) for cid in request.GET['category'].split(',')
+                ]
 
                 # Get all subcategories where parent is in category_ids
-                subcategory_ids = Category.objects.filter(parent_id__in=category_ids).values_list('id', flat=True)
+                subcategory_ids = Category.objects.filter(
+                    parent_id__in=category_ids
+                ).values_list('id', flat=True)
 
                 # Get books tagged with any of those subcategories
                 books = books.filter(categories__id__in=subcategory_ids)
@@ -51,8 +55,8 @@ def index(request):
             words = query.strip().split()
             words = re.findall(r'\w+', query.lower())
 
-
-            # Build a combined Q object that requires each word to match at least one field
+            # Build a combined Q object that requires each word to match
+            # at least one field
             for word in words:
                 word_queries = (
                     Q(title__icontains=word) |
@@ -60,7 +64,7 @@ def index(request):
                     Q(authors__name__icontains=word) |
                     Q(publisher__name__icontains=word)
                 )
-                
+
                 books = books.filter(word_queries)
 
     sort_option = request.GET.get('sort')
@@ -74,9 +78,13 @@ def index(request):
     if language in ['ukr', 'eng']:
         books = books.filter(language=language)
 
-    active_categories = Category.objects.filter(parent=None, active=True).order_by('order')
+    active_categories = Category.objects.filter(
+        parent=None, active=True
+    ).order_by('order')
     for category in active_categories:
-        category.visible_subcategories = category.subcategories.filter(active=True).order_by('order')
+        category.visible_subcategories = (
+            category.subcategories.filter(active=True).order_by('order')
+        )
 
     context = {
         'books': books,
@@ -85,7 +93,7 @@ def index(request):
         'categories': active_categories,
         'sort_option': sort_option,
         'language': language,
-        'show_carousel': True,  
+        'show_carousel': True,
     }
 
     return render(request, 'home/index.html', context)
