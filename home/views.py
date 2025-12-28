@@ -5,6 +5,7 @@ from django.urls import reverse
 from books.models import Book, Category
 import re
 
+
 def index(request):
     books = Book.objects.all()
     query = None
@@ -15,7 +16,10 @@ def index(request):
             try:
                 subcategory_id = int(request.GET['subcategory'])
                 parent_id = int(request.GET['parent'])
-                books = books.filter(categories__id=subcategory_id, categories__parent_id=parent_id)
+                books = books.filter(
+                    categories__id=subcategory_id,
+                    categories__parent_id=parent_id
+                )
                 categories = Category.objects.filter(id=subcategory_id)
             except ValueError:
                 messages.error(request, "Invalid category selection")
