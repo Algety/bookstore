@@ -9,7 +9,8 @@ class UserProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """
-        Add placeholders and classes, remove auto-generated labels, and set autofocus on first field
+        Add placeholders and classes, remove auto-generated labels,
+        and set autofocus on first field
         """
         super().__init__(*args, **kwargs)
         placeholders = {
@@ -24,7 +25,8 @@ class UserProfileForm(forms.ModelForm):
 
         self.fields['default_phone_number'].widget.attrs['autofocus'] = True
         for field in self.fields:
-            # If you want to mark required fields with an asterisk, uncomment below
+            # If you want to mark required fields with an asterisk,
+            # uncomment below
             # if field != 'default_country':
             #     if self.fields[field].required:
             #         placeholder = f'{placeholders[field]} *'
@@ -34,5 +36,7 @@ class UserProfileForm(forms.ModelForm):
             #     placeholder = placeholders[field]
             placeholder = placeholders.get(field, '')
             self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
+            self.fields[field].widget.attrs['class'] = (
+                'border-black rounded-0 profile-form-input'
+            )
             self.fields[field].label = False

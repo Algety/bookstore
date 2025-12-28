@@ -26,7 +26,10 @@ def cache_checkout_data(request):
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(request.session.get('cart', {})),
             'save_info': request.POST.get('save_info'),
-            'username': str(request.user) if request.user.is_authenticated else 'anonymous',
+            'username': (
+                str(request.user) if request.user.is_authenticated
+                else 'anonymous'
+            ),
         })
         return HttpResponse(status=200)
     except Exception as e:
@@ -57,7 +60,10 @@ def checkout(request):
             currency=settings.STRIPE_CURRENCY,
         )
     except stripe.error.StripeError:
-        messages.error(request, "There was an issue connecting to Stripe. Please try again later.")
+        messages.error(
+            request,
+            "There was an issue connecting to Stripe. Please try again later."
+        )
         return redirect(reverse('view_cart'))
 
     if request.method == 'POST':
@@ -93,7 +99,9 @@ def checkout(request):
                 order_line_item.save()
 
             request.session['save_info'] = 'save-info' in request.POST
-            return redirect(reverse('checkout_success', args=[order.order_number]))
+            return redirect(
+                reverse('checkout_success', args=[order.order_number])
+            )
         else:
             messages.error(
                 request,

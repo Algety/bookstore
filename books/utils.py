@@ -2,6 +2,7 @@ from books.models import Book, Category
 from django.db.models import Q
 import re
 
+
 def get_filtered_books(request):
     books = Book.objects.all()
     query = None
@@ -12,15 +13,22 @@ def get_filtered_books(request):
             try:
                 subcategory_id = int(request.GET['subcategory'])
                 parent_id = int(request.GET['parent'])
-                books = books.filter(categories__id=subcategory_id, categories__parent_id=parent_id)
+                books = books.filter(
+                    categories__id=subcategory_id,
+                    categories__parent_id=parent_id
+                )
                 categories = Category.objects.filter(id=subcategory_id)
             except ValueError:
                 return books.none(), query, categories
 
         elif 'category' in request.GET:
             try:
-                category_ids = [int(cid) for cid in request.GET['category'].split(',')]
-                subcategory_ids = Category.objects.filter(parent_id__in=category_ids).values_list('id', flat=True)
+                category_ids = [
+                    int(cid) for cid in request.GET['category'].split(',')
+                ]
+                subcategory_ids = Category.objects.filter(
+                    parent_id__in=category_ids
+                ).values_list('id', flat=True)
                 books = books.filter(categories__id__in=subcategory_ids)
                 categories = Category.objects.filter(id__in=category_ids)
             except ValueError:

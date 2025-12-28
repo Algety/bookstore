@@ -1,11 +1,10 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib import messages
 
 from books.models import Book
 
+
 # Create your views here.
-
-
 
 
 def view_cart(request):
@@ -18,10 +17,10 @@ def add_to_cart(request, item_id):
     """ Add the quantity of the book to the cart """
 
     book = get_object_or_404(Book, pk=item_id)
-    
+
     quantity = int(request.POST.get('quantity'))
     redirect_url = request.POST.get('redirect_url')
-    cart = request.session.get('cart',{})
+    cart = request.session.get('cart', {})
 
     if item_id in list(cart.keys()):
         cart[item_id] += quantity
@@ -53,7 +52,6 @@ def adjust_cart(request, item_id):
 
     request.session['cart'] = cart
     return redirect('view_cart')
-
 
 
 def remove_from_cart(request, item_id):

@@ -1,13 +1,18 @@
 from django.contrib import admin
 from .models import Category, BookContributor, Publisher, Book
 
+
 # Register your models here.
+
+
 class BookAdmin(admin.ModelAdmin):
     filter_horizontal = ('categories',)
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == 'categories':
-            kwargs["queryset"] = Category.objects.filter(active=True).order_by('parent__name', 'name')
+            kwargs["queryset"] = Category.objects.filter(
+                active=True
+            ).order_by('parent__name', 'name')
 
             formfield = db_field.formfield(**kwargs)
 
@@ -26,7 +31,6 @@ class BookAdmin(admin.ModelAdmin):
         ])
     display_categories.short_description = 'Categories'
 
-
     def display_authors(self, obj):
         return ", ".join([c.name for c in obj.authors.all()])
     display_authors.short_description = 'Authors'
@@ -35,12 +39,19 @@ class BookAdmin(admin.ModelAdmin):
         return ", ".join([c.name for c in obj.illustrators.all()])
     display_illustrators.short_description = 'Illustrators'
 
-    list_display = ('display_categories','title', 'sku','display_authors', 'display_illustrators',
-                     'publisher', 'language', 'price', 'stock_quantity','image')
-    ordering = ('sku','title',)
+    list_display = (
+        'display_categories', 'title', 'sku', 'display_authors',
+        'display_illustrators', 'publisher', 'language', 'price',
+        'stock_quantity', 'image'
+    )
+    ordering = ('sku', 'title',)
+
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('parent', 'active', 'order', 'subcategory', 'get_age_groups', 'name', 'screen_name')
+    list_display = (
+        'parent', 'active', 'order', 'subcategory', 'get_age_groups',
+        'name', 'screen_name'
+    )
     list_filter = ['subcategory', 'parent', 'active']
     list_editable = ['subcategory', 'order', 'active']
     search_fields = ['name', 'screen_name']
@@ -54,9 +65,11 @@ class CategoryAdmin(admin.ModelAdmin):
 class BookContributorAdmin(admin.ModelAdmin):
     list_display = ('name', 'role', 'photo')
 
+
 class PublisherAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    
+
+
 admin.site.register(Book, BookAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(BookContributor, BookContributorAdmin)

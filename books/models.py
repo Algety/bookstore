@@ -2,14 +2,17 @@ from django.db import models
 from slugify import slugify
 from multiselectfield import MultiSelectField
 
+
 # Create your models here.
+
+
 class Category(models.Model):
 
     GENRE_CHOICES = [
         ('fiction', 'Fiction'),
         ('nonfiction', 'Non-fiction'),
         ('learning', 'Learning'),
-        ('hobby', 'Hobby'),   
+        ('hobby', 'Hobby'),
         ('specials', 'Specials'),
     ]
 
@@ -22,8 +25,12 @@ class Category(models.Model):
 
     name = models.CharField(max_length=100)
     screen_name = models.CharField(max_length=254, null=True, blank=True)
-    subcategory = models.CharField(max_length=50, choices=GENRE_CHOICES, null=True, blank=True)
-    age_groups = MultiSelectField(choices=AGE_GROUP_CHOICES, blank=True, null=True)
+    subcategory = models.CharField(
+        max_length=50, choices=GENRE_CHOICES, null=True, blank=True
+    )
+    age_groups = MultiSelectField(
+        choices=AGE_GROUP_CHOICES, blank=True, null=True
+    )
     parent = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,
@@ -32,18 +39,23 @@ class Category(models.Model):
         related_name='subcategories',
         limit_choices_to={'subcategory__isnull': True}
     )
-    order = models.PositiveIntegerField(default=0, help_text="Lower numbers appear first")
-    active = models.BooleanField(default=True, help_text="Uncheck to hide this category from public view")
+    order = models.PositiveIntegerField(
+        default=0, help_text="Lower numbers appear first"
+    )
+    active = models.BooleanField(
+        default=True,
+        help_text="Uncheck to hide this category from public view"
+    )
 
     class Meta:
         verbose_name_plural = 'Categories'
 
     def __str__(self):
         return f"{self.name}"
-    
+
     def get_screen_name(self):
         return self.screen_name
-    
+
     def get_age_group_labels(self):
         label_map = dict(self.AGE_GROUP_CHOICES)
         return [label_map.get(code, code) for code in self.age_groups or []]
@@ -79,7 +91,7 @@ class Publisher(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
-        super().save(*args, **kwargs)    
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -116,7 +128,9 @@ class Book(models.Model):
         ('bw', 'Black & White'),
         ('color', 'Full Colour'),
     ]
-    illustration_type = models.CharField(max_length=10, choices=ILLUSTRATION_CHOICES)
+    illustration_type = models.CharField(
+        max_length=10, choices=ILLUSTRATION_CHOICES
+    )
 
     illustrators = models.ManyToManyField(
         BookContributor,
@@ -134,8 +148,9 @@ class Book(models.Model):
 
     pages = models.PositiveIntegerField()
     dimensions = models.CharField(max_length=50, blank=True)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, 
-                                 blank=True)
+    weight = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, blank=True
+    )
 
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock_quantity = models.PositiveIntegerField(default=0)
@@ -151,4 +166,3 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
-    
