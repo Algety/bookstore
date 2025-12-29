@@ -16,7 +16,9 @@ class UserProfile(models.Model):
     default_phone_number = models.CharField(
         max_length=20, null=True, blank=True
     )
-    default_country = models.CharField(max_length=40, null=False, blank=False)
+    default_country = models.CharField(
+        max_length=40, null=False, blank=False, default='United Kingdom'
+    )
     default_postcode = models.CharField(max_length=20, null=True, blank=True)
     default_town_or_city = models.CharField(
         max_length=40, null=True, blank=True

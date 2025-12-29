@@ -14,7 +14,7 @@ class UserProfileForm(forms.ModelForm):
         """
         super().__init__(*args, **kwargs)
         placeholders = {
-            'default_country': '2 character country code',
+            'default_country': 'United Kingdom (UK delivery only)',
             'default_phone_number': 'Phone Number',
             'default_postcode': 'Post Code',
             'default_town_or_city': 'Town or City',
@@ -24,6 +24,12 @@ class UserProfileForm(forms.ModelForm):
         }
 
         self.fields['default_phone_number'].widget.attrs['autofocus'] = True
+        
+        # Set country to UK and make it read-only
+        self.fields['default_country'].initial = 'United Kingdom'
+        self.fields['default_country'].widget.attrs['readonly'] = True
+        self.fields['default_country'].widget.attrs['style'] = 'background-color: #f8f9fa; cursor: not-allowed;'
+        
         for field in self.fields:
             # If you want to mark required fields with an asterisk,
             # uncomment below
@@ -40,3 +46,7 @@ class UserProfileForm(forms.ModelForm):
                 'border-black rounded-0 profile-form-input'
             )
             self.fields[field].label = False
+
+    def clean_default_country(self):
+        """Always return United Kingdom for UK-only delivery"""
+        return 'United Kingdom'

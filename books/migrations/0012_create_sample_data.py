@@ -10,12 +10,6 @@ def create_sample_data(apps, schema_editor):
     BookContributor = apps.get_model('books', 'BookContributor')
     Publisher = apps.get_model('books', 'Publisher')
     
-    # First, clean up any records with empty slugs that might cause conflicts
-    BookContributor.objects.filter(slug='').delete()
-    Publisher.objects.filter(slug='').delete()
-    Category.objects.filter(slug='').delete()
-    Book.objects.filter(slug='').delete()
-    
     # Only create data if the database is empty (preserve existing data)
     if Book.objects.exists() or Category.objects.exists():
         print("Data already exists. Skipping sample data creation to "

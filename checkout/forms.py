@@ -20,7 +20,7 @@ class OrderForm(forms.ModelForm):
             'full_name': 'Full Name',
             'email': 'Email Address',
             'phone_number': 'Phone Number',
-            'country': 'Country',
+            'country': 'United Kingdom (UK delivery only)',
             'postcode': 'Postal Code',
             'town_or_city': 'Town or City',
             'street_address1': 'Street Address 1',
@@ -29,6 +29,12 @@ class OrderForm(forms.ModelForm):
         }
 
         self.fields['full_name'].widget.attrs['autofocus'] = True
+        
+        # Set country to UK and make it read-only
+        self.fields['country'].initial = 'United Kingdom'
+        self.fields['country'].widget.attrs['readonly'] = True
+        self.fields['country'].widget.attrs['style'] = 'background-color: #f8f9fa; cursor: not-allowed;'
+        
         for field in self.fields:
             if self.fields[field].required:
                 placeholder = f'{placeholders[field]} *'
@@ -37,3 +43,7 @@ class OrderForm(forms.ModelForm):
             self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'stripe-style-input'
             self.fields[field].label = False
+
+    def clean_country(self):
+        """Always return United Kingdom for UK-only delivery"""
+        return 'United Kingdom'

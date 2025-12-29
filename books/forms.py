@@ -10,12 +10,9 @@ class BookForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Customize category choices with screen names if available
-        categories = Category.objects.all()
-        category_labels = [
-            (c.id, c.get_screen_name() or c.name) for c in categories
-        ]
-        self.fields['categories'].choices = category_labels
+        # Filter to show only active categories
+        active_categories = Category.objects.filter(active=True)
+        self.fields['categories'].queryset = active_categories
 
         # Apply consistent styling to all fields
         for field_name, field in self.fields.items():
