@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+<script type="text/javascript">
+// Fix deprecated unload event for admin functionality
+(function() {
+    const originalAddEventListener = window.addEventListener;
+    window.addEventListener = function(type, listener, options) {
+        if (type === 'unload') {
+            // Replace deprecated unload with beforeunload
+            type = 'beforeunload';
+        }
+        return originalAddEventListener.call(this, type, listener, options);
+    };
+})();
+</script>
+{% endblock %}

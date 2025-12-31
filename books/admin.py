@@ -78,7 +78,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     list_display_links = ('parent_display',)
 
-    # Inline editable fields
+    # Inline editable fields - testing with JS override fix
     list_editable = ['order', 'active']
 
     # Filters and search
