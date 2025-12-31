@@ -50,7 +50,7 @@ class BookAdmin(admin.ModelAdmin):
 # as the link field to solve the problem of not saving inline edits
 
 class CategoryAdmin(admin.ModelAdmin):
-
+    # --- Display helpers ---
     def parent_display(self, obj):
         """Safe, non-editable display of parent category."""
         return obj.parent.name if obj.parent else ""
@@ -60,33 +60,35 @@ class CategoryAdmin(admin.ModelAdmin):
         return ", ".join(obj.get_age_group_labels())
     get_age_groups.short_description = 'Age Groups'
 
+    # --- Ensure age_groups is excluded from the changelist formset ---
     def get_changelist_formset(self, request, **kwargs):
         kwargs['exclude'] = ('age_groups',)
         return super().get_changelist_formset(request, **kwargs)
 
-
-    # List configuration
+    # --- List configuration ---
     list_display = (
         'parent_display',   # link column
-        'active',
-        'order',
         'subcategory',
         'get_age_groups',
         'name',
         'screen_name',
+        'order',
+        'active',           # editable field MUST come after link column
     )
 
-    # Make the first column the link
     list_display_links = ('parent_display',)
 
     # Inline editable fields
-    list_editable = ['active']
+    list_editable = ['order', 'active']
 
+    # Exclude from forms
     exclude = ('age_groups',)
 
     # Filters and search
     list_filter = ['subcategory', 'active']
     search_fields = ['name', 'screen_name']
+
+    # Optional: explicit ordering
     ordering = ()
 
 
