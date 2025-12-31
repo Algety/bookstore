@@ -86,7 +86,7 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['name', 'screen_name']
 
     # Optional: explicit ordering
-    ordering = ('parent',)
+    ordering = ('parent__name',)
 
 
 class BookContributorAdmin(admin.ModelAdmin):
