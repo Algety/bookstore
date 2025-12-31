@@ -81,15 +81,12 @@ class CategoryAdmin(admin.ModelAdmin):
     # Inline editable fields
     list_editable = ['order', 'active']
 
-    # Exclude from forms
-    exclude = ('age_groups',)
-
     # Filters and search
     list_filter = ['subcategory', 'active']
     search_fields = ['name', 'screen_name']
 
     # Optional: explicit ordering
-    ordering = ()
+    ordering = ('parent_display')
 
 
 class BookContributorAdmin(admin.ModelAdmin):
