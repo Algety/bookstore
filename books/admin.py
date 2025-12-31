@@ -88,7 +88,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display_links = ('parent_display',)
 
     # Inline editable fields
-    list_editable = ['subcategory', 'order', 'active']
+    list_editable = ['active']
 
     exclude = ('age_groups',)
 
