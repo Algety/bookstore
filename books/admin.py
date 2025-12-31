@@ -63,6 +63,15 @@ class CategoryAdmin(admin.ModelAdmin):
     def get_changelist_formset(self, request, **kwargs):
         kwargs['exclude'] = ('age_groups',)
         return super().get_changelist_formset(request, **kwargs)
+    
+    def changelist_view(self, request, extra_context=None):
+        response = super().changelist_view(request, extra_context)
+        if request.method == "POST":
+            formset = response.context_data["cl"].formset
+            if formset and formset.errors:
+                print("FORMSET ERRORS:", formset.errors)
+        return response
+
 
     # List configuration
     list_display = (
