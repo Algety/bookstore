@@ -12,7 +12,7 @@ class BookAdmin(admin.ModelAdmin):
         if db_field.name == 'categories':
             kwargs["queryset"] = Category.objects.filter(
                 active=True
-            ).order_by('parent', 'name')
+            ).order_by('parent__name', 'name')
 
             formfield = db_field.formfield(**kwargs)
 
@@ -44,33 +44,61 @@ class BookAdmin(admin.ModelAdmin):
         'display_illustrators', 'publisher', 'language', 'price',
         'stock_quantity', 'image'
     )
-    list_filter = ['publisher', 'language', 'categories']
-    search_fields = ['title', 'sku', 'authors__name', 'publisher__name']
     ordering = ('sku', 'title',)
 
+# `parent_display` is used as the first non-editable column to be used
+# as the link field to solve the problem of not saving inline edits
+
+# class CategoryAdmin(admin.ModelAdmin):
+#     # --- Display helpers ---
+#     def parent_display(self, obj):
+#         """Safe, non-editable display of parent category."""
+#         return obj.parent.name if obj.parent else ""
+#     parent_display.short_description = "Parent new"
+
+#     def get_age_groups(self, obj):
+#         return ", ".join(obj.get_age_group_labels())
+#     get_age_groups.short_description = 'Age Groups'
+
+#     # --- Ensure age_groups is excluded from the changelist formset ---
+#     def get_changelist_formset(self, request, **kwargs):
+#         kwargs['exclude'] = ('age_groups',)
+#         return super().get_changelist_formset(request, **kwargs)
+
+#     # --- List configuration ---
+#     list_display = (
+#         'parent_display',   # link column
+#         'subcategory',
+#         'get_age_groups',
+#         'name',
+#         'screen_name',
+#         'order',
+#         'active',           # editable field MUST come after link column
+#     )
+
+#     list_display_links = ('parent_display',)
+
+#     # Inline editable fields - testing with JS override fix
+#     list_editable = ['order', 'active']
+
+#     # Filters and search
+#     list_filter = ['subcategory', 'active']
+#     search_fields = ['name', 'screen_name']
+
+#     # Optional: explicit ordering
+#     ordering = ('parent__name',)
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = (
-        'parent', 'active', 'order', 'subcategory', 'get_age_groups',
-        'name', 'screen_name'
-    )
-    list_filter = ['subcategory', 'parent', 'active']
-    list_editable = ['subcategory', 'order', 'active']
-    search_fields = ['name', 'screen_name']
-    ordering = ['parent', 'order', 'name']
-
-    def get_age_groups(self, obj):
-        return ", ".join(obj.get_age_group_labels())
-    get_age_groups.short_description = 'Age Groups'
+    list_display = ('name', 'order', 'active')
+    list_editable = ('order', 'active')
+    ordering = ('name',)
 
 
 class BookContributorAdmin(admin.ModelAdmin):
     list_display = ('name', 'role', 'photo')
 
-
 class PublisherAdmin(admin.ModelAdmin):
     list_display = ('name',)
-
 
 admin.site.register(Book, BookAdmin)
 admin.site.register(Category, CategoryAdmin)
