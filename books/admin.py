@@ -7,6 +7,12 @@ from .models import Category, BookContributor, Publisher, Book
 
 class BookAdmin(admin.ModelAdmin):
     filter_horizontal = ('categories',)
+    
+    class Media:
+        css = {
+            'all': ('admin/css/custom_changelist.css',)
+        }
+        js = ('admin/js/custom_changelist.js',)
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == 'categories':
@@ -57,6 +63,12 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ['subcategory', 'parent', 'active']
     list_editable = ['subcategory', 'order', 'active']
     search_fields = ['name', 'screen_name']
+    
+    class Media:
+        css = {
+            'all': ('admin/css/custom_changelist.css',)
+        }
+        js = ('admin/js/custom_changelist.js',)
     ordering = ['parent', 'order', 'name']
 
     def get_age_groups(self, obj):

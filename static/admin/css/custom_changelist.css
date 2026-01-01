@@ -1,0 +1,41 @@
+/* Make changelist table scrollable */
+.results {
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+}
+
+.results table {
+    margin-bottom: 0;
+}
+
+.results thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Top save button styling */
+.top-save-button {
+    float: right;
+    margin-left: 10px;
+    background-color: #417690;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.top-save-button:hover {
+    background-color: #2c5a7a;
+}
+
+/* Ensure actions row has enough space */
+.actions {
+    overflow: hidden;
+    margin-bottom: 15px;
+}
