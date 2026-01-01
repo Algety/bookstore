@@ -73,3 +73,8 @@ class BookForm(forms.ModelForm):
         for field_name in required_fields:
             if field_name in self.fields:
                 self.fields[field_name].label = f"{self.fields[field_name].label} *"
+
+        # Add custom labels for categories showing parent/child format
+        self.fields['categories'].label_from_instance = lambda obj: (
+            f"{obj.parent.name} / {obj.name}" if obj.parent else obj.name
+        )
