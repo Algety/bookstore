@@ -5,6 +5,4 @@ env
 env.py
 .venv
 reset_password.py
-/restore_categories.py
-/import_categories.py
-local_categories_export.json
+restore_original_categories.py

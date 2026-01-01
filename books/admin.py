@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from .models import Category, BookContributor, Publisher, Book
 
 
@@ -14,6 +15,12 @@ class BookAdmin(admin.ModelAdmin):
                 active=True
             ).order_by('parent', 'name')
 
+            # Use the horizontal filter widget explicitly
+            kwargs["widget"] = FilteredSelectMultiple(
+                verbose_name="Categories",
+                is_stacked=False
+            )
+            
             formfield = db_field.formfield(**kwargs)
 
             formfield.label_from_instance = lambda obj: (
