@@ -1,0 +1,83 @@
+{% extends "admin/change_list.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+/* Make changelist table scrollable with sticky headers */
+.results {
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.results table {
+    margin-bottom: 0;
+}
+
+.results thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Top save button styling */
+.top-save-button {
+    float: right;
+    margin-left: 10px;
+    background-color: #417690;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.top-save-button:hover {
+    background-color: #2c5a7a;
+}
+
+/* Ensure actions row has enough space */
+.actions {
+    overflow: hidden;
+    margin-bottom: 15px;
+    min-height: 35px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add small delay to ensure DOM is fully loaded
+    setTimeout(function() {
+        // Only add save button if we have list_editable fields
+        const changelistForm = document.getElementById('changelist-form');
+        if (!changelistForm) return;
+        
+        // Find the actions row
+        const actionsRow = document.querySelector('div.actions');
+        if (!actionsRow) return;
+        
+        // Check if button already exists to avoid duplicates
+        if (document.querySelector('.top-save-button')) return;
+        
+        // Create and add the top save button
+        const saveButton = document.createElement('input');
+        saveButton.type = 'submit';
+        saveButton.name = '_save';
+        saveButton.value = 'Save';
+        saveButton.className = 'top-save-button';
+        saveButton.form = 'changelist-form';
+        
+        // Add the button to the actions row
+        actionsRow.appendChild(saveButton);
+    }, 100);
+});
+</script>
+{% endblock %}
