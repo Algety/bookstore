@@ -2,28 +2,64 @@ from django import forms
 from .models import Book, Category, BookContributor
 
 
+class MultiSelectDropdownWidget(forms.CheckboxSelectMultiple):
+    """Custom widget that renders as a dropdown with checkboxes"""
+    
+    def __init__(self, attrs=None):
+        default_attrs = {'class': 'form-select-multiple-checkbox'}
+        if attrs:
+            default_attrs.update(attrs)
+        super().__init__(attrs=default_attrs)
+    
+    class Media:
+        css = {
+            'all': ('https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css',)
+        }
+        js = ('https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js',)
+
+
 class BookForm(forms.ModelForm):
     # Separate fields for parent and child categories
     parent_categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.filter(parent__isnull=True, active=True).order_by('name'),
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'selectpicker form-control',
+            'data-live-search': 'true',
+            'data-actions-box': 'true',
+            'title': 'Choose parent categories...'
+        }),
         required=False,
         label="Parent Categories"
     )
     
     child_categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.filter(parent__isnull=False, active=True).order_by('parent__name', 'name'),
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'selectpicker form-control',
+            'data-live-search': 'true',
+            'data-actions-box': 'true',
+            'title': 'Choose child categories...'
+        }),
         required=False,
         label="Child Categories"
     )
 
     class Meta:
         model = Book
-        exclude = ['categories']  # Exclude the original categories field
+        exclude = ['categories']
         widgets = {
-            'authors': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
-            'illustrators': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+            'authors': forms.SelectMultiple(attrs={
+                'class': 'selectpicker form-control',
+                'data-live-search': 'true',
+                'data-actions-box': 'true',
+                'title': 'Choose authors...'
+            }),
+            'illustrators': forms.SelectMultiple(attrs={
+                'class': 'selectpicker form-control', 
+                'data-live-search': 'true',
+                'data-actions-box': 'true',
+                'title': 'Choose illustrators...'
+            }),
         }
 
     def __init__(self, *args, **kwargs):
