@@ -5,24 +5,17 @@ from .models import Category, BookContributor, Publisher, Book
 
 
 class BookAdminForm(forms.ModelForm):
-    # Separate fields for parent and child categories
-    parent_categories = forms.ModelMultipleChoiceField(
-        queryset=Category.objects.filter(parent__isnull=True, active=True).order_by('name'),
-        widget=FilteredSelectMultiple("Parent Categories", is_stacked=False),
-        required=False,
-        label="Parent Categories"
-    )
-    
-    child_categories = forms.ModelMultipleChoiceField(
+    categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.filter(parent__isnull=False, active=True).order_by('parent__name', 'name'),
-        widget=FilteredSelectMultiple("Child Categories", is_stacked=False),
+        widget=FilteredSelectMultiple("Categories", is_stacked=False),
         required=False,
-        label="Child Categories"
+        label="Categories"
     )
 
     class Meta:
         model = Book
-        exclude = ['categories']
+        fields = ['categories', 'title', 'sku', 'slug', 'description', 'price', 'stock_quantity', 
+                  'authors', 'illustrators', 'publisher', 'language', 'image']
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,30 +29,15 @@ class BookAdminForm(forms.ModelForm):
             role='illustrator'
         ).order_by('name')
 
-        # If editing an existing book, populate the separate category fields
+        # If editing an existing book, populate the categories field
         if self.instance and self.instance.pk:
-            current_categories = self.instance.categories.all()
-            parent_cats = [cat for cat in current_categories if cat.parent is None]
-            child_cats = [cat for cat in current_categories if cat.parent is not None]
-            
-            self.fields['parent_categories'].initial = parent_cats
-            self.fields['child_categories'].initial = child_cats
+            current_categories = self.instance.categories.filter(parent__isnull=False)
+            self.fields['categories'].initial = current_categories
 
-        # Add custom labels for child categories
-        self.fields['child_categories'].label_from_instance = lambda obj: (
+        # Add custom labels for categories
+        self.fields['categories'].label_from_instance = lambda obj: (
             f"{obj.parent.name} / {obj.name}" if obj.parent else obj.name
         )
-
-    def save(self, commit=True):
-        book = super().save(commit=False)
-        if commit:
-            book.save()
-            # Combine parent and child categories
-            parent_categories = self.cleaned_data.get('parent_categories', [])
-            child_categories = self.cleaned_data.get('child_categories', [])
-            all_categories = list(parent_categories) + list(child_categories)
-            book.categories.set(all_categories)
-        return book
 
 
 # Register your models here.

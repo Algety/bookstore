@@ -19,34 +19,22 @@ class MultiSelectDropdownWidget(forms.CheckboxSelectMultiple):
 
 
 class BookForm(forms.ModelForm):
-    # Separate fields for parent and child categories
-    parent_categories = forms.ModelMultipleChoiceField(
-        queryset=Category.objects.filter(parent__isnull=True, active=True).order_by('name'),
-        widget=forms.SelectMultiple(attrs={
-            'class': 'selectpicker form-control',
-            'data-live-search': 'true',
-            'data-actions-box': 'true',
-            'title': 'Choose parent categories...'
-        }),
-        required=False,
-        label="Parent Categories"
-    )
-    
-    child_categories = forms.ModelMultipleChoiceField(
+    categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.filter(parent__isnull=False, active=True).order_by('parent__name', 'name'),
         widget=forms.SelectMultiple(attrs={
             'class': 'selectpicker form-control',
             'data-live-search': 'true',
             'data-actions-box': 'true',
-            'title': 'Choose child categories...'
+            'title': 'Choose categories...'
         }),
         required=False,
-        label="Child Categories"
+        label="Categories"
     )
 
     class Meta:
         model = Book
-        exclude = ['categories']
+        fields = ['categories', 'title', 'sku', 'slug', 'description', 'price', 'stock_quantity',
+                  'authors', 'illustrators', 'publisher', 'language', 'image']
         widgets = {
             'authors': forms.SelectMultiple(attrs={
                 'class': 'selectpicker form-control',
@@ -61,6 +49,36 @@ class BookForm(forms.ModelForm):
                 'title': 'Choose illustrators...'
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Filter authors and illustrators by role
+        self.fields['authors'].queryset = BookContributor.objects.filter(
+            role='author'
+        ).order_by('name')
+        
+        self.fields['illustrators'].queryset = BookContributor.objects.filter(
+            role='illustrator'
+        ).order_by('name')
+
+        # Apply consistent styling to non-dropdown fields
+        for field_name, field in self.fields.items():
+            if field_name not in ['categories', 'authors', 'illustrators']:
+                field.widget.attrs['class'] = 'border-black rounded-0'
+
+        # If editing an existing book, filter to only child categories
+        if self.instance and self.instance.pk:
+            current_categories = self.instance.categories.filter(parent__isnull=False)
+            self.fields['categories'].initial = current_categories
+
+        # Add custom labels for child categories showing parent/child format
+        category_choices = []
+        for category in self.fields['categories'].queryset:
+            label = f"{category.parent.name} / {category.name}" if category.parent else category.name
+            category_choices.append((category.pk, label))
+        
+        self.fields['categories'].choices = category_choices
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
