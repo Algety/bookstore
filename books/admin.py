@@ -1,59 +1,73 @@
 from django.contrib import admin
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from django import forms
 from .models import Category, BookContributor, Publisher, Book
+
+
+class BookAdminForm(forms.ModelForm):
+    # Separate fields for parent and child categories
+    parent_categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.filter(parent__isnull=True, active=True).order_by('name'),
+        widget=FilteredSelectMultiple("Parent Categories", is_stacked=False),
+        required=False,
+        label="Parent Categories"
+    )
+    
+    child_categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.filter(parent__isnull=False, active=True).order_by('parent__name', 'name'),
+        widget=FilteredSelectMultiple("Child Categories", is_stacked=False),
+        required=False,
+        label="Child Categories"
+    )
+
+    class Meta:
+        model = Book
+        exclude = ['categories']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Filter authors and illustrators by role
+        self.fields['authors'].queryset = BookContributor.objects.filter(
+            role='author'
+        ).order_by('name')
+        
+        self.fields['illustrators'].queryset = BookContributor.objects.filter(
+            role='illustrator'
+        ).order_by('name')
+
+        # If editing an existing book, populate the separate category fields
+        if self.instance and self.instance.pk:
+            current_categories = self.instance.categories.all()
+            parent_cats = [cat for cat in current_categories if cat.parent is None]
+            child_cats = [cat for cat in current_categories if cat.parent is not None]
+            
+            self.fields['parent_categories'].initial = parent_cats
+            self.fields['child_categories'].initial = child_cats
+
+        # Add custom labels for child categories
+        self.fields['child_categories'].label_from_instance = lambda obj: (
+            f"{obj.parent.name} / {obj.name}" if obj.parent else obj.name
+        )
+
+    def save(self, commit=True):
+        book = super().save(commit=False)
+        if commit:
+            book.save()
+            # Combine parent and child categories
+            parent_categories = self.cleaned_data.get('parent_categories', [])
+            child_categories = self.cleaned_data.get('child_categories', [])
+            all_categories = list(parent_categories) + list(child_categories)
+            book.categories.set(all_categories)
+        return book
 
 
 # Register your models here.
 
 
 class BookAdmin(admin.ModelAdmin):
-    filter_horizontal = ('categories', 'authors', 'illustrators')
-
-    def formfield_for_manytomany(self, db_field, request, **kwargs):
-        if db_field.name == 'categories':
-            kwargs["queryset"] = Category.objects.filter(
-                active=True
-            ).order_by('parent', 'name')
-
-            # Use the horizontal filter widget explicitly
-            kwargs["widget"] = FilteredSelectMultiple(
-                verbose_name="Categories",
-                is_stacked=False
-            )
-            
-            formfield = db_field.formfield(**kwargs)
-
-            formfield.label_from_instance = lambda obj: (
-                f"{obj.parent.name} / {obj.name}" if obj.parent else obj.name
-            )
-
-            return formfield
-            
-        elif db_field.name == 'authors':
-            kwargs["queryset"] = BookContributor.objects.filter(
-                role='author'
-            ).order_by('name')
-            
-            kwargs["widget"] = FilteredSelectMultiple(
-                verbose_name="Authors",
-                is_stacked=False
-            )
-            
-            return db_field.formfield(**kwargs)
-            
-        elif db_field.name == 'illustrators':
-            kwargs["queryset"] = BookContributor.objects.filter(
-                role='illustrator'
-            ).order_by('name')
-            
-            kwargs["widget"] = FilteredSelectMultiple(
-                verbose_name="Illustrators",
-                is_stacked=False
-            )
-            
-            return db_field.formfield(**kwargs)
-
-        return super().formfield_for_manytomany(db_field, request, **kwargs)
+    form = BookAdminForm
+    filter_horizontal = ('authors', 'illustrators')
 
     def display_categories(self, obj):
         return ", ".join([
