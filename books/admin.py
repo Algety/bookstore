@@ -7,7 +7,7 @@ from .models import Category, BookContributor, Publisher, Book
 
 
 class BookAdmin(admin.ModelAdmin):
-    filter_horizontal = ('categories',)
+    filter_horizontal = ('categories', 'authors', 'illustrators')
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == 'categories':
@@ -28,6 +28,30 @@ class BookAdmin(admin.ModelAdmin):
             )
 
             return formfield
+            
+        elif db_field.name == 'authors':
+            kwargs["queryset"] = BookContributor.objects.filter(
+                role='author'
+            ).order_by('name')
+            
+            kwargs["widget"] = FilteredSelectMultiple(
+                verbose_name="Authors",
+                is_stacked=False
+            )
+            
+            return db_field.formfield(**kwargs)
+            
+        elif db_field.name == 'illustrators':
+            kwargs["queryset"] = BookContributor.objects.filter(
+                role='illustrator'
+            ).order_by('name')
+            
+            kwargs["widget"] = FilteredSelectMultiple(
+                verbose_name="Illustrators",
+                is_stacked=False
+            )
+            
+            return db_field.formfield(**kwargs)
 
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
@@ -39,6 +63,7 @@ class BookAdmin(admin.ModelAdmin):
     display_categories.short_description = 'Categories'
 
     def display_authors(self, obj):
+        
         return ", ".join([c.name for c in obj.authors.all()])
     display_authors.short_description = 'Authors'
 
