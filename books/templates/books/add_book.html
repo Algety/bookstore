@@ -4,6 +4,30 @@
 
 {% block extra_css %}
     {{ form.media.css }}
+    <style>
+    /* Ensure Django admin widgets display properly */
+    .selector {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .selector select {
+        width: 100%;
+        height: 200px;
+    }
+    .selector-available, .selector-chosen {
+        width: 48%;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .selector ul.selector-chooser {
+        width: 4%;
+        display: inline-block;
+        text-align: center;
+        margin: 0 auto;
+        vertical-align: top;
+        padding-top: 50px;
+    }
+    </style>
 {% endblock %}
 
 {% block extra_js %}
