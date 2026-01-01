@@ -140,7 +140,7 @@ def add_book(request):
             messages.success(
                 request, f'Book "{book.title}" added successfully.'
             )
-            return redirect('book_detail', slug=book.slug)
+            return redirect('book_detail', book_id=book.id)
         else:
             messages.error(
                 request,
