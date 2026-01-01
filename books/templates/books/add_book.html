@@ -2,6 +2,14 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
+{% block extra_css %}
+    {{ form.media.css }}
+{% endblock %}
+
+{% block extra_js %}
+    {{ form.media.js }}
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">

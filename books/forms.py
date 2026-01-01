@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from .models import Book, Category, BookContributor
 
 
@@ -6,14 +7,14 @@ class BookForm(forms.ModelForm):
     # Separate fields for parent and child categories
     parent_categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.filter(parent__isnull=True, active=True).order_by('name'),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=FilteredSelectMultiple("Parent Categories", is_stacked=False),
         required=False,
         label="Parent Categories"
     )
     
     child_categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.filter(parent__isnull=False, active=True).order_by('parent__name', 'name'),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=FilteredSelectMultiple("Child Categories", is_stacked=False),
         required=False,
         label="Child Categories"
     )
@@ -22,8 +23,8 @@ class BookForm(forms.ModelForm):
         model = Book
         exclude = ['categories']  # Exclude the original categories field
         widgets = {
-            'authors': forms.CheckboxSelectMultiple(),
-            'illustrators': forms.CheckboxSelectMultiple(),
+            'authors': FilteredSelectMultiple("Authors", is_stacked=False),
+            'illustrators': FilteredSelectMultiple("Illustrators", is_stacked=False),
         }
 
     def __init__(self, *args, **kwargs):
