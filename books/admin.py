@@ -14,7 +14,8 @@ class BookAdminForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ['categories', 'title', 'sku', 'slug', 'description', 'price', 'stock_quantity', 
+        fields = ['categories', 'title', 'sku', 'slug', 'description', 'cover_type', 
+                  'illustration_type', 'pages', 'price', 'stock_quantity', 
                   'authors', 'illustrators', 'publisher', 'language', 'image']
         
     def __init__(self, *args, **kwargs):
@@ -38,6 +39,12 @@ class BookAdminForm(forms.ModelForm):
         self.fields['categories'].label_from_instance = lambda obj: (
             f"{obj.parent.name} / {obj.name}" if obj.parent else obj.name
         )
+
+        # Add asterisks to required fields
+        required_fields = ['title', 'cover_type', 'illustration_type', 'pages', 'price', 'stock_quantity', 'language']
+        for field_name in required_fields:
+            if field_name in self.fields:
+                self.fields[field_name].label = f"{self.fields[field_name].label} *"
 
 
 # Register your models here.

@@ -33,7 +33,8 @@ class BookForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ['categories', 'title', 'sku', 'slug', 'description', 'price', 'stock_quantity',
+        fields = ['categories', 'title', 'sku', 'slug', 'description', 'cover_type', 
+                  'illustration_type', 'pages', 'price', 'stock_quantity',
                   'authors', 'illustrators', 'publisher', 'language', 'image']
         widgets = {
             'authors': forms.SelectMultiple(attrs={
@@ -66,3 +67,9 @@ class BookForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             if field_name not in ['categories', 'authors', 'illustrators']:
                 field.widget.attrs['class'] = 'border-black rounded-0'
+
+        # Add asterisks to required fields
+        required_fields = ['title', 'cover_type', 'illustration_type', 'pages', 'price', 'stock_quantity', 'language']
+        for field_name in required_fields:
+            if field_name in self.fields:
+                self.fields[field_name].label = f"{self.fields[field_name].label} *"
