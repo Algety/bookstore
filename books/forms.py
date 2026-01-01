@@ -66,16 +66,3 @@ class BookForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             if field_name not in ['categories', 'authors', 'illustrators']:
                 field.widget.attrs['class'] = 'border-black rounded-0'
-
-        # If editing an existing book, filter to only child categories
-        if self.instance and self.instance.pk:
-            current_categories = self.instance.categories.filter(parent__isnull=False)
-            self.fields['categories'].initial = current_categories
-
-        # Add custom labels for child categories showing parent/child format
-        category_choices = []
-        for category in self.fields['categories'].queryset:
-            label = f"{category.parent.name} / {category.name}" if category.parent else category.name
-            category_choices.append((category.pk, label))
-        
-        self.fields['categories'].choices = category_choices
