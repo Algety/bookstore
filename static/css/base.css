@@ -349,9 +349,9 @@ header {
 
 .form-control {
     /* max-width: 100px; */
-    max-height: 30px !important;
+    max-height: 30px;
     padding: 2px 6px;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
 }
 
 .img-fluid {

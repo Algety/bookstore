@@ -73,7 +73,7 @@ class BookForm(forms.ModelForm):
                 field.widget.attrs['class'] = 'border-black rounded-0'
 
         # Add asterisks to required fields
-        required_fields = ['title', 'cover_type', 'illustration_type', 'pages', 'price', 'stock_quantity', 'language']
+        required_fields = ['title', 'cover_type', 'illustration_type', 'pages', 'price', 'language']
         for field_name in required_fields:
             if field_name in self.fields:
                 self.fields[field_name].label = f"{self.fields[field_name].label} *"
