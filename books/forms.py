@@ -39,6 +39,7 @@ class BookForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={
                 'rows': 5,
+                'id': 'description-textarea',
                 'class': 'border-black rounded-0'
             }),
             'authors': forms.SelectMultiple(attrs={
