@@ -1,0 +1,2 @@
+heroku run "python manage.py collectstatic --noinput" --app fayno-bookstore
+

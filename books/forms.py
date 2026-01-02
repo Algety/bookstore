@@ -40,7 +40,7 @@ class BookForm(forms.ModelForm):
             'description': forms.Textarea(attrs={
                 'rows': 5,
                 'id': 'description-textarea',
-                'class': 'border-black rounded-0'
+                'class': 'border-black rounded-1'
             }),
             'authors': forms.SelectMultiple(attrs={
                 'class': 'selectpicker form-control',
@@ -71,7 +71,7 @@ class BookForm(forms.ModelForm):
         # Apply consistent styling to non-dropdown fields
         for field_name, field in self.fields.items():
             if field_name not in ['categories', 'authors', 'illustrators']:
-                field.widget.attrs['class'] = 'border-black rounded-0'
+                field.widget.attrs['class'] = 'border-black rounded-1'
 
         # Add asterisks to required fields
         required_fields = ['title', 'cover_type', 'illustration_type', 'pages', 'price', 'language']

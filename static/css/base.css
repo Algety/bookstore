@@ -350,7 +350,7 @@ header {
 
 /* Override for description textarea */
 #description-textarea {
-    font-size: 14px !important;
+    font-size: 13px !important;
     padding: 8px 12px !important;
     resize: vertical;
 }
@@ -358,7 +358,7 @@ header {
 .form-control {
     /* max-width: 100px; */
     padding: 2px 4px !important;
-    font-size: 0.6rem !important;
+    font-size: 0.8rem !important;
 }
 
 .img-fluid {
