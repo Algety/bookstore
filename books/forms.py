@@ -33,15 +33,20 @@ class BookForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ['categories', 'title', 'sku', 'slug', 'description', 'cover_type', 
+        fields = ['categories', 'title', 'sku', 'description', 'cover_type', 
                   'illustration_type', 'pages', 'price', 'stock_quantity',
                   'authors', 'illustrators', 'publisher', 'language', 'image']
         widgets = {
+            'description': forms.Textarea(attrs={
+                'rows': 5,
+                'class': 'border-black rounded-0'
+            }),
             'authors': forms.SelectMultiple(attrs={
                 'class': 'selectpicker form-control',
                 'data-live-search': 'true',
                 'data-actions-box': 'true',
                 'title': 'Choose authors...'
+            }),
             }),
             'illustrators': forms.SelectMultiple(attrs={
                 'class': 'selectpicker form-control', 
