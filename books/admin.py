@@ -9,7 +9,7 @@ class BookAdminForm(forms.ModelForm):
         queryset=Category.objects.filter(parent__isnull=False, active=True).order_by('parent__name', 'name'),
         widget=FilteredSelectMultiple("Categories", is_stacked=False),
         required=False,
-        label="Categories"
+        label=""  # Remove the label completely
     )
 
     class Meta:
