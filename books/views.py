@@ -99,10 +99,10 @@ def all_books(request):
     return render(request, 'books/books.html', context)
 
 
-def book_detail(request, book_id):
+def book_detail(request, slug):
     """ A view to show book details """
 
-    book = get_object_or_404(Book, pk=book_id)
+    book = get_object_or_404(Book, slug=slug)
 
     if request.GET:
         if 'q' in request.GET:
@@ -140,7 +140,7 @@ def add_book(request):
             messages.success(
                 request, f'Book "{book.title}" added successfully.'
             )
-            return redirect('book_detail', book_id=book.id)
+            return redirect('book_detail', slug=book.slug)
         else:
             messages.error(
                 request,
