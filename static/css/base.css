@@ -350,9 +350,6 @@ header {
 
 /* Override for description textarea */
 #description-textarea {
-    max-height: none !important;
-    min-height: 120px !important;
-    height: auto !important;
     font-size: 14px !important;
     padding: 8px 12px !important;
     resize: vertical;
@@ -360,7 +357,6 @@ header {
 
 .form-control {
     /* max-width: 100px; */
-    max-height: 30px;
     padding: 2px 4px !important;
     font-size: 0.6rem !important;
 }
