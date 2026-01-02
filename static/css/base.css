@@ -21,7 +21,7 @@ body {
 
 header {
     background-color: white;
-    z-index: 1030;
+    z-index: 1040;
 }
 
 .header-container {
@@ -344,7 +344,7 @@ header {
 .dropdown-menu {
     display: block;
     position: absolute;
-    z-index: 1000;
+    z-index: 1050;
     font-size: 0.8rem;
 }
 
