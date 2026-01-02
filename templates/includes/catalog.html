@@ -4,13 +4,13 @@
                         <div class="col-6-custom col-sm-6 col-md-4 col-lg-4 col-xl-3">
                             <div class="card h-100 border-0">
                                 {% if book.image %}
-                                    <a href="{% url 'book_detail' book.id %}">
+                                    <a href="{% url 'book_detail' book.slug %}">
                                         <div class="aspect-ratio-box">
                                             <img src="{{ book.image.url }}" alt="{{ book.title }}">
                                         </div>
                                     </a>
                                 {% else %}
-                                    <a href="{% url 'book_detail' book.id %}">
+                                    <a href="{% url 'book_detail' book.slug %}">
                                         <div class="aspect-ratio-box">
                                             <img src="{% static 'images/no_image.png' %}" alt="{{ book.title }}">
                                         </div>
