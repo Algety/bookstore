@@ -47,6 +47,7 @@
 
                     <div class="col-12 col-sm-7 col-lg-4">
                         <div class="book-details-container mb-5">
+                            <p class="lead mb-0 text-left font-weight-bold">£{{ book.price }}</p>
                             <p class="mb-0"><strong>{{ book.title }}</strong></p>
                             {% for author in book.authors.all %}
                                 <p class="mb-0">By <em>{{ author.name }}{% if not forloop.last %}, {% endif %}</em></p>
@@ -56,11 +57,8 @@
                                 <p class="mb-0">Illustrations: {{ book.illustration_type }}</p>
                             {% endif %}
                             {% for illustator in book.illustrators.all %}
-                                <p class="mb-0">Illustrated by: <em>{{ illustator.name }}{% if not forloop.last %}, {% endif %}</em></p>
+                                <p class="mb-0">Illustrated by: <em>{{ illustator.name }}{% if not forloop.last %}, {% endif %}</em>
                             {% endfor %}
-                            {% if book.illustators %}
-                                <p class="lead mb-0 text-left font-weight-bold">£{{ book.price }}</p>
-                            {% endif %}
 
                             <form class="form" action="{% url 'add_to_cart' book.id %}" method="POST">
     {% csrf_token %}

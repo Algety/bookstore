@@ -9,7 +9,7 @@ class BookAdminForm(forms.ModelForm):
         queryset=Category.objects.filter(parent__isnull=False, active=True).order_by('parent__name', 'name'),
         widget=FilteredSelectMultiple("Categories", is_stacked=False),
         required=False,
-        label=""  # Remove the label completely
+        label=""  # Remove the label which is misplaced
     )
 
     class Meta:
@@ -45,9 +45,6 @@ class BookAdminForm(forms.ModelForm):
         for field_name in required_fields:
             if field_name in self.fields:
                 self.fields[field_name].label = f"{self.fields[field_name].label} *"
-
-
-# Register your models here.
 
 
 class BookAdmin(admin.ModelAdmin):
