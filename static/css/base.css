@@ -348,13 +348,6 @@ header {
     font-size: 0.8rem;
 }
 
-.form-control {
-    /* max-width: 100px; */
-    max-height: 30px;
-    padding: 2px 4px;
-    font-size: 0.6rem;
-}
-
 /* Override for description textarea */
 #description-textarea {
     max-height: none !important;
@@ -363,6 +356,13 @@ header {
     font-size: 14px !important;
     padding: 8px 12px !important;
     resize: vertical;
+}
+
+.form-control {
+    /* max-width: 100px; */
+    max-height: 30px;
+    padding: 2px 4px !important;
+    font-size: 0.6rem !important;
 }
 
 .img-fluid {
