@@ -47,7 +47,6 @@ class BookForm(forms.ModelForm):
                 'data-actions-box': 'true',
                 'title': 'Choose authors...'
             }),
-            }),
             'illustrators': forms.SelectMultiple(attrs={
                 'class': 'selectpicker form-control', 
                 'data-live-search': 'true',
