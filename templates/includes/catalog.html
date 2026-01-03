@@ -22,7 +22,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="1">
                     <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                    <button type="submit" class="buy-btn border rounded-1">
+                    <button type="submit" class="buy-btn border rounded-1{% if request.user.is_superuser %} admin-btn{% endif %}">
                         {% if request.user.is_superuser %}
                             <small class="ml-3">
                                 <a href="{% url 'edit_book' book.id %}">Edit</a> | 
