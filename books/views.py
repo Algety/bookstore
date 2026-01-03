@@ -185,4 +185,4 @@ def delete_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     book.delete()
     messages.success(request, 'Book deleted')
-    return redirect(reverse('Book'))
+    return redirect(reverse('Books'))
