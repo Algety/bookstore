@@ -447,24 +447,6 @@ header {
     display: inline-block !important;
 }
 
-.admin-btn {
-    background-color: var(--main-color) !important;
-    color: white !important;
-}
-
-.admin-btn a {
-    color: white !important;
-    text-decoration: none;
-}
-
-.admin-btn a:hover {
-    text-decoration: underline;
-}
-
-.admin-btn a.text-danger {
-    color: #ff6b6b !important;
-}
-
 .dropdown-menu {
     z-index: 1050;
     font-size: 0.8rem;

@@ -97,10 +97,19 @@
     </div>
 
     <div class="col-12 mt-3 d-flex flex-wrap justify-content-start gap-2">
-        <a href="{% url 'books' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap">
-            Keep Shopping
-        </a>
-        <input type="submit" class="buy-btn border rounded-1 text-uppercase" value="Add to cart">
+        {% if request.user.is_superuser %}
+            <a href="{% url 'edit_book' book.id %}" class="btn btn-primary border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
+                Edit
+            </a>
+            <a href="{% url 'delete_book' book.id %}" class="btn btn-danger border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
+                Delete
+            </a>
+        {% else %}
+            <a href="{% url 'books' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
+                Keep Shopping
+            </a>
+            <input type="submit" class="buy-btn border rounded-1 text-uppercase flex-fill" style="max-width: calc(50% - 0.25rem);" value="Add to cart">
+        {% endif %}
     </div>
 
 
