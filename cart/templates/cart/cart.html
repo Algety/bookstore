@@ -16,111 +16,220 @@
     <hr class="w-50 mb-0">
   </div>
 
-  <!-- 490px fix responsivness-->
   <div class="row catalog-wrapper justify-content-center">
     <div class="col-12 col-md-9 col-lg-7">
       {% if cart_items %}
-        <div class="table-responsive rounded">
-          <table class="table table-sm table-borderless">
-            <thead class="text-black">
-              <tr>
-                <th scope="col" class="text-right"></th>
-                <th scope="col"></th>
-                <th scope="col">Price</th>
-                <th scope="col" class="text-center">Quantity</th>
-                <th scope="col"></th>
-                <th scope="col">Subtotal</th>
-              </tr>
-            </thead>
-            {% for item in cart_items %}
-              <tr>
-                <td class="p-1 w-25 text-right">
-                  {% if item.book.image and item.book.image.name %}
-                    <img class="img-fluid rounded" src="{{ item.book.image.url }}" alt="{{ item.book.title }}">
-                  {% else %}
-                    <img class="img-fluid rounded" src="{% static 'images/no_image.png' %}" alt="{{ item.book.title }}">
-                  {% endif %}
-                </td>
-                <td class="py-1 w-25">
-                  <p class="my-0"><strong>{{ item.book.title }}</strong></p>
+        <!-- Unified flex layout for all screens ≥576px -->
+        <div class="d-none d-sm-block cart-table-item">
+          <!-- Cart header row -->
+          <div class="cart-header-row">
+            <div class="cart-header-image"></div>
+            <div class="cart-header-info">Book Details</div>
+            <div class="cart-header-price">Price</div>
+            <div class="cart-header-quantity">Quantity</div>
+            <div class="cart-header-delete"></div>
+            <div class="cart-header-subtotal">Subtotal</div>
+          </div>
+          {% for item in cart_items %}
+            <div class="cart-horizontal-row">
+              <!-- Book Image -->
+              <div class="cart-image-col">
+                {% if item.book.image and item.book.image.name %}
+                  <img class="img-fluid rounded" src="{{ item.book.image.url }}" alt="{{ item.book.title }}">
+                {% else %}
+                  <img class="img-fluid rounded" src="{% static 'images/no_image.png' %}" alt="{{ item.book.title }}">
+                {% endif %}
+              </div>
+
+              <!-- Book Info (Title, Author, Publisher) -->
+              <div class="cart-info-col">
+                <h6><strong>{{ item.book.title }}</strong></h6>
+                <div class="author-info">
                   {% for author in item.book.authors.all %}
-                    <p class="mb-0">By <em>{{ author.name }}{% if not forloop.last %}, {% endif %}</em></p>
+                    By <em>{{ author.name }}{% if not forloop.last %}, {% endif %}</em>
                   {% endfor %}
-                  <p class="my-0"><strong>{{ item.book.publisher }}</strong></p>
-                </td>
-                <td class="py-2">
-                  <p class="my-0">£{{ item.book.price }}</p>
-                </td>
-                <td class="py-1 w-25 text-center">
+                </div>
+                {% if item.book.publishers.exists %}
+                  <div class="publisher-info">
+                    {% for publisher in item.book.publishers.all %}
+                      {{ publisher.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Price -->
+              <div class="cart-price-col">
+                <strong>£{{ item.book.price }}</strong>
+              </div>
+
+              <!-- Quantity Controls and Delete -->
+              <div class="cart-quantity-col">
+                <div class="d-flex align-items-center">
                   <form class="form update-form update-on-qty-change" method="POST" action="{% url 'adjust_cart' item.item_id %}">
                     {% csrf_token %}
-                    <div class="form-group">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <button class="decrement-qty update-on-qty-change btn btn-sm btn-black rounded-0"
-                                  type="button" data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
-                            <span><i class="fas fa-minus fa-sm"></i></span>
-                          </button>
-                        </div>
-         <input class="form-control form-control-sm qty_input" type="number"
-           name="quantity" value="{{ item.quantity }}" min="1" max="99"
-           data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
-         <input type="hidden" name="from_detail" value="0">
-                        <div class="input-group-append">
-                          <button class="increment-qty update-on-qty-change btn btn-sm btn-black rounded-0"
-                                  type="button" data-item_id="{{ item.item_id }}" id="increment-qty_{{ item.item_id }}">
-                            <span><i class="fas fa-plus fa-sm"></i></span>
-                          </button>
-                        </div>
+                    <div class="input-group input-group-sm" style="width: 100px;">
+                      <div class="input-group-prepend">
+                        <button class="decrement-qty update-on-qty-change btn btn-sm btn-black rounded-0"
+                                type="button" data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
+                          <span><i class="fas fa-minus fa-sm"></i></span>
+                        </button>
+                      </div>
+                      <input class="form-control form-control-sm qty_input text-center" type="number"
+                             name="quantity" value="{{ item.quantity }}" min="1" max="99"
+                             data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
+                      <input type="hidden" name="from_detail" value="0">
+                      <div class="input-group-append">
+                        <button class="increment-qty update-on-qty-change btn btn-sm btn-black rounded-0"
+                                type="button" data-item_id="{{ item.item_id }}" id="increment-qty_{{ item.item_id }}">
+                          <span><i class="fas fa-plus fa-sm"></i></span>
+                        </button>
                       </div>
                     </div>
                   </form>
-                </td>
-                <td class="py-0 text-center">
-                  {% if item.quantity > 0 %}
-                    <button class="btn btn-sm text-blue remove-item"
-                            id="remove_{{ item.item_id }}" 
-                            data-url="{% url 'remove_from_cart' item.item_id %}"
-                            data-item_id="{{ item.item_id }}">
-                    <i class="fas fa-trash-alt"></i>
-                    </button>
-                  {% else %}
-                    <button class="btn btn-sm text-muted" disabled>
-                      <i class="fas fa-trash-alt"></i>
-                    </button>
-                  {% endif %}
-                </td>
-                <td class="py-1">
-                  <p class="my-0">£{{ item.total }}</p>
-                </td>
-              </tr>
-            {% endfor %}
-            <tr>
-                                <td colspan="8" class="pt-4 text-right">
-                                  <hr class="w-100 mb-0">
-                                    <h6><strong>Subtotal: £{{ total|floatformat:2 }}</strong></h6>
-                                    <h6>Delivery: £{{ delivery|floatformat:2 }}</h6>
-                                    <h5 class="mt-4"><strong>Total cost: £{{ grand_total|floatformat:2 }}</strong></h5>
-                                    {% if free_delivery_delta > 0 %}
-                                        <p class="mb-1 text-blue">
-                                            <strong>£{{ free_delivery_delta }}</strong> left for free delivery
-                                        </p>
-                                    {% endif %}
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td colspan="8" class="text-right">
-                                <div class="col-12 mt-3 d-flex flex-wrap justify-content-end gap-2">
-                                    <a href="{% url 'books' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap">
-                                        Keep Shopping
-                                    </a>
-                                    <a href="{% url 'checkout' %}" class="buy-btn btn btn-grey border rounded-1 text-uppercase">Submit</a>
+                  
+                  <!-- Delete Button right after quantity -->
+                  <div class="ml-2">
+                    {% if item.quantity > 0 %}
+                      <button class="btn btn-sm text-blue remove-item"
+                              id="remove_{{ item.item_id }}" 
+                              data-url="{% url 'remove_from_cart' item.item_id %}"
+                              data-item_id="{{ item.item_id }}">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
 
-                                </div>
-                                </td>
-                            </tr>
-          </table>
+              <!-- Subtotal -->
+              <div class="cart-subtotal-col">
+                <strong>£{{ item.total }}</strong>
+              </div>
+            </div>
+          {% endfor %}
+          
+          <!-- Cart Summary for unified flex layout -->
+          <div class="mt-4 text-center">
+            <h6><strong>Subtotal: £{{ total|floatformat:2 }}</strong></h6>
+            <h6>Delivery: £{{ delivery|floatformat:2 }}</h6>
+            <h5 class="mt-2"><strong>Total cost: £{{ grand_total|floatformat:2 }}</strong></h5>
+            {% if free_delivery_delta > 0 %}
+              <p class="mb-3 text-blue">
+                <strong>£{{ free_delivery_delta }}</strong> left for free delivery
+              </p>
+            {% endif %}
+            
+            <div class="d-flex justify-content-center gap-2 mt-3">
+              <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase">
+                Keep Shopping
+              </a>
+              <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase" style="background-color: var(--second-color) !important; color: black !important;">
+                Submit
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile card layout (visible only on small screens) -->
+        <div class="d-block d-sm-none mobile-cart-item">
+          {% for item in cart_items %}
+            <div class="card mb-3">
+              <div class="card-body p-2">
+                <!-- Book info at top with delete button -->
+                <div class="mb-2 d-flex justify-content-between align-items-start">
+                  <div class="flex-grow-1">
+                    <h6 class="card-title mb-1"><strong>{{ item.book.title }}</strong></h6>
+                    {% for author in item.book.authors.all %}
+                      <p class="card-text mb-1"><small>By <em>{{ author.name }}{% if not forloop.last %}, {% endif %}</em></small></p>
+                    {% endfor %}
+                  </div>
+                  <!-- Delete button -->
+                  <div class="ml-2">
+                    {% if item.quantity > 0 %}
+                      <button class="btn btn-sm text-blue remove-item"
+                              id="remove_{{ item.item_id }}" 
+                              data-url="{% url 'remove_from_cart' item.item_id %}"
+                              data-item_id="{{ item.item_id }}">
+                        <i class="fas fa-trash-alt fa-xs"></i>
+                      </button>
+                    {% endif %}
+                  </div>
+                </div>
+                
+                <!-- Row with image, price, quantity, subtotal -->
+                <div class="row align-items-center">
+                  <!-- Book image -->
+                  <div class="col-3">
+                    {% if item.book.image and item.book.image.name %}
+                      <img class="img-fluid rounded" src="{{ item.book.image.url }}" alt="{{ item.book.title }}">
+                    {% else %}
+                      <img class="img-fluid rounded" src="{% static 'images/no_image.png' %}" alt="{{ item.book.title }}">
+                    {% endif %}
+                  </div>
+                  
+                  <!-- Price -->
+                  <div class="col-3 text-center">
+                    <small><strong>£{{ item.book.price }}</strong></small>
+                  </div>
+                  
+                  <!-- Quantity -->
+                  <div class="col-2 text-center px-0">
+                    <form class="form update-form update-on-qty-change" method="POST" action="{% url 'adjust_cart' item.item_id %}">
+                      {% csrf_token %}
+                      <div class="input-group input-group-sm" style="width: 65px; margin: 0 auto;">
+                        <div class="input-group-prepend">
+                          <button class="decrement-qty update-on-qty-change btn btn-sm btn-black rounded-0"
+                                  style="font-size: 0.6rem; padding: 0.1rem 0.2rem;"
+                                  type="button" data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
+                            <span><i class="fas fa-minus" style="font-size: 0.5rem;"></i></span>
+                          </button>
+                        </div>
+                        <input class="form-control form-control-sm qty_input text-center" type="number"
+                               style="font-size: 0.65rem; padding: 0.1rem; width: 25px;"
+                               name="quantity" value="{{ item.quantity }}" min="1" max="99"
+                               data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
+                        <input type="hidden" name="from_detail" value="0">
+                        <div class="input-group-append">
+                          <button class="increment-qty update-on-qty-change btn btn-sm btn-black rounded-0"
+                                  style="font-size: 0.6rem; padding: 0.1rem 0.2rem;"
+                                  type="button" data-item_id="{{ item.item_id }}" id="increment-qty_{{ item.item_id }}">
+                            <span><i class="fas fa-plus" style="font-size: 0.5rem;"></i></span>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  
+                  <!-- Subtotal -->
+                  <div class="col-4 text-center">
+                    <small><strong>£{{ item.total }}</strong></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          
+          <!-- Mobile totals -->
+          <div class="card mt-3">
+            <div class="card-body p-3 text-right">
+              <hr class="mb-2">
+              <h6><strong>Subtotal: £{{ total|floatformat:2 }}</strong></h6>
+              <h6>Delivery: £{{ delivery|floatformat:2 }}</h6>
+              <h5 class="mt-3"><strong>Total cost: £{{ grand_total|floatformat:2 }}</strong></h5>
+              {% if free_delivery_delta > 0 %}
+                <p class="mb-1 text-blue">
+                  <strong>£{{ free_delivery_delta }}</strong> left for free delivery
+                </p>
+              {% endif %}
+            </div>
+          </div>
+          
+          <!-- Mobile buttons -->
+          <div class="d-flex mt-3 gap-2">
+            <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase flex-fill btn-sm" style="font-size: 0.75rem; background-color: var(--second-color) !important; color: black !important;">Submit</a>
+            <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase flex-fill btn-sm" style="font-size: 0.75rem;">Keep Shopping</a>
+          </div>
         </div>
       {% else %}
         <p class="lead mb-5">Your cart is empty.</p>

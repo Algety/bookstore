@@ -277,6 +277,49 @@ header {
         min-width: 16.66667% !important;
         flex: 0 0 16.66667% !important;
     }
+    
+    /* Mobile cart optimizations */
+    .d-block.d-md-none .card {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .d-block.d-md-none .card-body {
+        padding: 0.5rem !important;
+    }
+    
+    .d-block.d-md-none .card-title {
+        font-size: 0.9rem !important;
+        font-weight: normal !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    .d-block.d-md-none .card-text {
+        font-size: 0.75rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    .d-block.d-md-none .card-text small {
+        font-size: 0.7rem !important;
+    }
+    
+    .d-block.d-md-none .row {
+        margin: 0 !important;
+    }
+    
+    .d-block.d-md-none .row [class*="col-"] {
+        padding: 0.05rem 0.1rem !important;
+    }
+    
+    .d-block.d-md-none small {
+        font-size: 0.75rem !important;
+        font-weight: normal !important;
+    }
+    
+    /* Improve price and subtotal readability on mobile */
+    .mobile-cart-item .col-3 small strong {
+        font-size: 0.8rem !important;
+        white-space: nowrap;
+    }
 }
 
 .nav-link {
@@ -422,6 +465,17 @@ header {
     font-size: 0.8rem !important;
 }
 
+/* Hide number input spinners/arrows */
+.qty_input::-webkit-outer-spin-button,
+.qty_input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.qty_input {
+    -moz-appearance: textfield;
+}
+
 .img-fluid {
     max-width: 90% !important;
 }
@@ -509,6 +563,123 @@ header {
     .col-6-custom {
         flex: 0 0 33% !important;
         max-width: 33% !important;
+    }
+
+    /* Cart horizontal layout for tablets and desktops ≥576px */
+    .mobile-cart-item {
+        display: none !important;
+    }
+
+    .cart-table-item {
+        display: block !important;
+    }
+
+    /* Cart header row for larger screens */
+    .cart-header-row {
+        display: flex !important;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        margin: 0;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .cart-header-image {
+        flex: 0 0 60px;
+        margin-right: 0.5rem;
+        text-align: center;
+    }
+
+    .cart-header-info {
+        flex: 1 1 auto;
+        min-width: 150px;
+        margin-right: 0.5rem;
+    }
+
+    .cart-header-price {
+        flex: 0 0 60px;
+        text-align: center;
+        margin-right: 0.5rem;
+    }
+
+    .cart-header-quantity {
+        flex: 0 0 100px;
+        text-align: center;
+        margin-right: 0.5rem;
+    }
+
+    .cart-header-delete {
+        flex: 0 0 30px;
+        text-align: center;
+        margin-right: 0.5rem;
+    }
+
+    .cart-header-subtotal {
+        flex: 0 0 60px;
+        text-align: center;
+        margin-right: 0;
+    }
+
+    .cart-horizontal-row {
+        display: flex !important;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+        margin: 0;
+    }
+
+    .cart-image-col {
+        flex: 0 0 60px;
+        max-width: 60px;
+        margin-right: 0.5rem;
+    }
+
+    .cart-info-col {
+        flex: 1 1 auto;
+        min-width: 150px;
+        margin-right: 0.5rem;
+    }
+
+    .cart-price-col {
+        flex: 0 0 60px;
+        text-align: center;
+        margin-right: 0.5rem;
+    }
+
+    .cart-quantity-col {
+        flex: 0 0 100px;
+        text-align: center;
+        margin-right: 0.5rem;
+    }
+
+    .cart-subtotal-col {
+        flex: 0 0 60px;
+        text-align: center;
+        margin-right: 0.5rem;
+    }
+
+    .cart-delete-col {
+        flex: 0 0 30px;
+        text-align: center;
+        margin-right: 0;
+    }
+
+    .cart-info-col h6 {
+        margin-bottom: 0.25rem;
+        font-size: 1rem;
+    }
+
+    .cart-info-col .author-info {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-bottom: 0.125rem;
+    }
+
+    .cart-info-col .publisher-info {
+        font-size: 0.875rem;
+        color: #6c757d;
     }
 }
 
