@@ -6,3 +6,4 @@ env.py
 .venv
 reset_password.py
 restore_original_categories.py
+commands
