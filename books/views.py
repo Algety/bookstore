@@ -169,7 +169,7 @@ def edit_book(request, book_id):
             messages.error(request, 'Failed to update book. Please ensure the form is valid.')
     else:
         form = BookForm(instance=book)
-        messages.info(request, f'You are editing {book.name}')
+        messages.info(request, f'You are editing {book.title}')
 
     template = 'books/edit_book.html'
     context = {
