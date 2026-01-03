@@ -1,3 +1,9 @@
 heroku run "python manage.py collectstatic --noinput" --app fayno-bookstore
 
 heroku logs --app fayno-bookstore
+
+& .venv\Scripts\Activate.ps1
+
+git commit --allow-empty -m "Force cache refresh" ; git push heroku main
+
+heroku run "python manage.py collectstatic --noinput" --app fayno-bookstore

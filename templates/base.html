@@ -63,9 +63,9 @@
       <div class="d-sm-none">
         <div class="row">
           <!-- Logo -->
-          <div class="col-6 my-auto py-1 text-left">
+          <div class="col-5 my-auto py-1 text-left">
             <a href="{% url 'home' %}" class="nav-link main-logo-link">
-              <div class="logo-container">
+              <div class="logo-container logo-container-small">
                 <div class="logo-ornament" id="logo"></div>
                 <div class="logo-text">
                   <div class="logo-title">
@@ -78,19 +78,16 @@
               </div>
             </a>
           </div>
+          <!-- Spacer -->
+          <div class="col-2"></div>
           <!-- Account and cart -->
-          <div class="col-6 my-auto py-1 text-right justify-content-md-end">
-            <ul class="list-inline list-unstyled my-0 justify-content-md-end">
+          <div class="col-5 my-auto py-1 d-flex justify-content-end pr-3">
+            <ul class="list-inline list-unstyled my-0 d-flex align-items-center">
               <!-- Account -->
               <li class="list-inline-item dropdown">
                 <a class="text-blue nav-link" href="#" id="user-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <div class="d-flex align-items-center justify-content-end">
-                    <i class="fas fa-user fa-lg mr-2"></i>
-                    {% if not request.user.is_authenticated %}
-                      <span class="d-none d-lg-inline">Login</span>
-                    {% else %}
-                      <span class="d-none d-lg-inline">{{ request.user.username }}</span>
-                    {% endif %}
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-user fa-lg"></i>
                   </div>
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="user-options">
@@ -107,11 +104,11 @@
                 </div>
               </li>
               <!-- Cart -->
-              <li class="list-inline-item justify-content-md-end">
+              <li class="list-inline-item">
                 <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-blue{% endif %} nav-link" href="{% url 'view_cart' %}">
-                  <div class="d-flex align-items-center justify-content-end">
-                    <i class="fas fa-shopping-bag fa-lg mr-2"></i>
-                    <span class="my-0">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-shopping-bag fa-lg"></i>
+                    <span class="my-0 ml-1">
                       {% if grand_total %}
                         £{{ grand_total|floatformat:2 }}
                       {% else %}

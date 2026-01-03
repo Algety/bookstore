@@ -215,6 +215,70 @@ header {
     max-width: 200px;
 }
 
+/* Small logo container for mobile */
+.logo-container-small {
+    max-width: 100px;
+}
+
+/* Improve spacing for small screens */
+@media (max-width: 575px) {
+    .logo-container-small {
+        max-width: 85px;
+    }
+    
+    .logo-title {
+        font-size: 0.9rem;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.55rem;
+    }
+    
+    .fa-lg {
+        font-size: 1.1em !important;
+    }
+    
+    .text-blue {
+        font-size: 0.8rem;
+    }
+    
+    /* Adjust list items spacing */
+    .list-inline-item {
+        margin-right: 0.5rem;
+    }
+    
+    /* Add extra padding to create more space */
+    .pr-3 {
+        padding-right: 1rem !important;
+    }
+    
+    /* Make logo area more compact */
+    .logo-container-small .logo-text {
+        line-height: 1.1;
+    }
+    
+    /* Make dropdown menu font smaller on mobile */
+    .dropdown-menu .dropdown-item {
+        font-size: 0.8rem;
+        padding: 0.4rem 1rem;
+    }
+    
+    /* Ensure proper spacing between logo and icons */
+    .d-sm-none .col-5:first-child {
+        padding-right: 0.25rem !important;
+    }
+    
+    .d-sm-none .col-5:last-child {
+        padding-left: 0.25rem !important;
+    }
+    
+    /* Make sure the spacer column is visible */
+    .d-sm-none .col-2 {
+        min-width: 16.66667% !important;
+        flex: 0 0 16.66667% !important;
+    }
+}
+
 .nav-link {
     padding: 0 !important;
 }
@@ -263,7 +327,7 @@ header {
 .aspect-ratio-box {
     position: relative;
     width: 100%;
-    padding-top: 133%;
+    padding-top: 100%;
     overflow: hidden;
 }
 
@@ -272,7 +336,6 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    /* height: 100%; */
 }
 
 .bg-blue {
@@ -395,7 +458,7 @@ header {
     }
 
     .controls-fixed {
-        top: 145px;
+        top: 128px;
     }
 }
 
