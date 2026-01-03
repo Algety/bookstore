@@ -164,7 +164,7 @@ def edit_book(request, book_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Successfully updated book!')
-            return redirect(reverse('book_detail', args=[book.id]))
+            return redirect(reverse('book_detail', kwargs={'slug': book.slug}))
         else:
             messages.error(request, 'Failed to update book. Please ensure the form is valid.')
     else:
