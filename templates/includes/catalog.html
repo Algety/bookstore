@@ -24,8 +24,8 @@
                     <input type="hidden" name="redirect_url" value="{{ request.path }}">
                     {% if request.user.is_superuser %}
                         <div class="d-flex gap-1">
-                            <a href="{% url 'edit_book' book.id %}" class="btn btn-edit rounded-1 flex-fill">Edit</a>
-                            <a href="{% url 'delete_book' book.id %}" class="btn btn-delete rounded-1 flex-fill">Delete</a>
+                            <a href="{% url 'edit_book' book.id %}" class="btn btn-edit btn-sm rounded-1 flex-fill">Edit</a>
+                            <a href="{% url 'delete_book' book.id %}" class="btn btn-delete btn-sm rounded-1 flex-fill">Delete</a>
                         </div>
                     {% else %}
                         <button type="submit" class="buy-btn border rounded-1">
