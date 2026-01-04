@@ -98,10 +98,10 @@
 
     <div class="col-12 mt-3 d-flex flex-wrap justify-content-start gap-2">
         {% if request.user.is_superuser %}
-            <a href="{% url 'edit_book' book.id %}" class="btn btn-primary border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
+            <a href="{% url 'edit_book' book.id %}" class="btn btn-edit border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
                 Edit
             </a>
-            <a href="{% url 'delete_book' book.id %}" class="btn btn-danger border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
+            <a href="{% url 'delete_book' book.id %}" class="btn btn-delete border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
                 Delete
             </a>
         {% else %}
