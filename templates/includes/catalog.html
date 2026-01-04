@@ -22,16 +22,16 @@
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="1">
                     <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                    <button type="submit" class="buy-btn border rounded-1">
-                        {% if request.user.is_superuser %}
-                            <small class="ml-3">
-                                <a href="{% url 'edit_book' book.id %}">Edit</a> | 
-                                <a class="text-danger" href="{% url 'delete_book' book.id %}">Delete</a>
-                            </small>
-                        {% else %}
+                    {% if request.user.is_superuser %}
+                        <div class="d-flex gap-1">
+                            <a href="{% url 'edit_book' book.id %}" class="btn btn-edit rounded-1 flex-fill">Edit</a>
+                            <a href="{% url 'delete_book' book.id %}" class="btn btn-delete rounded-1 flex-fill">Delete</a>
+                        </div>
+                    {% else %}
+                        <button type="submit" class="buy-btn border rounded-1">
                             <span class="d-sm-block">Add to cart</span>
-                        {% endif %}
-                    </button>
+                        </button>
+                    {% endif %}
                 </form>
                 <p class="mb-0 mt-3">{{ book.title }}</p>
                 <em class="mb-0">
