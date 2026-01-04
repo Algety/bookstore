@@ -425,7 +425,7 @@ header {
     color: var(--main-color);
     font-family: 'Source Sans Pro', serif;
     text-transform: uppercase;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .fa-lg {
