@@ -1,5 +1,6 @@
 from django import forms
 from .models import Book, Category, BookContributor
+from .widgets import CustomClearableFileInput
 
 
 class MultiSelectDropdownWidget(forms.CheckboxSelectMultiple):
@@ -42,6 +43,7 @@ class BookForm(forms.ModelForm):
                 'id': 'description-textarea',
                 'class': 'border-black rounded-1'
             }),
+            'image': CustomClearableFileInput(),
             'authors': forms.SelectMultiple(attrs={
                 'class': 'selectpicker form-control',
                 'data-live-search': 'true',
