@@ -476,6 +476,18 @@ header {
     color: white !important;
 }
 
+.btn-cancel {
+    background-color: var(--second-color) !important;
+    border-color: var(--second-color) !important;
+    color: white !important;
+}
+
+.btn-cancel:hover {
+    background-color: #e6a800 !important;
+    border-color: #d39e00 !important;
+    color: white !important;
+}
+
 .dropdown-menu {
     z-index: 1050;
     font-size: 0.8rem;
