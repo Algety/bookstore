@@ -7,3 +7,5 @@ env.py
 reset_password.py
 restore_original_categories.py
 commands
+static/drafts/
+DEPLOYMENT draft.md
