@@ -92,6 +92,24 @@
         $('#new-image').change(function() {
             var file = $('#new-image')[0].files[0];
             $('#filename').text(`Image will be set to: ${file.name}`);
+            
+            // Show image preview
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#image-preview').remove(); // Remove any existing preview
+                    var imagePreview = `
+                        <div id="image-preview" class="mt-3 text-center">
+                            <p class="mb-2"><strong>Image Preview:</strong></p>
+                            <img src="${e.target.result}" width="96" height="96" class="rounded shadow-sm" alt="Image preview">
+                        </div>
+                    `;
+                    $('#filename').after(imagePreview);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                $('#image-preview').remove();
+            }
         });
     </script>
 {% endblock %}
