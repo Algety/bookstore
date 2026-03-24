@@ -7,6 +7,7 @@ from django.conf import settings
 
 from .forms import OrderForm
 from .models import Order, OrderLineItem
+from .webhook_handler import StripeWH_Handler
 from books.models import Book
 from profiles.forms import UserProfileForm
 from profiles.models import UserProfile
@@ -210,7 +211,15 @@ def stripe_webhook(request):
         print("Invalid signature")
         return HttpResponse(status=400)
 
-    print("Stripe webhook received:")
-    print(json.dumps(event, indent=2))
+    # Instantiate webhook handler and route event
+    handler = StripeWH_Handler(request)
+    event_map = {
+        'payment_intent.succeeded': handler.handle_payment_intent_succeeded,
+        'payment_intent.payment_failed': handler.handle_payment_intent_payment_failed,
+    }
 
-    return HttpResponse(status=200)
+    event_type = event['type']
+    event_handler = event_map.get(event_type, handler.handle_event)
+    response = event_handler(event)
+
+    return response
