@@ -51,9 +51,17 @@ class StripeWH_Handler:
         cart = intent.metadata.cart
         save_info = intent.metadata.save_info
 
-        billing_details = intent.charges.data[0].billing_details
+        # Get billing details from charges if available, otherwise use intent
+        if intent.charges.data:
+            billing_details = intent.charges.data[0].billing_details
+            grand_total = round(intent.charges.data[0].amount / 100, 2)
+        else:
+            # Fallback: use data from intent itself
+            billing_details = intent.charges.data[0].billing_details \
+                if intent.charges.data else None
+            grand_total = round(intent.amount / 100, 2)
+        
         shipping_details = intent.shipping
-        grand_total = round(intent.charges.data[0].amount / 100, 2)
 
         # Clean data in the shipping details
         for field, value in shipping_details.address.items():
