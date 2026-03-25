@@ -201,7 +201,8 @@ header {
 }
 
 /* Logo image */
-#logo {
+#logo,
+#logo-md {
     background-image: url('/static/images/fayno_logo_transparent_book.png');
     width: 70px;
     height: 50px;
@@ -601,7 +602,8 @@ header {
 }
 
 @media (min-width: 400px) {
-    #logo {
+    #logo,
+    #logo-md {
         width: 90px;
         height: 70px;
     }
@@ -775,7 +777,8 @@ header {
         font-size: 1rem !important;
     }
 
-    #logo {
+    #logo,
+    #logo-md {
         width: 120px;
         height: 100px;
     }
