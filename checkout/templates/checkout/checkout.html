@@ -171,6 +171,8 @@
 {% include 'includes/stop_propagation.html' %}
 
 {% include 'books/includes/quantity_input_script.html' %}
+<!-- Stripe - loaded only on checkout page -->
+<script src="https://js.stripe.com/v3/"></script>
 {{ stripe_public_key|json_script:"id_stripe_public_key" }}
 {{ client_secret|json_script:"id_client_secret" }}
 <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
