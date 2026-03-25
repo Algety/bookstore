@@ -50,8 +50,9 @@ class StripeWH_Handler:
         pid = intent.id
         cart = intent.metadata.cart
         save_info = intent.metadata.save_info
+        email = intent.metadata.email
 
-        # Get billing details and amount from charges if available
+        # Get billing details from charges if available
         billing_details = None
         if hasattr(intent, 'charges') and intent.charges.data:
             billing_details = intent.charges.data[0].billing_details
@@ -91,7 +92,7 @@ class StripeWH_Handler:
             try:
                 order = Order.objects.get(
                     full_name__iexact=shipping_details.name,
-                    email__iexact=billing_details.email,
+                    email__iexact=email,
                     phone_number__iexact=shipping_details.phone,
                     country__iexact=shipping_details.address.country,
                     postcode__iexact=shipping_details.address.postal_code,
@@ -122,7 +123,7 @@ class StripeWH_Handler:
                 order = Order.objects.create(
                     full_name=shipping_details.name,
                     user_profile=profile,
-                    email=billing_details.email,
+                    email=email,
                     phone_number=shipping_details.phone,
                     country=shipping_details.address.country,
                     postcode=shipping_details.address.postal_code,

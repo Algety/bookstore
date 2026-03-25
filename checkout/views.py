@@ -34,6 +34,7 @@ def cache_checkout_data(request):
                 str(request.user) if request.user.is_authenticated
                 else 'anonymous'
             ),
+            'email': request.POST.get('email'),
         })
         return HttpResponse(status=200)
     except Exception as e:
