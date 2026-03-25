@@ -203,7 +203,7 @@ header {
 /* Logo image */
 #logo,
 #logo-md {
-    background-image: url('/static/images/fayno_logo_transparent_book.png');
+    background-image: url('/static/images/fayno_logo_transparent_book.webp');
     width: 70px;
     height: 50px;
     background-size: contain;
@@ -336,7 +336,7 @@ header {
 .logo-ornament {
     width: 40%;
     height: 40px;
-    background-image: url('/static/images/fayno_logo_transparent_7.png');
+    background-image: url('/static/images/fayno_logo_transparent_7.webp');
     background-size: contain;
     background-repeat: no-repeat;
     margin-right: 10px;
@@ -388,7 +388,7 @@ header {
 }
 
 .bg-blue {
-    background-image: url('/static/images/promo_border_7.png');
+    background-image: url('/static/images/promo_border_7.webp');
     background-repeat: repeat-x;
     background-size: auto 100%; /* scales the pattern to fill the row height */
     background-position: center;
