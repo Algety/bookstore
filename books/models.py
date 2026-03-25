@@ -2,25 +2,24 @@ from django.db import models
 from slugify import slugify
 from multiselectfield import MultiSelectField
 
-
 # Create your models here.
 
 
 class Category(models.Model):
 
     GENRE_CHOICES = [
-        ('fiction', 'Fiction'),
-        ('nonfiction', 'Non-fiction'),
-        ('learning', 'Learning'),
-        ('hobby', 'Hobby'),
-        ('specials', 'Specials'),
+        ("fiction", "Fiction"),
+        ("nonfiction", "Non-fiction"),
+        ("learning", "Learning"),
+        ("hobby", "Hobby"),
+        ("specials", "Specials"),
     ]
 
     AGE_GROUP_CHOICES = [
-        ('children', 'Children'),
-        ('teens', 'Teens'),
-        ('adults', 'Adults'),
-        ('all', 'All'),
+        ("children", "Children"),
+        ("teens", "Teens"),
+        ("adults", "Adults"),
+        ("all", "All"),
     ]
 
     name = models.CharField(max_length=100)
@@ -28,27 +27,24 @@ class Category(models.Model):
     subcategory = models.CharField(
         max_length=50, choices=GENRE_CHOICES, null=True, blank=True
     )
-    age_groups = MultiSelectField(
-        choices=AGE_GROUP_CHOICES, blank=True, null=True
-    )
+    age_groups = MultiSelectField(choices=AGE_GROUP_CHOICES, blank=True, null=True)
     parent = models.ForeignKey(
-        'self',
+        "self",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='subcategories',
-        limit_choices_to={'subcategory__isnull': True}
+        related_name="subcategories",
+        limit_choices_to={"subcategory__isnull": True},
     )
     order = models.PositiveIntegerField(
         default=0, help_text="Lower numbers appear first"
     )
     active = models.BooleanField(
-        default=True,
-        help_text="Uncheck to hide this category from public view"
+        default=True, help_text="Uncheck to hide this category from public view"
     )
 
     class Meta:
-        verbose_name_plural = 'Categories'
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         return f"{self.name}"
@@ -67,9 +63,9 @@ class BookContributor(models.Model):
     role = models.CharField(
         max_length=30,
         choices=[
-            ('author', 'Author'),
-            ('illustrator', 'Illustrator'),
-        ]
+            ("author", "Author"),
+            ("illustrator", "Illustrator"),
+        ],
     )
     about = models.TextField(blank=True)
     photo_url = models.URLField(max_length=1024, null=True, blank=True)
@@ -98,20 +94,20 @@ class Publisher(models.Model):
 
 
 class Book(models.Model):
-    categories = models.ManyToManyField(Category, related_name='books')
+    categories = models.ManyToManyField(Category, related_name="books")
     sku = models.CharField(max_length=254, null=True, blank=True)
     title = models.CharField(max_length=250)
     slug = models.SlugField(unique=True, blank=True)
     authors = models.ManyToManyField(
         BookContributor,
         blank=True,
-        related_name='authored_books',
-        limit_choices_to={'role': 'author'}
+        related_name="authored_books",
+        limit_choices_to={"role": "author"},
     )
 
     COVER_CHOICES = [
-        ('hardcover', 'Hardcover'),
-        ('paperback', 'Paperback'),
+        ("hardcover", "Hardcover"),
+        ("paperback", "Paperback"),
     ]
     cover_type = models.CharField(max_length=10, choices=COVER_CHOICES)
 
@@ -120,37 +116,32 @@ class Book(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='books'
+        related_name="books",
     )
 
     ILLUSTRATION_CHOICES = [
-        ('none', 'No illustrations'),
-        ('bw', 'Black & White'),
-        ('color', 'Full Colour'),
+        ("none", "No illustrations"),
+        ("bw", "Black & White"),
+        ("color", "Full Colour"),
     ]
-    illustration_type = models.CharField(
-        max_length=10, choices=ILLUSTRATION_CHOICES
-    )
+    illustration_type = models.CharField(max_length=10, choices=ILLUSTRATION_CHOICES)
 
     illustrators = models.ManyToManyField(
         BookContributor,
         blank=True,
-        related_name='illustrated_books',
-        limit_choices_to={'role': 'illustrator'}
+        related_name="illustrated_books",
+        limit_choices_to={"role": "illustrator"},
     )
 
     LANGUAGE_CHOICES = [
-        ('eng', 'English'),
-        ('ukr', 'Ukrainian'),
+        ("eng", "English"),
+        ("ukr", "Ukrainian"),
     ]
-    language = models.CharField(max_length=30, choices=LANGUAGE_CHOICES,
-                                default='ukr')
+    language = models.CharField(max_length=30, choices=LANGUAGE_CHOICES, default="ukr")
 
     pages = models.PositiveIntegerField()
     dimensions = models.CharField(max_length=50, blank=True)
-    weight = models.DecimalField(
-        max_digits=5, decimal_places=2, null=True, blank=True
-    )
+    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock_quantity = models.PositiveIntegerField(default=0)
@@ -164,12 +155,12 @@ class Book(models.Model):
             base_slug = slugify(self.title)
             slug = base_slug
             counter = 1
-            
+
             # Check for existing slugs and add number suffix if needed
             while Book.objects.filter(slug=slug).exclude(pk=self.pk).exists():
                 counter += 1
                 slug = f"{base_slug}-{counter}"
-            
+
             self.slug = slug
         super().save(*args, **kwargs)
 
