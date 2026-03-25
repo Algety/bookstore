@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from .models import Order, OrderLineItem
 from books.models import Book
@@ -50,7 +51,16 @@ class StripeWH_Handler:
         pid = intent.id
         cart = intent.metadata.cart
         save_info = intent.metadata.save_info
-        email = intent.metadata.email
+        username = intent.metadata.username
+
+        # Get email from metadata if available, otherwise from User object
+        email = intent.metadata.get('email')
+        if not email and username != 'AnonymousUser':
+            try:
+                user = User.objects.get(username=username)
+                email = user.email
+            except User.DoesNotExist:
+                email = None
 
         # Get billing details from charges if available
         billing_details = None
