@@ -277,8 +277,6 @@ else:
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-X_FRAME_OPTIONS = 'ALLOW_ALL'
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
