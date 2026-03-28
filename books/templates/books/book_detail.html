@@ -72,6 +72,7 @@
         <div class="col">
             <div class="form-group mb-0">
                 <div class="input-group">
+                    <label for="id_qty_{{ book.id }}" class="sr-only">Quantity for {{ book.title }}</label>
                     <div class="input-group-prepend mt-2">
                         <button class="decrement-qty btn rounded-1" type="button"
                                 data-item_id="{{ book.id }}" id="decrement-qty_{{ book.id }}"

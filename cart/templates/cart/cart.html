@@ -68,6 +68,7 @@
                 <div class="d-flex align-items-center">
                   <form class="form update-form update-on-qty-change" method="POST" action="{% url 'adjust_cart' item.item_id %}">
                     {% csrf_token %}
+                    <label for="id_qty_{{ item.item_id }}" class="sr-only">Quantity for {{ item.book.title }}</label>
                     <div class="input-group input-group-sm" style="width: 100px;">
                       <div class="input-group-prepend">
                         <button class="decrement-qty update-on-qty-change btn btn-sm btn-black rounded-0"
@@ -181,6 +182,7 @@
                   <div class="col-2 text-center px-0">
                     <form class="form update-form update-on-qty-change" method="POST" action="{% url 'adjust_cart' item.item_id %}">
                       {% csrf_token %}
+                      <label for="id_qty_{{ item.item_id }}" class="sr-only">Quantity for {{ item.book.title }}</label>
                       <div class="input-group input-group-sm" style="width: 65px; margin: 0 auto;">
                         <div class="input-group-prepend">
                           <button class="decrement-qty update-on-qty-change btn btn-sm btn-black rounded-0"
