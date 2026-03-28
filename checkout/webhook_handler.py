@@ -66,8 +66,11 @@ class StripeWH_Handler:
         # Update profile information if save_info was checked
         profile = None
         if username != "AnonymousUser":
-            profile = UserProfile.objects.get(user__username=username)
-            if save_info:
+            try:
+                profile = UserProfile.objects.get(user__username=username)
+            except UserProfile.DoesNotExist:
+                profile = None
+            if save_info and profile:
                 profile.default_phone_number = shipping_details.phone
                 profile.default_country = shipping_details.address.country
                 profile.default_postcode = (

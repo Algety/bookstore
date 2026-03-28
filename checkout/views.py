@@ -31,7 +31,7 @@ def cache_checkout_data(request):
                 "cart": json.dumps(request.session.get("cart", {})),
                 "save_info": request.POST.get("save_info"),
                 "username": (
-                    str(request.user) if request.user.is_authenticated else "anonymous"
+                    str(request.user) if request.user.is_authenticated else "AnonymousUser"
                 ),
                 "email": request.POST.get("email"),
             },
