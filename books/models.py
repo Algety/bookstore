@@ -145,7 +145,7 @@ class Book(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     price = models.DecimalField(
-        max_digits=6, decimal_places=2, validators=[MinValueValidator(0)]
+        max_digits=6, decimal_places=2, validators=[MinValueValidator(0.01)]
     )
     stock_quantity = models.PositiveIntegerField(default=0)
     available = models.BooleanField(default=True)

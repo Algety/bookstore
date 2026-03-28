@@ -2,8 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import RegexValidator
 
 # Create your models here.
+
+phone_regex = RegexValidator(
+    regex=r'^\d{11}$',
+    message='Phone number must contain exactly 11 digits.'
+)
 
 
 class UserProfile(models.Model):
@@ -13,7 +19,9 @@ class UserProfile(models.Model):
     """
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    default_phone_number = models.CharField(max_length=20, null=True, blank=True)
+    default_phone_number = models.CharField(
+        max_length=20, null=True, blank=True, validators=[phone_regex]
+    )
     default_country = models.CharField(
         max_length=40, null=False, blank=False, default="United Kingdom"
     )
