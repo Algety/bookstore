@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
 from .models import UserProfile
 
 
@@ -31,6 +32,16 @@ class UserProfileAdmin(admin.ModelAdmin):
     )
     
     readonly_fields = ("user",)
+
+    def save_model(self, request, obj, form, change):
+        """Validate phone number before saving"""
+        try:
+            obj.full_clean()
+        except ValidationError as e:
+            raise ValidationError(
+                f"Validation error: {e.message_dict}"
+            )
+        super().save_model(request, obj, form, change)
 
 
 admin.site.register(UserProfile, UserProfileAdmin)
