@@ -74,7 +74,8 @@
                 <div class="input-group">
                     <div class="input-group-prepend mt-2">
                         <button class="decrement-qty btn rounded-1" type="button"
-                                data-item_id="{{ book.id }}" id="decrement-qty_{{ book.id }}">
+                                data-item_id="{{ book.id }}" id="decrement-qty_{{ book.id }}"
+                                aria-label="Decrease quantity for {{ book.title }}">
                             <span class="icon">
                                 <i class="fas fa-minus"></i>
                             </span>
@@ -85,7 +86,8 @@
                            style="max-width: 100px;">
                     <div class="input-group-append mt-2">
                         <button class="increment-qty btn rounded-1" type="button"
-                                data-item_id="{{ book.id }}" id="increment-qty_{{ book.id }}">
+                                data-item_id="{{ book.id }}" id="increment-qty_{{ book.id }}"
+                                aria-label="Increase quantity for {{ book.title }}">
                             <span class="icon">
                                 <i class="fas fa-plus"></i>
                             </span>
