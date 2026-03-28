@@ -167,6 +167,7 @@ header {
     src: url('/static/fonts/SourceSansPro-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 
 .icon {
