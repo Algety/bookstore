@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from .models import Order, OrderLineItem
 from books.models import Book
@@ -84,8 +85,18 @@ class StripeWH_Handler:
                 profile.default_county = shipping_details.address.state
                 profile.save()
 
-        # Get email from billing details
+        # Get email from billing details, fallback to metadata or User
         email = billing_details.email if billing_details else None
+        if not email:
+            # Fallback to metadata email
+            email = intent.metadata.get("email")
+        if not email and username != "AnonymousUser":
+            # Fallback to User database
+            try:
+                user = User.objects.get(username=username)
+                email = user.email
+            except User.DoesNotExist:
+                email = None
 
         order_exists = False
         attempt = 1
