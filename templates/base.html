@@ -16,6 +16,8 @@
       <link rel="stylesheet" href="{% static 'css/base.css' %}">
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+      <!-- Preload critical font -->
+      <link rel="preload" href="{% static 'fonts/SourceSansPro-Regular.ttf' %}" as="font" type="font/ttf" crossorigin>
     {% endblock %}
 
     {% block extra_css %}
@@ -249,7 +251,9 @@
 
     {% block postloadjs %}
     <script>
-    $('.toast').toast('show');
+      if (typeof jQuery !== 'undefined') {
+        $('.toast').toast('show');
+      }
     </script>
     {% endblock %}
   </body>

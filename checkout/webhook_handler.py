@@ -50,19 +50,13 @@ class StripeWH_Handler:
         save_info = intent.metadata.save_info
         username = intent.metadata.username
 
-        # Get email from metadata if available, otherwise from User object
-        email = intent.metadata.get("email")
-        if not email and username != "AnonymousUser":
-            try:
-                user = User.objects.get(username=username)
-                email = user.email
-            except User.DoesNotExist:
-                email = None
-
-        # Get grand total from intent amount (always available)
-        grand_total = round(intent.amount / 100, 2)
+        # Get billing details from charges if available
+        billing_details = None
+        if hasattr(intent, 'charges') and intent.charges.data:
+            billing_details = intent.charges.data[0].billing_details
 
         shipping_details = intent.shipping
+        grand_total = round(intent.amount / 100, 2)
 
         # Clean data in the shipping details
         for field, value in shipping_details.address.items():
@@ -71,18 +65,41 @@ class StripeWH_Handler:
 
         # Update profile information if save_info was checked
         profile = None
-        username = intent.metadata.username
         if username != "AnonymousUser":
-            profile = UserProfile.objects.get(user__username=username)
-            if save_info:
+            try:
+                profile = UserProfile.objects.get(user__username=username)
+            except UserProfile.DoesNotExist:
+                profile = None
+            if save_info and profile:
                 profile.default_phone_number = shipping_details.phone
                 profile.default_country = shipping_details.address.country
-                profile.default_postcode = shipping_details.address.postal_code
-                profile.default_town_or_city = shipping_details.address.city
-                profile.default_street_address1 = shipping_details.address.line1
-                profile.default_street_address2 = shipping_details.address.line2
+                profile.default_postcode = (
+                    shipping_details.address.postal_code
+                )
+                profile.default_town_or_city = (
+                    shipping_details.address.city
+                )
+                profile.default_street_address1 = (
+                    shipping_details.address.line1
+                )
+                profile.default_street_address2 = (
+                    shipping_details.address.line2
+                )
                 profile.default_county = shipping_details.address.state
                 profile.save()
+
+        # Get email from billing details, fallback to metadata or User
+        email = billing_details.email if billing_details else None
+        if not email:
+            # Fallback to metadata email
+            email = intent.metadata.get("email")
+        if not email and username != "AnonymousUser":
+            # Fallback to User database
+            try:
+                user = User.objects.get(username=username)
+                email = user.email
+            except User.DoesNotExist:
+                email = None
 
         order_exists = False
         attempt = 1
@@ -107,6 +124,7 @@ class StripeWH_Handler:
             except Order.DoesNotExist:
                 attempt += 1
                 time.sleep(1)
+
         if order_exists:
             self._send_confirmation_email(order)
             return HttpResponse(
@@ -149,6 +167,7 @@ class StripeWH_Handler:
                     content=f'Webhook received: {event["type"]} | ERROR: {e}',
                     status=500,
                 )
+
         self._send_confirmation_email(order)
         return HttpResponse(
             content=(
@@ -162,4 +181,6 @@ class StripeWH_Handler:
         """
         Handle the payment_intent.payment_failed webhook from Stripe
         """
-        return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
+        return HttpResponse(
+            content=f'Webhook received: {event["type"]}', status=200
+        )
