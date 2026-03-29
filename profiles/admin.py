@@ -39,7 +39,10 @@ class UserProfileAdmin(admin.ModelAdmin):
             obj.full_clean()
         except ValidationError as e:
             # Re-raise with proper error dictionary for admin display
-            raise ValidationError(e.message_dict)
+            if hasattr(e, 'message_dict'):
+                raise ValidationError(e.message_dict)
+            else:
+                raise
         super().save_model(request, obj, form, change)
 
 
