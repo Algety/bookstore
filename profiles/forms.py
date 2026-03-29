@@ -49,6 +49,17 @@ class UserProfileForm(forms.ModelForm):
             ] = "border-black rounded-0 profile-form-input"
             self.fields[field].label = False
 
+    def clean_default_phone_number(self):
+        """Validate phone number format if provided"""
+        phone = self.cleaned_data.get('default_phone_number')
+        if phone:
+            import re
+            if not re.match(r'^\d{11}$', phone):
+                raise forms.ValidationError(
+                    "Phone number must contain exactly 11 digits."
+                )
+        return phone
+
     def clean_default_country(self):
         """Always return United Kingdom for UK-only delivery"""
         return "United Kingdom"
