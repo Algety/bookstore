@@ -51,8 +51,8 @@ class UserProfileForm(forms.ModelForm):
 
     def clean_default_phone_number(self):
         """Validate phone number format if provided"""
-        phone = self.cleaned_data.get('default_phone_number')
-        if phone:
+        phone = self.cleaned_data.get('default_phone_number', '')
+        if phone:  # Only validate if provided (field is optional)
             import re
             if not re.match(r'^\d{11}$', phone):
                 raise forms.ValidationError(

@@ -87,9 +87,6 @@ def checkout(request):
         }
 
         order_form = OrderForm(form_data)
-        print(f"DEBUG: Form valid: {order_form.is_valid()}")
-        print(f"DEBUG: Form errors: {order_form.errors}")
-        print(f"DEBUG: Phone number: {form_data.get('phone_number')}")
 
         if order_form.is_valid():
             order = order_form.save(commit=False)

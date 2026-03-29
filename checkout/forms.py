@@ -55,13 +55,15 @@ class OrderForm(forms.ModelForm):
 
     def clean_phone_number(self):
         """Validate phone number format"""
-        phone = self.cleaned_data.get('phone_number')
-        if phone:
-            import re
-            if not re.match(r'^\d{11}$', phone):
-                raise forms.ValidationError(
-                    "Phone number must contain exactly 11 digits."
-                )
+        phone = self.cleaned_data.get('phone_number', '')
+        if not phone:
+            raise forms.ValidationError("Phone number is required.")
+        
+        import re
+        if not re.match(r'^\d{11}$', phone):
+            raise forms.ValidationError(
+                "Phone number must contain exactly 11 digits."
+            )
         return phone
 
     def clean_country(self):
