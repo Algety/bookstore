@@ -87,6 +87,9 @@ def checkout(request):
         }
 
         order_form = OrderForm(form_data)
+        print(f"DEBUG: Form valid: {order_form.is_valid()}")
+        print(f"DEBUG: Form errors: {order_form.errors}")
+        print(f"DEBUG: Phone number: {form_data.get('phone_number')}")
 
         if order_form.is_valid():
             order = order_form.save(commit=False)
@@ -113,6 +116,14 @@ def checkout(request):
                 "We encountered an issue with your submission. "
                 "Kindly verify your information and try again.",
             )
+            # Re-render the checkout page with form errors
+            template = "checkout/checkout.html"
+            context = {
+                "order_form": order_form,
+                "stripe_public_key": stripe_public_key,
+                "client_secret": intent.client_secret,
+            }
+            return render(request, template, context)
     else:
         # Pre-populate form with user's saved profile data if authenticated
         if request.user.is_authenticated:
