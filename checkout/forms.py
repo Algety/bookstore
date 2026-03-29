@@ -53,19 +53,6 @@ class OrderForm(forms.ModelForm):
             self.fields[field].widget.attrs["class"] = "stripe-style-input"
             self.fields[field].label = False
 
-    def clean_phone_number(self):
-        """Validate phone number format"""
-        phone = self.cleaned_data.get('phone_number', '')
-        if not phone:
-            raise forms.ValidationError("Phone number is required.")
-        
-        import re
-        if not re.match(r'^\d{11}$', phone):
-            raise forms.ValidationError(
-                "Phone number must contain exactly 11 digits."
-            )
-        return phone
-
     def clean_country(self):
         """Always return United Kingdom for UK-only delivery"""
         return "United Kingdom"

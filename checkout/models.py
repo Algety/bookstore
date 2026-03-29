@@ -3,15 +3,9 @@ import uuid
 from django.db import models
 from django.db.models import Sum
 from django.conf import settings
-from django.core.validators import RegexValidator
 
 from books.models import Book
 from profiles.models import UserProfile
-
-phone_regex = RegexValidator(
-    regex=r'^\d{11}$',
-    message='Phone number must contain exactly 11 digits.'
-)
 
 
 class Order(models.Model):
@@ -26,7 +20,7 @@ class Order(models.Model):
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(
-        max_length=20, null=False, blank=False, validators=[phone_regex]
+        max_length=20, null=False, blank=False
     )
     country = models.CharField(
         max_length=40, null=False, blank=False, default="United Kingdom"
