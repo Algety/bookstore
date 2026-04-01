@@ -80,6 +80,7 @@ def checkout(request):
             order.stripe_pid = pid
             order.original_cart = json.dumps(cart)
             order.save()
+            print(f"DEBUG: Form order SAVED: ID={order.id}, country='{order.country}', pid={order.stripe_pid}")
 
             for item_id, quantity in cart.items():
                 book = Book.objects.get(id=item_id)

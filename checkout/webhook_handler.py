@@ -59,9 +59,14 @@ class StripeWH_Handler:
         grand_total = round(intent.amount / 100, 2)
 
         # Clean data in the shipping details
+        print(f"DEBUG: Stripe shipping_details.address.country = {shipping_details.address.country}")
         for field, value in shipping_details.address.items():
             if value == "":
                 shipping_details.address[field] = None
+            # Convert string 'None' to actual None
+            elif value == 'None':
+                shipping_details.address[field] = None
+        print(f"DEBUG: After cleaning, country = {shipping_details.address.country}")
 
         # Update profile information if save_info was checked
         profile = None
@@ -83,9 +88,9 @@ class StripeWH_Handler:
                     shipping_details.address.line1
                 )
                 profile.default_street_address2 = (
-                    shipping_details.address.line2
+                    shipping_details.address.line2 or None
                 )
-                profile.default_county = shipping_details.address.state
+                profile.default_county = shipping_details.address.state or None
                 profile.save()
 
         # Get email from billing details, fallback to metadata or User
@@ -191,6 +196,8 @@ class StripeWH_Handler:
         else:
             order = None
             try:
+                print("DEBUG: Creating NEW order from webhook")
+                print(f"DEBUG: Webhook country to save: {shipping_details.address.country}")
                 order = Order.objects.create(
                     full_name=shipping_details.name,
                     user_profile=profile,
@@ -200,12 +207,13 @@ class StripeWH_Handler:
                     postcode=shipping_details.address.postal_code,
                     town_or_city=shipping_details.address.city,
                     street_address1=shipping_details.address.line1,
-                    street_address2=shipping_details.address.line2,
-                    county=shipping_details.address.state,
+                    street_address2=shipping_details.address.line2 or None,
+                    county=shipping_details.address.state or None,
                     grand_total=grand_total,
                     original_cart=cart,
                     stripe_pid=pid,
                 )
+                print(f"DEBUG: Webhook order CREATED: ID={order.id}, country='{order.country}'")
                 for item_id, quantity in json.loads(cart).items():
                     book = Book.objects.get(id=item_id)
                     order_line_item = OrderLineItem(
