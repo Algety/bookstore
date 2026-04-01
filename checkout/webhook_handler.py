@@ -66,6 +66,11 @@ class StripeWH_Handler:
             # Convert string 'None' to actual None
             elif value == 'None':
                 shipping_details.address[field] = None
+        
+        # Convert Stripe's 'GB' code back to 'United Kingdom' for consistency
+        if shipping_details.address.country == 'GB':
+            shipping_details.address.country = 'United Kingdom'
+        
         print(f"DEBUG: After cleaning, country = {shipping_details.address.country}")
 
         # Update profile information if save_info was checked
