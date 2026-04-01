@@ -57,21 +57,7 @@ def checkout(request):
         messages.error(request, "Your cart is empty")
         return redirect(reverse("books"))
 
-    current_cart = cart_contents(request)
-    total = current_cart["grand_total"]
-    stripe_total = round(total * 100)
     stripe.api_key = stripe_secret_key
-
-    try:
-        intent = stripe.PaymentIntent.create(
-            amount=stripe_total,
-            currency=settings.STRIPE_CURRENCY,
-        )
-    except stripe.error.StripeError:
-        messages.error(
-            request, "There was an issue connecting to Stripe. Please try again later."
-        )
-        return redirect(reverse("view_cart"))
 
     if request.method == "POST":
         form_data = {
@@ -94,7 +80,6 @@ def checkout(request):
             order.stripe_pid = pid
             order.original_cart = json.dumps(cart)
             order.save()
-            order.save()
 
             for item_id, quantity in cart.items():
                 book = Book.objects.get(id=item_id)
@@ -106,59 +91,72 @@ def checkout(request):
                 order_line_item.save()
 
             request.session["save_info"] = "save-info" in request.POST
-            return redirect(reverse("checkout_success", args=[order.order_number]))
+            return redirect(
+                reverse("checkout_success", args=[order.order_number])
+            )
         else:
             messages.error(
                 request,
-                "We encountered an issue with your submission. "
-                "Kindly verify your information and try again.",
+                "There was an error with your form. "
+                "Please double check your information.",
             )
-            # Re-render the checkout page with form errors
-            template = "checkout/checkout.html"
-            context = {
-                "order_form": order_form,
-                "stripe_public_key": stripe_public_key,
-                "client_secret": intent.client_secret,
-            }
-            return render(request, template, context)
-    else:
-        # Pre-populate form with user's saved profile data if authenticated
-        if request.user.is_authenticated:
-            try:
-                profile = UserProfile.objects.get(user=request.user)
-                order_form = OrderForm(
-                    initial={
-                        "full_name": profile.user.get_full_name(),
-                        "email": profile.user.email,
-                        "phone_number": profile.default_phone_number,
-                        "country": profile.default_country,
-                        "postcode": profile.default_postcode,
-                        "town_or_city": profile.default_town_or_city,
-                        "street_address1": profile.default_street_address1,
-                        "street_address2": profile.default_street_address2,
-                        "county": profile.default_county,
-                    }
-                )
-            except UserProfile.DoesNotExist:
-                order_form = OrderForm()
-        else:
+    # GET request or form error - create PaymentIntent for checkout
+    current_cart = cart_contents(request)
+    total = current_cart["grand_total"]
+    stripe_total = round(total * 100)
+
+    try:
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY,
+        )
+    except stripe.error.StripeError:
+        messages.error(
+            request,
+            (
+                "There was an issue connecting to Stripe. "
+                "Please try again later."
+            ),
+        )
+        return redirect(reverse("view_cart"))
+
+    # Pre-populate form with user's saved profile data if authenticated
+    if request.user.is_authenticated:
+        try:
+            profile = UserProfile.objects.get(user=request.user)
+            order_form = OrderForm(
+                initial={
+                    "full_name": profile.user.get_full_name(),
+                    "email": profile.user.email,
+                    "phone_number": profile.default_phone_number,
+                    "country": profile.default_country,
+                    "postcode": profile.default_postcode,
+                    "town_or_city": profile.default_town_or_city,
+                    "street_address1": profile.default_street_address1,
+                    "street_address2": profile.default_street_address2,
+                    "county": profile.default_county,
+                }
+            )
+        except UserProfile.DoesNotExist:
             order_form = OrderForm()
+    else:
+        order_form = OrderForm()
 
-        if not stripe_public_key:
-            messages.warning(
-                request,
-                "Stripe public key is missing. "
-                "Did you forget to set it in your environment?",
-            )
+    if not stripe_public_key:
+        messages.warning(
+            request,
+            "Stripe public key is missing. "
+            "Did you forget to set it in your environment?",
+        )
 
-        template = "checkout/checkout.html"
-        context = {
-            "order_form": order_form,
-            "stripe_public_key": stripe_public_key,
-            "client_secret": intent.client_secret,
-        }
+    template = "checkout/checkout.html"
+    context = {
+        "order_form": order_form,
+        "stripe_public_key": stripe_public_key,
+        "client_secret": intent.client_secret,
+    }
 
-        return render(request, template, context)
+    return render(request, template, context)
 
 
 def checkout_success(request, order_number):
