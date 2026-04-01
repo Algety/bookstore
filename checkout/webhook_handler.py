@@ -32,6 +32,21 @@ class StripeWH_Handler:
 
         send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [cust_email])
 
+    def _clean_shipping_address(self, address):
+        """
+        Clean shipping address data:
+        - Convert empty strings to None
+        - Convert string 'None' to None
+        - Convert Stripe's 'GB' country code to 'United Kingdom'
+        """
+        for field, value in address.items():
+            if value == "" or value == 'None':
+                address[field] = None
+        
+        # Normalize Stripe's 'GB' to 'United Kingdom'
+        if address.country == 'GB':
+            address.country = 'United Kingdom'
+
     def handle_event(self, event):
         """
         Handle a generic/unknown/unexpected webhook event
@@ -59,19 +74,7 @@ class StripeWH_Handler:
         grand_total = round(intent.amount / 100, 2)
 
         # Clean data in the shipping details
-        print(f"DEBUG: Stripe shipping_details.address.country = {shipping_details.address.country}")
-        for field, value in shipping_details.address.items():
-            if value == "":
-                shipping_details.address[field] = None
-            # Convert string 'None' to actual None
-            elif value == 'None':
-                shipping_details.address[field] = None
-        
-        # Convert Stripe's 'GB' code back to 'United Kingdom' for consistency
-        if shipping_details.address.country == 'GB':
-            shipping_details.address.country = 'United Kingdom'
-        
-        print(f"DEBUG: After cleaning, country = {shipping_details.address.country}")
+        self._clean_shipping_address(shipping_details.address)
 
         # Update profile information if save_info was checked
         profile = None
@@ -114,23 +117,6 @@ class StripeWH_Handler:
         order_exists = False
         attempt = 1
         
-        # Print the search criteria from webhook
-        search_criteria = {
-            'full_name': shipping_details.name,
-            'email': email,
-            'phone_number': shipping_details.phone,
-            'country': shipping_details.address.country,
-            'postcode': shipping_details.address.postal_code,
-            'town_or_city': shipping_details.address.city,
-            'street_address1': shipping_details.address.line1,
-            'street_address2': shipping_details.address.line2,
-            'county': shipping_details.address.state,
-            'grand_total': grand_total,
-            'original_cart': cart[:50],  # First 50 chars of cart
-            'stripe_pid': pid,
-        }
-        print(f"WEBHOOK SEARCH CRITERIA: {search_criteria}")
-        
         while attempt <= 5:
             try:
                 order = Order.objects.get(
@@ -148,44 +134,8 @@ class StripeWH_Handler:
                     stripe_pid=pid,
                 )
                 order_exists = True
-                # Print the found order
-                print(f"ORDER FOUND in attempt {attempt}:")
-                print(f"  ID: {order.id}")
-                print(f"  Full Name: {order.full_name}")
-                print(f"  Email: {order.email}")
-                print(f"  Phone: {order.phone_number}")
-                print(f"  Country: {order.country}")
-                print(f"  Postcode: {order.postcode}")
-                print(f"  Town: {order.town_or_city}")
-                print(f"  Street1: {order.street_address1}")
-                print(f"  Street2: {order.street_address2}")
-                print(f"  County: {order.county}")
-                print(f"  Grand Total: {order.grand_total}")
-                print(f"  Stripe PID: {order.stripe_pid}")
                 break
             except Order.DoesNotExist:
-                if attempt == 1:
-                    print("ORDER NOT FOUND in attempt 1.")
-                    print("Recent DB orders:")
-                    # Print all orders to compare
-                    all_orders = Order.objects.all().order_by('-id')[:5]
-                    for db_order in all_orders:
-                        print(
-                            f"DB Order {db_order.id}: "
-                            f"name='{db_order.full_name}' "
-                            f"email='{db_order.email}' "
-                            f"phone='{db_order.phone_number}' "
-                            f"country='{db_order.country}' "
-                            f"postcode='{db_order.postcode}' "
-                            f"town='{db_order.town_or_city}' "
-                            f"street1='{db_order.street_address1}' "
-                            f"street2='{db_order.street_address2}' "
-                            f"county='{db_order.county}' "
-                            f"total={db_order.grand_total} "
-                            f"pid={db_order.stripe_pid}"
-                        )
-                else:
-                    print(f"ORDER NOT FOUND in attempt {attempt}")
                 attempt += 1
                 time.sleep(1)
 
@@ -201,8 +151,6 @@ class StripeWH_Handler:
         else:
             order = None
             try:
-                print("DEBUG: Creating NEW order from webhook")
-                print(f"DEBUG: Webhook country to save: {shipping_details.address.country}")
                 order = Order.objects.create(
                     full_name=shipping_details.name,
                     user_profile=profile,
@@ -218,7 +166,6 @@ class StripeWH_Handler:
                     original_cart=cart,
                     stripe_pid=pid,
                 )
-                print(f"DEBUG: Webhook order CREATED: ID={order.id}, country='{order.country}'")
                 for item_id, quantity in json.loads(cart).items():
                     book = Book.objects.get(id=item_id)
                     order_line_item = OrderLineItem(
