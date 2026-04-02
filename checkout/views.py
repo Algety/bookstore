@@ -61,7 +61,8 @@ def checkout(request):
 
     if request.method == "POST":
         form_data = {
-            "full_name": request.POST.get("full_name"),
+            "first_name": request.POST.get("first_name"),
+            "last_name": request.POST.get("last_name"),
             "email": request.POST.get("email"),
             "phone_number": request.POST.get("phone_number"),
             "country": request.POST.get("country"),
@@ -76,6 +77,8 @@ def checkout(request):
 
         if order_form.is_valid():
             order = order_form.save(commit=False)
+            # Set full_name from cleaned_data (concatenated by form)
+            order.full_name = order_form.cleaned_data.get("full_name", "")
             pid = request.POST.get("client_secret").split("_secret")[0]
             order.stripe_pid = pid
             order.original_cart = json.dumps(cart)
@@ -126,8 +129,9 @@ def checkout(request):
             profile = UserProfile.objects.get(user=request.user)
             order_form = OrderForm(
                 initial={
-                    "full_name": profile.user.get_full_name(),
-                    "email": profile.user.email,
+                    "first_name": request.user.first_name,
+                    "last_name": request.user.last_name,
+                    "email": request.user.email,
                     "phone_number": profile.default_phone_number,
                     "postcode": profile.default_postcode,
                     "town_or_city": profile.default_town_or_city,
@@ -171,6 +175,16 @@ def checkout_success(request, order_number):
 
         # Save the user's info
         if save_info:
+            # Update user's first_name and last_name
+            names = order.full_name.split(' ') if order.full_name else []
+            request.user.first_name = names[0] if names else ""
+            if len(names) > 1:
+                request.user.last_name = ' '.join(names[1:])
+            else:
+                request.user.last_name = ""
+            request.user.email = order.email
+            request.user.save()
+            
             profile_data = {
                 "default_phone_number": order.phone_number,
                 "default_country": order.country,

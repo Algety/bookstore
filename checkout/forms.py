@@ -3,10 +3,17 @@ from .models import Order
 
 
 class OrderForm(forms.ModelForm):
+    # Non-model fields for first and last name
+    first_name = forms.CharField(
+        max_length=50, required=True, label=False
+    )
+    last_name = forms.CharField(
+        max_length=50, required=False, label=False
+    )
+
     class Meta:
         model = Order
         fields = (
-            "full_name",
             "email",
             "phone_number",
             "street_address1",
@@ -24,7 +31,8 @@ class OrderForm(forms.ModelForm):
         """
         super().__init__(*args, **kwargs)
         placeholders = {
-            "full_name": "Full Name",
+            "first_name": "First Name",
+            "last_name": "Last Name",
             "email": "Email Address",
             "phone_number": "Phone Number",
             "country": "United Kingdom (UK delivery only)",
@@ -35,7 +43,7 @@ class OrderForm(forms.ModelForm):
             "county": "County",
         }
 
-        self.fields["full_name"].widget.attrs["autofocus"] = True
+        self.fields["first_name"].widget.attrs["autofocus"] = True
 
         # Set country to UK and make it read-only
         self.fields["country"].initial = "United Kingdom"
@@ -45,13 +53,30 @@ class OrderForm(forms.ModelForm):
         ] = "background-color: #f8f9fa; cursor: not-allowed;"
 
         for field in self.fields:
-            if self.fields[field].required:
+            if field in ["first_name", "last_name"]:
+                # Handle non-model fields
+                placeholder = placeholders[field]
+            elif self.fields[field].required:
                 placeholder = f"{placeholders[field]} *"
             else:
                 placeholder = placeholders[field]
             self.fields[field].widget.attrs["placeholder"] = placeholder
             self.fields[field].widget.attrs["class"] = "stripe-style-input"
             self.fields[field].label = False
+
+    def clean(self):
+        """
+        Combine first_name and last_name into full_name
+        """
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get("first_name", "").strip()
+        last_name = cleaned_data.get("last_name", "").strip()
+
+        if first_name:
+            full_name = f"{first_name} {last_name}".strip()
+            cleaned_data["full_name"] = full_name
+
+        return cleaned_data
 
     def clean_country(self):
         """Always return United Kingdom for UK-only delivery"""
