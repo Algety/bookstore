@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
@@ -13,10 +13,20 @@ def profile(request):
     profile = get_object_or_404(UserProfile, user=request.user)
 
     if request.method == "POST":
-        form = UserProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Profile updated successfully")
+        # Only process if Update Information button was clicked
+        if 'update_profile' in request.POST:
+            form = UserProfileForm(request.POST, instance=profile)
+            if form.is_valid():
+                form.save()
+                
+                # Update User model fields
+                request.user.first_name = form.cleaned_data['first_name']
+                request.user.last_name = form.cleaned_data['last_name']
+                request.user.email = form.cleaned_data['email']
+                request.user.save()
+                
+                messages.success(request, "Profile updated successfully")
+                return redirect('profile')
 
     form = UserProfileForm(instance=profile)
     orders = profile.orders.all().order_by('-date')

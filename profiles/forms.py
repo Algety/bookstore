@@ -3,6 +3,11 @@ from .models import UserProfile
 
 
 class UserProfileForm(forms.ModelForm):
+    # Non-model fields for User model data
+    first_name = forms.CharField(max_length=150, required=False)
+    last_name = forms.CharField(max_length=150, required=False)
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = UserProfile
         exclude = ("user",)
@@ -13,7 +18,17 @@ class UserProfileForm(forms.ModelForm):
         and set autofocus on first field
         """
         super().__init__(*args, **kwargs)
+        
+        # Pre-fill user fields from the User model
+        if self.instance and self.instance.user:
+            self.fields['first_name'].initial = self.instance.user.first_name
+            self.fields['last_name'].initial = self.instance.user.last_name
+            self.fields['email'].initial = self.instance.user.email
+        
         placeholders = {
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "email": "Email Address",
             "default_country": "United Kingdom (UK delivery only)",
             "default_phone_number": "Phone Number",
             "default_postcode": "Post Code",
@@ -23,7 +38,7 @@ class UserProfileForm(forms.ModelForm):
             "default_county": "County",
         }
 
-        self.fields["default_phone_number"].widget.attrs["autofocus"] = True
+        self.fields["first_name"].widget.attrs["autofocus"] = True
 
         # Set country to UK and make it read-only
         self.fields["default_country"].initial = "United Kingdom"
@@ -33,21 +48,14 @@ class UserProfileForm(forms.ModelForm):
         ] = "background-color: #f8f9fa; cursor: not-allowed;"
 
         for field in self.fields:
-            # If you want to mark required fields with an asterisk,
-            # uncomment below
-            # if field != 'default_country':
-            #     if self.fields[field].required:
-            #         placeholder = f'{placeholders[field]} *'
-            #     else:
-            #         placeholder = placeholders[field]
-            # else:
-            #     placeholder = placeholders[field]
             placeholder = placeholders.get(field, "")
             self.fields[field].widget.attrs["placeholder"] = placeholder
             self.fields[field].widget.attrs[
                 "class"
             ] = "border-black rounded-0 profile-form-input"
-            self.fields[field].label = False
+            # Show labels with proper text
+            label_text = placeholders.get(field, field.replace('default_', '').replace('_', ' ').title())
+            self.fields[field].label = label_text
 
     def clean_default_country(self):
         """Always return United Kingdom for UK-only delivery"""
