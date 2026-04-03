@@ -3,8 +3,11 @@
 
 {% block extra_css %}
     <style>
-        /* Fix Bootstrap row overflow on small screens - only on checkout success page */
+        /* Fix Bootstrap row overflow on small screens - checkout success page only */
         @media (max-width: 575.98px) {
+            body {
+                overflow-x: hidden;
+            }
             main .row {
                 margin-left: 0 !important;
                 margin-right: 0 !important;
@@ -13,8 +16,14 @@
                 padding-left: 0 !important;
                 padding-right: 0 !important;
             }
-            .message-container {
-                overflow-x: hidden;
+            /* Fix toast message row overflow */
+            .message-container .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+            .message-container [class*="col"] {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
             }
         }
         
