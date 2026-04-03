@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <style>
+        /* Prevent rows from causing overflow on small screens */
+        .order-info-container .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .order-info-container .col-12,
+        .order-info-container .col-md-4,
+        .order-info-container .col-md-8 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    </style>
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -16,8 +32,8 @@
     </div>
     <div class="container">
         <div class="row catalog-wrapper">
-            <div class="col-12 col-lg-8 mx-auto">
-                <div class="text-start">
+            <div class="col-12 col-lg-8 mx-auto px-2">
+                <div class="text-start order-info-container">
                     <p>Thank you for your order</p>
                     <p>
                         Your payment was successful! Your order number is <strong>{{ order_number }}</strong>.<br>
