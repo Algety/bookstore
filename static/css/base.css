@@ -760,6 +760,56 @@ fieldset legend {
     }
 }
 
+/* -------- Responsive - very small screens (< 375px) -------- */
+@media (max-width: 374px) {
+    .logo-container-small {
+        max-width: 65px;
+    }
+
+    #logo-md {
+        width: 50px;
+        height: 40px;
+    }
+
+    .logo-title {
+        font-size: 0.65rem;
+        margin: 2px 0 -1px 0;
+    }
+
+    .logo-subtitle {
+        font-size: 0.4rem;
+    }
+
+    .logo-container-small .logo-text {
+        line-height: 1;
+    }
+}
+
+/* -------- Responsive - small screens (375px - 399px) -------- */
+@media (min-width: 375px) and (max-width: 399px) {
+    .logo-container-small {
+        max-width: 72px;
+    }
+
+    #logo-md {
+        width: 58px;
+        height: 44px;
+    }
+
+    .logo-title {
+        font-size: 0.75rem;
+        margin: 2px 0 -3px 0;
+    }
+
+    .logo-subtitle {
+        font-size: 0.48rem;
+    }
+
+    .logo-container-small .logo-text {
+        line-height: 1.05;
+    }
+}
+
 /* -------- Responsive - small (≥ 350px) -------- */
 @media (min-width: 350px) {
     .col-6-custom {
