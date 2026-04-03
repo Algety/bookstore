@@ -373,6 +373,17 @@ header {
     background-color: var(--second-color-hover) !important;
 }
 
+/* -------- Cart & Checkout Action buttons -------- */
+.cart-action-button {
+    font-size: 0.8rem !important;
+}
+
+.checkout-button {
+    background-color: var(--second-color) !important;
+    color: black !important;
+    font-size: 0.8rem !important;
+}
+
 /* -------- File input button -------- */
 .btn-file {
     position: relative;
