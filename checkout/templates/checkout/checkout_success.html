@@ -3,7 +3,22 @@
 
 {% block extra_css %}
     <style>
-        /* Prevent rows from causing overflow on small screens */
+        /* Fix Bootstrap row overflow on small screens - only on checkout success page */
+        @media (max-width: 575.98px) {
+            main .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+            main [class*="col-"] {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+            .message-container {
+                overflow-x: hidden;
+            }
+        }
+        
+        /* Prevent rows from causing overflow in order info */
         .order-info-container .row {
             margin-left: 0;
             margin-right: 0;
@@ -11,6 +26,16 @@
         .order-info-container .col-12,
         .order-info-container .col-md-4,
         .order-info-container .col-md-8 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        
+        /* Fix toast message overflow */
+        .toast-body .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .toast-body .col {
             padding-left: 0;
             padding-right: 0;
         }
