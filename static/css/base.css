@@ -1,14 +1,27 @@
 /* -------- Root variables -------- */
 :root {
-    /* Colors */
+    /* Colors - Primary */
     --main-color: #1B75C1;
+    --main-color-hover: #1e6bb8;
     --second-color: #FCC126;
+    --second-color-hover: #e6a800;
+    --second-color-alt: #d39e00;
+    
+    /* Colors - States */
     --success-color: #28a745;
     --success-hover: #218838;
+    --success-alt: #1e7e34;
+    
+    /* Colors - Neutrals */
+    --form-accent-color: #004085;
     --gray-dark: #333;
     --gray-light: #f8f9fa;
     --gray-border: #dee2e6;
+    --gray-muted: #6c757d;
+    --text-dark: #212529;
+    --text-secondary: #565656;
     --black: #000;
+    --white: #fff;
     
     /* Typography */
     --font-family-base: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
@@ -17,6 +30,9 @@
     --font-size-base: 0.9rem;
     --font-size-sm: 0.8rem;
     --font-size-xs: 0.75rem;
+    --font-weight-base: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 600;
     
     /* Spacing */
     --spacing-xs: 0.25rem;
@@ -28,6 +44,9 @@
     /* Layout */
     --header-height: 164px;
     --header-padding: 140px;
+    
+    /* Transitions */
+    --transition-base: 0.15s ease-in-out;
 }
 
 /* -------- Document defaults -------- */
@@ -172,8 +191,7 @@ header {
     max-width: 100px;
 }
 
-.logo-text h1,
-.logo-text h2 {
+.logo-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -187,6 +205,7 @@ header {
     color: var(--main-color);
     text-align: center;
     margin: 3px 0 -6px 0;
+    line-height: 1;
 }
 
 .logo-subtitle {
@@ -197,6 +216,8 @@ header {
     color: var(--main-color);
     text-transform: uppercase;
     line-height: 0.9;
+    margin: 0;
+    padding: 0;
 }
 
 /* -------- Content layout -------- */
@@ -257,13 +278,17 @@ header {
 
 .text-blue {
     color: var(--main-color) !important;
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
+}
+
+.text-muted {
+    color: lightgray;
 }
 
 .promo-font {
     display: inline-block;
-    background-color: white;
-    padding: 0 1rem;
+    background-color: var(--white);
+    padding: 0 var(--spacing-md);
     line-height: 1.2;
     color: var(--main-color);
     font-family: var(--font-family-base);
@@ -278,32 +303,36 @@ header {
 /* -------- Buttons -------- */
 .btn-blue {
     background: var(--main-color);
-    color: white;
+    color: var(--white);
+}
+
+.btn-blue:hover {
+    background: var(--main-color-hover);
 }
 
 .btn-grey {
     display: inline-block;
     padding: 0.375rem 0.75rem;
     margin-right: 10px;
-    font-size: 0.8rem !important;
+    font-size: var(--font-size-sm) !important;
     line-height: 1.5;
-    color: #212529;
-    background-color: #fff;
-    border: 1px solid #ced4da;
+    color: var(--text-dark);
+    background-color: var(--white);
+    border: 1px solid var(--gray-border);
     border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .btn-black {
     background-color: var(--black);
     border-color: var(--black);
-    color: white;
+    color: var(--white);
 }
 
 .btn-black:hover {
     background-color: var(--gray-dark);
     border-color: var(--gray-dark);
-    color: white;
+    color: var(--white);
 }
 
 /* -------- Action buttons (edit/delete/cancel) -------- */
@@ -316,32 +345,32 @@ header {
 .btn-edit {
     background-color: var(--success-color) !important;
     border-color: var(--success-color) !important;
-    color: white !important;
+    color: var(--white) !important;
 }
 
 .btn-edit:hover {
     background-color: var(--success-hover) !important;
-    border-color: #1e7e34 !important;
-    color: white !important;
+    border-color: var(--success-alt) !important;
+    color: var(--white) !important;
 }
 
 .btn-delete,
 .btn-cancel {
     background-color: var(--second-color) !important;
     border-color: var(--second-color) !important;
-    color: white !important;
+    color: var(--white) !important;
 }
 
 .btn-delete:hover,
 .btn-cancel:hover {
-    background-color: #e6a800 !important;
-    border-color: #d39e00 !important;
-    color: white !important;
+    background-color: var(--second-color-hover) !important;
+    border-color: var(--second-color-alt) !important;
+    color: var(--white) !important;
 }
 
 .buy-btn {
     background-color: var(--second-color) !important;
-    font-size: 0.8rem !important;
+    font-size: var(--font-size-sm) !important;
     width: auto !important;
     min-width: fit-content !important;
     min-height: fit-content !important;
@@ -349,19 +378,23 @@ header {
     display: inline-block !important;
 }
 
+.buy-btn:hover {
+    background-color: var(--second-color-hover) !important;
+}
+
 /* -------- File input button -------- */
 .btn-file {
     position: relative;
     overflow: hidden;
     background-color: var(--main-color);
-    color: white;
+    color: var(--white);
     border: 1px solid var(--main-color);
 }
 
 .btn-file:hover {
-    background-color: #1e6bb8;
-    border-color: #1e6bb8;
-    color: white;
+    background-color: var(--main-color-hover);
+    border-color: var(--main-color-hover);
+    color: var(--white);
 }
 
 .btn-file input[type=file] {
@@ -374,7 +407,7 @@ header {
     text-align: right;
     opacity: 0;
     outline: none;
-    background: white;
+    background: var(--white);
     cursor: inherit;
     display: block;
 }
@@ -382,13 +415,55 @@ header {
 /* -------- Forms -------- */
 .form-control {
     padding: 2px 4px !important;
-    font-size: 0.8rem !important;
+    font-size: var(--font-size-sm) !important;
+    border: 1px solid var(--gray-border) !important;
+}
+
+.form-control:focus,
+.form-control:active {
+    border-color: var(--form-accent-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 64, 133, 0.25) !important;
+    outline: none;
 }
 
 #description-textarea {
     font-size: 13px !important;
     padding: 8px 12px !important;
     resize: vertical;
+}
+
+/* Form group styling - common across apps */
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    font-weight: var(--font-weight-medium);
+    display: block;
+    color: var(--form-accent-color);
+    margin-bottom: 0;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+}
+
+/* Fieldset styling - common across apps */
+fieldset {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+fieldset legend {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    padding: 0 0.5rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--form-accent-color);
+    position: relative;
+    right: 0.5rem;
 }
 
 /* -------- Hide number input spinners -------- */
@@ -425,6 +500,7 @@ header {
     z-index: -1;
 }
 
+/* Loading overlay - shared across app */
 #loading-overlay {
     position: fixed;
     top: 0;
@@ -764,10 +840,6 @@ header {
 
 /* -------- Responsive - desktop (≥ 776px) -------- */
 @media (min-width: 776px) {
-    .body {
-        font-size: 0.9rem;
-    }
-
     .btn-grey {
         font-size: 1rem !important;
     }

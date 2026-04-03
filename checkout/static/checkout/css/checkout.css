@@ -1,78 +1,45 @@
-.StripeElement,
-.stripe-style-input {
-  box-sizing: border-box;
-  height:auto;
-  width: 100%!;
-  padding: 10px 12px;
-  border: 1px solid transparent;
-  box-shadow: 0 1px 3px 0 #e6ebf1;
-  -webkit-transition: box-shadow 150ms ease;
-  transition: box-shadow 150ms ease;
-  color: #565656;
-}
+/* ====================================
+   CHECKOUT-SPECIFIC STYLING
+   Stripe payment form styling
+==================================== */
 
-.StripeElement--focus,
-.stripe-style-input:focus,
-.stripe-style-input:active {
-  box-shadow: 0 1px 3px 0 #565656;
-}
-
-.fieldset-label {
-    position: relative;
-    right: .5rem;
-    color: #004085;
-    font-weight: 600;
-    font-size: 0.875rem;
-}
-
+/* Fieldset styling for checkout */
 #payment-form fieldset {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
+/* Form group styling for checkout */
 #payment-form .form-group {
     margin-bottom: 1rem;
 }
 
 #payment-form .form-group label {
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     display: block;
-    color: #004085;
+    color: var(--form-accent-color);
     margin-bottom: 0;
 }
 
+/* Form control styling for checkout */
 #payment-form .form-control {
     width: 100%;
-    border: 1px solid #ddd !important;
+    border: 1px solid var(--gray-border) !important;
     padding: 0.5rem !important;
     font-size: 1rem;
 }
 
 #payment-form .form-control:focus {
     outline: none;
-    border-color: #004085 !important;
+    border-color: var(--form-accent-color) !important;
     box-shadow: 0 0 0 0.2rem rgba(0, 64, 133, 0.25) !important;
 }
 
-#card-element {
-    border: 1px solid #ddd;
-}
-
-#loading-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(255,255,255,0.7);
-    z-index: 9999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
-
-#loading-overlay .spinner-border {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+/* Fieldset label styling */
+.fieldset-label {
+    position: relative;
+    right: 0.5rem;
+    color: var(--form-accent-color);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xs);
 }

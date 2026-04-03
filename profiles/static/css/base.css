@@ -1,8 +1,10 @@
-.text-muted {
-    color: lightgray;
-}
+/* ====================================
+   PROFILE APP UTILITIES
+   Extension of main utilities.css
+==================================== */
 
+/* Scrollable container for order history */
 .order-history {
-    max-height: 416px; /* height of profile form + submit button */
+    max-height: 416px;
     overflow-y: auto;
 }

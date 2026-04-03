@@ -1,0 +1,39 @@
+/* ====================================
+   SHARED UTILITIES & COMPONENTS
+   Used across multiple apps
+==================================== */
+
+/* -------- Text utilities -------- */
+.text-muted {
+    color: lightgray;
+}
+
+/* -------- Layout utilities -------- */
+.order-history {
+    max-height: 416px;
+    overflow-y: auto;
+}
+
+/* -------- Stripe element styling -------- */
+.StripeElement,
+.stripe-style-input {
+    box-sizing: border-box;
+    height: auto;
+    width: 100% !important;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    transition: box-shadow 150ms ease;
+    color: var(--text-secondary);
+}
+
+.StripeElement--focus,
+.stripe-style-input:focus,
+.stripe-style-input:active {
+    box-shadow: 0 1px 3px 0 var(--text-secondary);
+}
+
+/* -------- Stripe card styling -------- */
+#card-element {
+    border: 1px solid var(--gray-border);
+}
