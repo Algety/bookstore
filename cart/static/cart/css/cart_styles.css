@@ -1,0 +1,44 @@
+/* ====================================
+   CART APP STYLES
+==================================== */
+
+/* -------- Quantity input -------- */
+.qty-input-group {
+    width: 100px;
+}
+
+.qty-input-small {
+    width: 65px;
+    margin: 0 auto;
+}
+
+.qty-input-field {
+    width: 25px;
+    font-size: 0.65rem;
+    padding: 0.1rem;
+}
+
+.qty-button {
+    font-size: 0.6rem;
+    padding: 0.1rem 0.2rem;
+}
+
+.qty-icon {
+    font-size: 0.5rem;
+}
+
+/* -------- Cart actions -------- */
+.cart-action-button {
+    font-size: 0.8rem !important;
+}
+
+.checkout-button {
+    background-color: var(--second-color) !important;
+    color: black !important;
+    font-size: 0.8rem !important;
+}
+
+/* -------- Cart divider -------- */
+.cart-item-divider {
+    border-bottom: 1px solid #dee2e6;
+}

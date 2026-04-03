@@ -29,9 +29,9 @@ class MultiSelectDropdownWidget(forms.CheckboxSelectMultiple):
 
 class BookForm(forms.ModelForm):
     categories = forms.ModelMultipleChoiceField(
-        queryset=Category.objects.filter(
-            parent__isnull=False, active=True
-        ).order_by("parent__name", "name"),
+        queryset=Category.objects.filter(parent__isnull=False, active=True).order_by(
+            "parent__name", "name"
+        ),
         widget=forms.SelectMultiple(
             attrs={
                 "class": "selectpicker form-control",

@@ -14,22 +14,22 @@ def profile(request):
 
     if request.method == "POST":
         # Only process if Update Information button was clicked
-        if 'update_profile' in request.POST:
+        if "update_profile" in request.POST:
             form = UserProfileForm(request.POST, instance=profile)
             if form.is_valid():
                 form.save()
-                
+
                 # Update User model fields
-                request.user.first_name = form.cleaned_data['first_name']
-                request.user.last_name = form.cleaned_data['last_name']
-                request.user.email = form.cleaned_data['email']
+                request.user.first_name = form.cleaned_data["first_name"]
+                request.user.last_name = form.cleaned_data["last_name"]
+                request.user.email = form.cleaned_data["email"]
                 request.user.save()
-                
+
                 messages.success(request, "Profile updated successfully")
-                return redirect('profile')
+                return redirect("profile")
 
     form = UserProfileForm(instance=profile)
-    orders = profile.orders.all().order_by('-date')
+    orders = profile.orders.all().order_by("-date")
 
     template = "profiles/profile.html"
     context = {"form": form, "orders": orders, "on_profile_page": True}

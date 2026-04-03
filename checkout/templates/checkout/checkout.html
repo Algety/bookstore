@@ -4,6 +4,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+    <link rel="stylesheet" href="{% static 'checkout/css/checkout_styles.css' %}">
 {% endblock %}
 
 {% block page_header %}
@@ -26,14 +27,14 @@
             <div class="col-10 col-sm-5 order-lg-last mb-5">
                 <table class="w-100">
                     <!-- Header Row -->
-                    <tr style="background-color: #1B75C1; color: white;">
+                    <tr class="order-summary-header">
                         <td colspan="2" class="py-2 px-2">Order Summary</td>
                         <td class="py-2 px-2 text-right">Subtotal</td>
                     </tr>
                     <!-- Cart Items -->
                     {% for item in cart_items %}
-                    <tr style="border-bottom: 1px solid #ccc;">
-                        <td class="align-top py-2 px-2" style="width: 30%;">
+                    <tr class="order-item-row">
+                        <td class="align-top py-2 px-2 order-item-image">
                             <a href="{% url 'book_detail' item.book.slug %}">
                                 {% if item.book.image %}
                                     <img class="w-100" src="{{ item.book.image.url }}" alt="{{ book.title }}">
@@ -42,18 +43,18 @@
                                 {% endif %}
                             </a>
                         </td>
-                        <td class="align-top py-2 px-2" style="width: 50%;">
+                        <td class="align-top py-2 px-2 order-item-details">
                             <p class="my-0"><strong>{{ item.book.title }}</strong></p>
                             <p class="my-0 small text-muted">Qty: {{ item.quantity }}</p>
                         </td>
-                        <td class="align-top py-2 px-2 text-right" style="width: 20%;">
+                        <td class="align-top py-2 px-2 text-right order-item-price">
                             <p class="my-0 small text-muted">£{{ item.book.price | calc_subtotal:item.quantity }}</p>
                         </td>
                     </tr>
                     {% endfor %}
                     <!-- Divider -->
                     <tr>
-                        <td colspan="3"><hr style="border-top: 2px solid #666; margin: 0;"></td>
+                        <td colspan="3"><hr class="order-summary-divider"></td>
                     </tr>
                     <!-- Totals -->
                     <tr>
@@ -76,7 +77,7 @@
                 <p id="form-instructions">Complete the form below to finalize your order:</p>
                 
                 <!-- Processing Payment Message -->
-                <div id="processing-message" class="text-center" style="display: none;">
+                <div id="processing-message" class="text-center processing-message">
                     <div class="spinner-border text-primary mb-3" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
@@ -124,7 +125,7 @@
                         <a href="{% url 'view_cart' %}" class="btn btn-grey border rounded-1 text-uppercase">
                             Adjust cart
                         </a>
-                        <input type="submit" id="submit-button" class="btn border rounded-1 text-uppercase" style="background-color: var(--second-color) !important; color: black !important; font-size: 0.8rem !important;" value="Complete Order">
+                        <input type="submit" id="submit-button" class="btn border rounded-1 text-uppercase checkout-submit-btn" value="Complete Order">
                     </div>
                 </form>
             </div>

@@ -18,13 +18,13 @@ class UserProfileForm(forms.ModelForm):
         and set autofocus on first field
         """
         super().__init__(*args, **kwargs)
-        
+
         # Pre-fill user fields from the User model
         if self.instance and self.instance.user:
-            self.fields['first_name'].initial = self.instance.user.first_name
-            self.fields['last_name'].initial = self.instance.user.last_name
-            self.fields['email'].initial = self.instance.user.email
-        
+            self.fields["first_name"].initial = self.instance.user.first_name
+            self.fields["last_name"].initial = self.instance.user.last_name
+            self.fields["email"].initial = self.instance.user.email
+
         placeholders = {
             "first_name": "First Name",
             "last_name": "Last Name",
@@ -54,7 +54,9 @@ class UserProfileForm(forms.ModelForm):
                 "class"
             ] = "border-black rounded-0 profile-form-input"
             # Show labels with proper text
-            label_text = placeholders.get(field, field.replace('default_', '').replace('_', ' ').title())
+            label_text = placeholders.get(
+                field, field.replace("default_", "").replace("_", " ").title()
+            )
             self.fields[field].label = label_text
 
     def clean_default_country(self):

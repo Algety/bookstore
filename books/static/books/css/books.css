@@ -1,0 +1,17 @@
+/* ====================================
+   BOOKS APP STYLES
+==================================== */
+
+/* -------- Form spacing -------- */
+.form-spacer-mobile {
+    height: 20px;
+}
+
+/* -------- Book detail buttons -------- */
+.book-detail-button {
+    max-width: calc(50% - 0.25rem);
+}
+
+.book-detail-qty {
+    max-width: 100px;
+}

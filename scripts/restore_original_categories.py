@@ -3,14 +3,15 @@
 Safe script to restore original bookstore categories.
 This script can be run on both local and Heroku environments.
 """
+
 import os
 import django
 
 # Setup Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bookstore.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bookstore.settings")
 django.setup()
 
-from books.models import Category
+from books.models import Category  # noqa: E402
 
 
 def restore_original_categories():
@@ -18,22 +19,26 @@ def restore_original_categories():
     Restore the original category structure from September/October 2024.
     This will clear existing categories and restore the original 5-category structure.
     """
-    
+
     print("🔄 Starting category restoration...")
     print(f"Current categories count: {Category.objects.count()}")
-    
+
     # Confirm before proceeding
     if Category.objects.exists():
-        print("\n⚠️  This will DELETE all existing categories and restore the original structure.")
-        confirmation = input("Are you sure you want to proceed? (type 'yes' to continue): ")
-        if confirmation.lower() != 'yes':
+        print(
+            "\n⚠️  This will DELETE all existing categories and restore the original structure."
+        )
+        confirmation = input(
+            "Are you sure you want to proceed? (type 'yes' to continue): "
+        )
+        if confirmation.lower() != "yes":
             print("❌ Operation cancelled.")
             return
-    
+
     # Clear existing categories
     print("\n🗑️  Clearing existing categories...")
     Category.objects.all().delete()
-    
+
     # Original category structure from September/October 2024
     categories_structure = [
         # Main parent categories (age-based organization)
@@ -44,25 +49,25 @@ def restore_original_categories():
             "age_groups": ["children"],
             "parent_name": None,
             "order": 1,
-            "active": True
+            "active": True,
         },
         {
-            "name": "teens", 
+            "name": "teens",
             "screen_name": "Teens and Youth",
             "subcategory": None,
             "age_groups": ["teens"],
             "parent_name": None,
             "order": 2,
-            "active": True
+            "active": True,
         },
         {
             "name": "adults",
-            "screen_name": "Adults", 
+            "screen_name": "Adults",
             "subcategory": None,
             "age_groups": ["adults"],
             "parent_name": None,
             "order": 3,
-            "active": True
+            "active": True,
         },
         {
             "name": "learn_english",
@@ -71,18 +76,17 @@ def restore_original_categories():
             "age_groups": ["children", "teens", "adults"],
             "parent_name": None,
             "order": 4,
-            "active": True
+            "active": True,
         },
         {
             "name": "specials",
             "screen_name": "Collectible and Gift Editions",
-            "subcategory": None, 
+            "subcategory": None,
             "age_groups": ["children", "teens", "adults"],
             "parent_name": None,
             "order": 5,
-            "active": True
+            "active": True,
         },
-        
         # Children's subcategories
         {
             "name": "fiction",
@@ -91,16 +95,16 @@ def restore_original_categories():
             "age_groups": ["children"],
             "parent_name": "children",
             "order": 1,
-            "active": True
+            "active": True,
         },
         {
             "name": "nfiction",
-            "screen_name": "Non-fiction", 
+            "screen_name": "Non-fiction",
             "subcategory": "nonfiction",
             "age_groups": ["children"],
             "parent_name": "children",
             "order": 2,
-            "active": True
+            "active": True,
         },
         {
             "name": "learning",
@@ -109,18 +113,17 @@ def restore_original_categories():
             "age_groups": ["children"],
             "parent_name": "children",
             "order": 3,
-            "active": True
+            "active": True,
         },
         {
             "name": "crafts",
             "screen_name": "Craft and Activities",
             "subcategory": "hobby",
             "age_groups": ["children"],
-            "parent_name": "children", 
+            "parent_name": "children",
             "order": 4,
-            "active": True
+            "active": True,
         },
-        
         # Teens' subcategories
         {
             "name": "fiction",
@@ -129,16 +132,16 @@ def restore_original_categories():
             "age_groups": ["teens"],
             "parent_name": "teens",
             "order": 1,
-            "active": True
+            "active": True,
         },
         {
-            "name": "nfiction", 
+            "name": "nfiction",
             "screen_name": "Non-fiction",
             "subcategory": "nonfiction",
             "age_groups": ["teens"],
             "parent_name": "teens",
             "order": 2,
-            "active": True
+            "active": True,
         },
         {
             "name": "learning",
@@ -147,18 +150,17 @@ def restore_original_categories():
             "age_groups": ["teens"],
             "parent_name": "teens",
             "order": 3,
-            "active": True
+            "active": True,
         },
         {
             "name": "hobby",
             "screen_name": "Hobby",
-            "subcategory": "hobby", 
+            "subcategory": "hobby",
             "age_groups": ["teens"],
             "parent_name": "teens",
             "order": 4,
-            "active": True
+            "active": True,
         },
-        
         # Adults' subcategories
         {
             "name": "fiction",
@@ -167,16 +169,16 @@ def restore_original_categories():
             "age_groups": ["adults"],
             "parent_name": "adults",
             "order": 1,
-            "active": True
+            "active": True,
         },
         {
             "name": "nfiction",
             "screen_name": "Non-fiction",
-            "subcategory": "nonfiction", 
+            "subcategory": "nonfiction",
             "age_groups": ["adults"],
             "parent_name": "adults",
             "order": 2,
-            "active": True
+            "active": True,
         },
         {
             "name": "hobby",
@@ -185,9 +187,8 @@ def restore_original_categories():
             "age_groups": ["adults"],
             "parent_name": "adults",
             "order": 3,
-            "active": True
+            "active": True,
         },
-        
         # English learning levels
         {
             "name": "alevel",
@@ -196,16 +197,16 @@ def restore_original_categories():
             "age_groups": ["children", "teens", "adults"],
             "parent_name": "learn_english",
             "order": 1,
-            "active": True
+            "active": True,
         },
         {
             "name": "blevel",
-            "screen_name": "B1 - B2", 
+            "screen_name": "B1 - B2",
             "subcategory": "learning",
             "age_groups": ["children", "teens", "adults"],
             "parent_name": "learn_english",
             "order": 2,
-            "active": True
+            "active": True,
         },
         {
             "name": "clevel",
@@ -214,9 +215,8 @@ def restore_original_categories():
             "age_groups": ["children", "teens", "adults"],
             "parent_name": "learn_english",
             "order": 3,
-            "active": True
+            "active": True,
         },
-        
         # Specials subcategory
         {
             "name": "specials",
@@ -225,70 +225,78 @@ def restore_original_categories():
             "age_groups": ["children", "teens", "adults"],
             "parent_name": "specials",
             "order": 1,
-            "active": True
-        }
+            "active": True,
+        },
     ]
-    
+
     # First pass: create parent categories
     print("\n🏗️  Creating parent categories...")
     parent_count = 0
     for cat_data in categories_structure:
-        if not cat_data['parent_name']:
+        if not cat_data["parent_name"]:
             category, created = Category.objects.get_or_create(
-                name=cat_data['name'],
-                subcategory=cat_data['subcategory'],
+                name=cat_data["name"],
+                subcategory=cat_data["subcategory"],
                 defaults={
-                    'screen_name': cat_data['screen_name'],
-                    'age_groups': cat_data['age_groups'],
-                    'order': cat_data['order'],
-                    'active': cat_data['active'],
-                    'parent': None
-                }
+                    "screen_name": cat_data["screen_name"],
+                    "age_groups": cat_data["age_groups"],
+                    "order": cat_data["order"],
+                    "active": cat_data["active"],
+                    "parent": None,
+                },
             )
             if created:
                 print(f"   ✅ Created: {category.screen_name}")
                 parent_count += 1
             else:
                 print(f"   ⚠️  Already exists: {category.screen_name}")
-    
-    # Second pass: create child categories  
+
+    # Second pass: create child categories
     print("\n🌿 Creating child categories...")
     child_count = 0
     for cat_data in categories_structure:
-        if cat_data['parent_name']:
+        if cat_data["parent_name"]:
             try:
-                parent = Category.objects.get(name=cat_data['parent_name'])
+                parent = Category.objects.get(name=cat_data["parent_name"])
                 category, created = Category.objects.get_or_create(
-                    name=cat_data['name'],
+                    name=cat_data["name"],
                     parent=parent,
-                    subcategory=cat_data['subcategory'],
+                    subcategory=cat_data["subcategory"],
                     defaults={
-                        'screen_name': cat_data['screen_name'],
-                        'age_groups': cat_data['age_groups'],
-                        'order': cat_data['order'],
-                        'active': cat_data['active']
-                    }
+                        "screen_name": cat_data["screen_name"],
+                        "age_groups": cat_data["age_groups"],
+                        "order": cat_data["order"],
+                        "active": cat_data["active"],
+                    },
                 )
                 if created:
-                    print(f"   ✅ Created: {category.screen_name} → {parent.screen_name}")
+                    print(
+                        f"   ✅ Created: {category.screen_name} → {parent.screen_name}"
+                    )
                     child_count += 1
                 else:
-                    print(f"   ⚠️  Already exists: {category.screen_name} → {parent.screen_name}")
+                    print(
+                        f"   ⚠️  Already exists: {category.screen_name} → {parent.screen_name}"
+                    )
             except Category.DoesNotExist:
-                print(f"   ❌ Parent not found: {cat_data['parent_name']} for {cat_data['name']}")
-    
+                print(
+                    f"   ❌ Parent not found: {cat_data['parent_name']} for {cat_data['name']}"
+                )
+
     final_count = Category.objects.count()
-    print(f"\n✅ Restoration complete!")
-    print(f"📊 Created {parent_count} parent categories and {child_count} child categories")
+    print("\n✅ Restoration complete!")
+    print(
+        f"📊 Created {parent_count} parent categories and {child_count} child categories"
+    )
     print(f"🎯 Total categories: {final_count}")
-    
+
     # Display the restored structure
     print("\n📋 Restored Category Structure:")
-    for parent in Category.objects.filter(parent=None).order_by('order'):
+    for parent in Category.objects.filter(parent=None).order_by("order"):
         print(f"\n{parent.order}. {parent.screen_name}")
-        for child in parent.subcategories.all().order_by('order'):
+        for child in parent.subcategories.all().order_by("order"):
             print(f"   • {child.screen_name}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     restore_original_categories()

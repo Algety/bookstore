@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'cart/css/cart_styles.css' %}">
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -69,12 +73,12 @@
                   <form class="form update-form update-on-qty-change" method="POST" action="{% url 'adjust_cart' item.item_id %}">
                     {% csrf_token %}
                     <label for="id_qty_{{ item.item_id }}" class="sr-only">Quantity for {{ item.book.title }}</label>
-                    <div class="input-group input-group-sm" style="width: 100px;">
+                    <div class="input-group input-group-sm qty-input-group">
                       <div class="input-group-prepend">
                         <button class="decrement-qty update-on-qty-change btn btn-sm btn-black rounded-0"
                                 type="button" data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}"
                                 aria-label="Decrease quantity for {{ item.book.title }}">
-                          <span><i class="fas fa-minus fa-sm"></i></span>
+                          <span><i class="fas fa-minus fa-sm" aria-hidden="true"></i></span>
                         </button>
                       </div>
                       <input class="form-control form-control-sm qty_input text-center" type="number"
@@ -85,7 +89,7 @@
                         <button class="increment-qty update-on-qty-change btn btn-sm btn-black rounded-0"
                                 type="button" data-item_id="{{ item.item_id }}" id="increment-qty_{{ item.item_id }}"
                                 aria-label="Increase quantity for {{ item.book.title }}">
-                          <span><i class="fas fa-plus fa-sm"></i></span>
+                          <span><i class="fas fa-plus fa-sm" aria-hidden="true"></i></span>
                         </button>
                       </div>
                     </div>
@@ -99,7 +103,7 @@
                               data-url="{% url 'remove_from_cart' item.item_id %}"
                               data-item_id="{{ item.item_id }}"
                               aria-label="Remove {{ item.book.title }} from cart">
-                        <i class="fas fa-trash-alt"></i>
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
                       </button>
                     {% endif %}
                   </div>
@@ -125,10 +129,10 @@
             {% endif %}
             
             <div class="d-flex justify-content-end gap-2 mt-3">
-              <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase" style="font-size: 0.8rem !important;">
+              <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase cart-action-button">
                 Keep Shopping
               </a>
-              <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase" style="background-color: var(--second-color) !important; color: black !important; font-size: 0.8rem !important;">
+              <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase checkout-button">
                 Submit
               </a>
             </div>
@@ -139,7 +143,7 @@
         <div class="d-block d-sm-none mobile-cart-item">
           {% for item in cart_items %}
             <div class="mb-3 pb-3{% if not forloop.last %} border-bottom{% endif %}">
-              <div class="p-2" style="border-bottom: 1px solid #dee2e6;">
+              <div class="p-2 cart-item-divider">
                 <!-- Book info at top with delete button -->
                 <div class="mb-2 d-flex justify-content-between align-items-start">
                   <div class="flex-grow-1">
@@ -156,7 +160,7 @@
                               data-url="{% url 'remove_from_cart' item.item_id %}"
                               data-item_id="{{ item.item_id }}"
                               aria-label="Remove {{ item.book.title }} from cart">
-                        <i class="fas fa-trash-alt fa-xs"></i>
+                        <i class="fas fa-trash-alt fa-xs" aria-hidden="true"></i>
                       </button>
                     {% endif %}
                   </div>
@@ -183,26 +187,23 @@
                     <form class="form update-form update-on-qty-change" method="POST" action="{% url 'adjust_cart' item.item_id %}">
                       {% csrf_token %}
                       <label for="id_qty_{{ item.item_id }}" class="sr-only">Quantity for {{ item.book.title }}</label>
-                      <div class="input-group input-group-sm" style="width: 65px; margin: 0 auto;">
+                      <div class="input-group input-group-sm qty-input-small">
                         <div class="input-group-prepend">
-                          <button class="decrement-qty update-on-qty-change btn btn-sm btn-black rounded-0"
-                                  style="font-size: 0.6rem; padding: 0.1rem 0.2rem;"
+                          <button class="decrement-qty update-on-qty-change btn btn-sm btn-black rounded-0 qty-button"
                                   type="button" data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}"
                                   aria-label="Decrease quantity for {{ item.book.title }}">
-                            <span><i class="fas fa-minus" style="font-size: 0.5rem;"></i></span>
+                            <span><i class="fas fa-minus qty-icon" aria-hidden="true"></i></span>
                           </button>
                         </div>
-                        <input class="form-control form-control-sm qty_input text-center" type="number"
-                               style="font-size: 0.65rem; padding: 0.1rem; width: 25px;"
-                               name="quantity" value="{{ item.quantity }}" min="1" max="99"
+                        <input class="form-control form-control-sm qty_input text-center qty-input-field"
+                               type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99"
                                data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
                         <input type="hidden" name="from_detail" value="0">
                         <div class="input-group-append">
-                          <button class="increment-qty update-on-qty-change btn btn-sm btn-black rounded-0"
-                                  style="font-size: 0.6rem; padding: 0.1rem 0.2rem;"
+                          <button class="increment-qty update-on-qty-change btn btn-sm btn-black rounded-0 qty-button"
                                   type="button" data-item_id="{{ item.item_id }}" id="increment-qty_{{ item.item_id }}"
                                   aria-label="Increase quantity for {{ item.book.title }}">
-                            <span><i class="fas fa-plus" style="font-size: 0.5rem;"></i></span>
+                            <span><i class="fas fa-plus qty-icon" aria-hidden="true"></i></span>
                           </button>
                         </div>
                       </div>
@@ -233,8 +234,8 @@
           
           <!-- Mobile buttons -->
           <div class="d-flex mt-3 gap-2">
-            <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase flex-fill btn-sm" style="font-size: 0.8rem !important;">Keep Shopping</a>
-            <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase flex-fill btn-sm" style="font-size: 0.8rem !important; background-color: var(--second-color) !important; color: black !important;">Submit</a>
+            <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase flex-fill btn-sm cart-action-button">Keep Shopping</a>
+            <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase flex-fill btn-sm checkout-button">Submit</a>
           </div>
         </div>
       {% else %}

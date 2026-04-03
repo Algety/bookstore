@@ -4,12 +4,8 @@ from .models import Order
 
 class OrderForm(forms.ModelForm):
     # Non-model fields for first and last name
-    first_name = forms.CharField(
-        max_length=50, required=True
-    )
-    last_name = forms.CharField(
-        max_length=50, required=False
-    )
+    first_name = forms.CharField(max_length=50, required=True)
+    last_name = forms.CharField(max_length=50, required=False)
 
     class Meta:
         model = Order
@@ -44,6 +40,8 @@ class OrderForm(forms.ModelForm):
         }
 
         self.fields["first_name"].widget.attrs["autofocus"] = True
+        self.fields["first_name"].widget.attrs["required"] = True
+        self.fields["first_name"].widget.attrs["autocomplete"] = "given-name"
 
         # Set country to UK and make it read-only
         self.fields["country"].initial = "United Kingdom"
@@ -60,10 +58,35 @@ class OrderForm(forms.ModelForm):
             else:
                 placeholder = placeholders[field]
                 label_text = placeholders[field]
-            
+
             self.fields[field].widget.attrs["placeholder"] = placeholder
             self.fields[field].widget.attrs["class"] = "stripe-style-input"
             self.fields[field].label = label_text
+
+            # Add HTML5 validation attributes
+            if field == "email":
+                self.fields[field].widget.attrs["type"] = "email"
+                self.fields[field].widget.attrs["required"] = True
+                self.fields[field].widget.attrs["autocomplete"] = "email"
+            elif field == "phone_number":
+                self.fields[field].widget.attrs["type"] = "tel"
+                self.fields[field].widget.attrs["required"] = True
+                self.fields[field].widget.attrs["autocomplete"] = "tel"
+                self.fields[field].widget.attrs["inputmode"] = "tel"
+            elif field == "postcode":
+                self.fields[field].widget.attrs["required"] = True
+                self.fields[field].widget.attrs["autocomplete"] = "postal-code"
+                self.fields[field].widget.attrs["inputmode"] = "numeric"
+            elif field == "town_or_city":
+                self.fields[field].widget.attrs["required"] = True
+                self.fields[field].widget.attrs["autocomplete"] = "address-level2"
+            elif field == "street_address1":
+                self.fields[field].widget.attrs["required"] = True
+                self.fields[field].widget.attrs["autocomplete"] = "street-address"
+            elif field == "country":
+                self.fields[field].widget.attrs["required"] = True
+            elif field == "last_name":
+                self.fields[field].widget.attrs["autocomplete"] = "family-name"
 
     def clean(self):
         """

@@ -1,0 +1,42 @@
+/* ====================================
+   CHECKOUT APP STYLES
+==================================== */
+
+/* -------- Order summary table -------- */
+.order-summary-header {
+    background-color: #1B75C1;
+    color: white;
+}
+
+.order-item-row {
+    border-bottom: 1px solid #ccc;
+}
+
+.order-item-image {
+    width: 30%;
+}
+
+.order-item-details {
+    width: 50%;
+}
+
+.order-item-price {
+    width: 20%;
+}
+
+.order-summary-divider {
+    border-top: 2px solid #666;
+    margin: 0;
+}
+
+/* -------- Processing message -------- */
+.processing-message {
+    display: none;
+}
+
+/* -------- Checkout button -------- */
+.checkout-submit-btn {
+    background-color: var(--second-color) !important;
+    color: black !important;
+    font-size: 0.8rem !important;
+}

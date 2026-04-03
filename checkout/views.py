@@ -31,7 +31,9 @@ def cache_checkout_data(request):
                 "cart": json.dumps(request.session.get("cart", {})),
                 "save_info": request.POST.get("save_info"),
                 "username": (
-                    str(request.user) if request.user.is_authenticated else "AnonymousUser"
+                    str(request.user)
+                    if request.user.is_authenticated
+                    else "AnonymousUser"
                 ),
                 "email": request.POST.get("email"),
             },
@@ -94,9 +96,7 @@ def checkout(request):
                 order_line_item.save()
 
             request.session["save_info"] = "save-info" in request.POST
-            return redirect(
-                reverse("checkout_success", args=[order.order_number])
-            )
+            return redirect(reverse("checkout_success", args=[order.order_number]))
         else:
             messages.error(
                 request,
@@ -116,10 +116,7 @@ def checkout(request):
     except stripe.error.StripeError:
         messages.error(
             request,
-            (
-                "There was an issue connecting to Stripe. "
-                "Please try again later."
-            ),
+            ("There was an issue connecting to Stripe. " "Please try again later."),
         )
         return redirect(reverse("view_cart"))
 
@@ -176,15 +173,15 @@ def checkout_success(request, order_number):
         # Save the user's info
         if save_info:
             # Update user's first_name and last_name
-            names = order.full_name.split(' ') if order.full_name else []
+            names = order.full_name.split(" ") if order.full_name else []
             request.user.first_name = names[0] if names else ""
             if len(names) > 1:
-                request.user.last_name = ' '.join(names[1:])
+                request.user.last_name = " ".join(names[1:])
             else:
                 request.user.last_name = ""
             request.user.email = order.email
             request.user.save()
-            
+
             profile_data = {
                 "default_phone_number": order.phone_number,
                 "default_country": order.country,

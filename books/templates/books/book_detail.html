@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'books/css/books.css' %}">
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -78,41 +82,40 @@
                                 data-item_id="{{ book.id }}" id="decrement-qty_{{ book.id }}"
                                 aria-label="Decrease quantity for {{ book.title }}">
                             <span class="icon">
-                                <i class="fas fa-minus"></i>
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </span>
                         </button>
                     </div>
-                    <input class="form-control qty_input mt-2" type="number" name="quantity" value="1"
-                           min="1" max="99" data-item_id="{{ book.id }}" id="id_qty_{{ book.id }}"
-                           style="max-width: 100px;">
-                    <div class="input-group-append mt-2">
-                        <button class="increment-qty btn rounded-1" type="button"
-                                data-item_id="{{ book.id }}" id="increment-qty_{{ book.id }}"
-                                aria-label="Increase quantity for {{ book.title }}">
-                            <span class="icon">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                        </button>
-                    </div>
+                    <input class="form-control qty_input mt-2 book-detail-qty" type="number" name="quantity" value="1"
+                           min="1" max="99" data-item_id="{{ book.id }}" id="id_qty_{{ book.id }}">
+                    <button class="increment-qty btn rounded-1" type="button"
+                            data-item_id="{{ book.id }}" id="increment-qty_{{ book.id }}"
+                            aria-label="Increase quantity for {{ book.title }}">
+                        <span class="icon">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-12 mt-3 d-flex flex-wrap justify-content-start gap-2">
-        {% if request.user.is_superuser %}
-            <a href="{% url 'edit_book' book.id %}" class="btn btn-edit border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
-                Edit
-            </a>
-            <a href="{% url 'delete_book' book.id %}" class="btn btn-delete border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
-                Delete
-            </a>
-        {% else %}
-            <a href="{% url 'books' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap flex-fill" style="max-width: calc(50% - 0.25rem);">
-                Keep Shopping
-            </a>
-            <input type="submit" class="buy-btn border rounded-1 text-uppercase flex-fill" style="max-width: calc(50% - 0.25rem);" value="Add to cart">
-        {% endif %}
+    <div class="form-row mt-3">
+        <div class="col-12 d-flex flex-wrap justify-content-start gap-2">
+            {% if request.user.is_superuser %}
+                <a href="{% url 'edit_book' book.id %}" class="btn btn-edit border rounded-1 text-uppercase text-nowrap flex-fill book-detail-button">
+                    Edit
+                </a>
+                <a href="{% url 'delete_book' book.id %}" class="btn btn-delete border rounded-1 text-uppercase text-nowrap flex-fill book-detail-button">
+                    Delete
+                </a>
+            {% else %}
+                <a href="{% url 'books' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap flex-fill book-detail-button">
+                    Keep Shopping
+                </a>
+                <input type="submit" class="buy-btn border rounded-1 text-uppercase flex-fill book-detail-button" value="Add to cart">
+            {% endif %}
+        </div>
     </div>
 
 

@@ -40,12 +40,12 @@ class StripeWH_Handler:
         - Convert Stripe's 'GB' country code to 'United Kingdom'
         """
         for field, value in address.items():
-            if value == "" or value == 'None':
+            if value == "" or value == "None":
                 address[field] = None
-        
+
         # Normalize Stripe's 'GB' to 'United Kingdom'
-        if address.country == 'GB':
-            address.country = 'United Kingdom'
+        if address.country == "GB":
+            address.country = "United Kingdom"
 
     def handle_event(self, event):
         """
@@ -67,7 +67,7 @@ class StripeWH_Handler:
 
         # Get billing details from charges if available
         billing_details = None
-        if hasattr(intent, 'charges') and intent.charges.data:
+        if hasattr(intent, "charges") and intent.charges.data:
             billing_details = intent.charges.data[0].billing_details
 
         shipping_details = intent.shipping
@@ -86,18 +86,10 @@ class StripeWH_Handler:
             if save_info and profile:
                 profile.default_phone_number = shipping_details.phone
                 profile.default_country = shipping_details.address.country
-                profile.default_postcode = (
-                    shipping_details.address.postal_code
-                )
-                profile.default_town_or_city = (
-                    shipping_details.address.city
-                )
-                profile.default_street_address1 = (
-                    shipping_details.address.line1
-                )
-                profile.default_street_address2 = (
-                    shipping_details.address.line2 or None
-                )
+                profile.default_postcode = shipping_details.address.postal_code
+                profile.default_town_or_city = shipping_details.address.city
+                profile.default_street_address1 = shipping_details.address.line1
+                profile.default_street_address2 = shipping_details.address.line2 or None
                 profile.default_county = shipping_details.address.state or None
                 profile.save()
 
@@ -116,7 +108,7 @@ class StripeWH_Handler:
 
         order_exists = False
         attempt = 1
-        
+
         while attempt <= 5:
             try:
                 order = Order.objects.get(
@@ -195,6 +187,4 @@ class StripeWH_Handler:
         """
         Handle the payment_intent.payment_failed webhook from Stripe
         """
-        return HttpResponse(
-            content=f'Webhook received: {event["type"]}', status=200
-        )
+        return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)

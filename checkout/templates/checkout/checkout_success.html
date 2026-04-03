@@ -98,7 +98,7 @@
                     <hr>
                     <div class="row">
                         <div class="col">
-                            <h5 class="order-subheadings">Delivering To:</h5>
+                            <h4 class="order-subheadings">Delivering To:</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -135,7 +135,7 @@
                     <hr>
                     <div class="row">
                         <div class="col-12">
-                            <h5 class="order-subheadings">Order details:</h5>
+                            <h4 class="order-subheadings">Order details:</h4>
                         </div>
                     </div>
                     {% for item in order.lineitems.all %}
@@ -153,14 +153,14 @@
                     <hr>
                     <div class="row">
                         <div class="col-12">
-                            <h5 class="order-subheadings">Billing Info:</h5>
+                            <h4 class="order-subheadings">Billing Info:</h4>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="order-info mb-0 text-black font-weight-bold">Order Total</p>
                         </div>
-                        <div class="col-12 col-md-8 text-md-left">
+                        <div class="col-12 col-md-8 text-md-start">
                             <p class="order-info mb-0">£{{ order.order_total }}</p>
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                         <div class="col-12 col-md-4">
                             <p class="order-info mb-0 text-black font-weight-bold">Delivery</p>
                         </div>
-                        <div class="col-12 col-md-8 text-md-left">
+                        <div class="col-12 col-md-8 text-md-start">
                             <p class="order-info mb-0">£{{ order.delivery_cost }}</p>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                         <div class="col-12 col-md-4">
                             <p class="order-info mb-0 text-black font-weight-bold">Grand Total</p>
                         </div>
-                        <div class="col-12 col-md-8 text-md-left">
+                        <div class="col-12 col-md-8 text-md-start">
                             <p class="order-info mb-0">£{{ order.grand_total }}</p>
                         </div>
                     </div>
@@ -186,18 +186,19 @@
         <hr>
         <div class="row">
             <!-- Return to -->
-            <div class="col-12 col-lg-7 text-right">
+            <div class="col-12 col-lg-7 text-md-end">
                     <a href="{% url 'books' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap">
                                         More Shopping
                                     </a>
             </div>
-			{% if from_profile %}
-                <a href="{% url 'profile' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap">
-                    <span class="text-uppercase">Back to Profile</span>
-                </a>
+            {% if from_profile %}
+                <div class="col-12 col-lg-5 text-md-end">
+                    <a href="{% url 'profile' %}" class="btn btn-grey btn border rounded-1 text-uppercase text-nowrap">
+                        <span class="text-uppercase">Back to Profile</span>
+                    </a>
+                </div>
             {% endif %}
-			</div>
-		</div>
+        </div>
     </div>
 {% endblock %}
 

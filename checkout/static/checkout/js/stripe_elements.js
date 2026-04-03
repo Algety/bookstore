@@ -29,15 +29,29 @@ var card = elements.create('card', {style: style});
 card.mount('#card-element');
 
 // Fix for Stripe Elements aria-hidden accessibility warning
-// Remove aria-hidden from Stripe elements when they gain focus
-card.addEventListener('focus', function() {
-    var stripeElements = document.querySelectorAll('[aria-hidden="true"]');
-    stripeElements.forEach(function(element) {
-        if (element.closest('#card-element')) {
-            element.removeAttribute('aria-hidden');
-        }
+// Use MutationObserver to continuously remove aria-hidden from Stripe card element
+var cardElementContainer = document.getElementById('card-element');
+if (cardElementContainer) {
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'aria-hidden') {
+                cardElementContainer.removeAttribute('aria-hidden');
+                // Also remove from any nested iframes or elements
+                var iframes = cardElementContainer.querySelectorAll('iframe');
+                iframes.forEach(function(iframe) {
+                    iframe.removeAttribute('aria-hidden');
+                });
+            }
+        });
     });
-});
+    
+    var config = {
+        attributes: true,
+        attributeFilter: ['aria-hidden'],
+        subtree: true
+    };
+    observer.observe(cardElementContainer, config);
+}
 
 // Handle realtime validation errors on the card element
 card.addEventListener('change', function (event) {
@@ -45,7 +59,7 @@ card.addEventListener('change', function (event) {
     if (event.error) {
         var html = `
             <span class="icon" role="alert">
-                <i class="fas fa-times"></i>
+                <i class="fas fa-times" aria-hidden="true"></i>
             </span>
             <span>${event.error.message}</span>
         `;
@@ -113,7 +127,7 @@ form.addEventListener('submit', function(ev) {
                 var errorDiv = document.getElementById('card-errors');
                 var html = `
                     <span class="icon" role="alert">
-                    <i class="fas fa-times"></i>
+                    <i class="fas fa-times" aria-hidden="true"></i>
                     </span>
                     <span>${result.error.message}</span>`;
                 $(errorDiv).html(html);

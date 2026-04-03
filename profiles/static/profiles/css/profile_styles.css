@@ -1,7 +1,12 @@
 /* ====================================
-   PROFILE APP UTILITIES
-   Extension of main utilities.css
+   PROFILE APP STYLES
 ==================================== */
+
+/* -------- Order history table -------- */
+.order-history-header {
+    background-color: #1B75C1;
+    color: white;
+}
 
 /* Scrollable container for order history */
 .order-history {

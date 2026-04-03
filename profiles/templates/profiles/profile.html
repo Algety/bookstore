@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'profile/css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'profiles/css/profile_styles.css' %}">
 {% endblock %}
 
 {% block page_header %}
@@ -46,7 +46,7 @@
           <form class="mt-3" action="" method="POST" id="order-history-form">
             {% csrf_token %}
             <table class="table-responsive w-100 border-0">
-              <thead style="background-color: #1B75C1; color: white;">
+              <thead class="order-history-header">
                 <tr>
                   <th class="px-2">Order Number</th>
                   <th class="px-2">Date</th>
