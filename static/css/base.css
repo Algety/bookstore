@@ -1,15 +1,36 @@
-/* * {
-  outline: 1px solid red;
-} */
-
-/* Root color and font variables */
+/* -------- Root variables -------- */
 :root {
+    /* Colors */
     --main-color: #1B75C1;
     --second-color: #FCC126;
-    /* --third-color: #198754; */
+    --success-color: #28a745;
+    --success-hover: #218838;
+    --gray-dark: #333;
+    --gray-light: #f8f9fa;
+    --gray-border: #dee2e6;
+    --black: #000;
+    
+    /* Typography */
+    --font-family-base: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    --font-family-serif: 'Volkhov', 'Georgia', 'Times New Roman', serif;
     --font-size: 16px;
+    --font-size-base: 0.9rem;
+    --font-size-sm: 0.8rem;
+    --font-size-xs: 0.75rem;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Layout */
+    --header-height: 164px;
+    --header-padding: 140px;
 }
 
+/* -------- Document defaults -------- */
 html {
     height: 100%;
 }
@@ -17,9 +38,10 @@ html {
 body {
     height: calc(100vh - 164px);
     font-size: 0.9rem !important;
-    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    font-family: var(--font-family-base);
 }
 
+/* -------- Header & navigation -------- */
 header {
     background-color: white;
     z-index: 1040;
@@ -29,7 +51,11 @@ header {
     padding-top: 140px;
 }
 
-/* Fix the controls container (sorting, filter) */
+.nav-link {
+    padding: 0 !important;
+}
+
+/* -------- Fixed controls -------- */
 .controls-fixed {
     position: fixed;
     top: 148px;
@@ -47,18 +73,10 @@ header {
     font-size: 24px;
 }
 
-/* .categories-toggle {
+/* -------- Sidebar & categories -------- */
+.categories-container,
+.categories-container-catalog {
     position: fixed;
-    top: calc(164px + 100px); /* header + title height */
-    /* background-color: red;
-    z-index: 1010;
-    padding: 1rem;
-} */
-
-/* Sticky sidebar for ≥lg screens */
-.categories-container {
-    position: fixed;
-    top: 245px;
     left: 0;
     width: 20%;
     height: calc(100vh - (164px + 150px));
@@ -66,23 +84,18 @@ header {
     background-color: white;
     padding: 1rem;
     z-index: 1020;
-    box-shadow: 1px 0 4px rgba(0,0,0,0.05);
+    box-shadow: 1px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.categories-container {
+    top: 245px;
 }
 
 .categories-container-catalog {
-    position: fixed;
     top: 265px;
-    left: 0;
-    width: 20%;
-    height: calc(100vh - (164px + 150px));
-    overflow-y: auto;
-    background-color: white;
-    padding: 1rem;
-    z-index: 1020;
-    box-shadow: 1px 0 4px rgba(0,0,0,0.05);
 }
 
-/* Category list (top-level) */
+/* -------- Category list -------- */
 .category-list {
     list-style: none;
     padding-left: 0;
@@ -92,17 +105,17 @@ header {
 .category {
     font-weight: bold !important;
     margin-bottom: 1rem;
-    padding-left: 0.5rem; /* slight left spacing */
+    padding-left: 0.5rem;
     color: #222;
 }
 
-.category-link {
+.category-link,
+.subcategory-link {
     text-decoration: none;
     color: #222;
 }
 
 .subcategory-link {
-    text-decoration: none;
     color: #333;
 }
 
@@ -112,12 +125,11 @@ header {
 }
 
 .category-dropdown {
-    /* font-weight: !important; */
     margin-bottom: 0.5rem;
-    padding-left: 0.5rem; /* slight left spacing */
+    padding-left: 0.5rem;
 }
 
-/* Subcategory list with custom dots */
+/* -------- Subcategory list -------- */
 .subcategory-list {
     list-style: none;
     margin-top: 0.5rem;
@@ -128,7 +140,7 @@ header {
 
 .subcategory-list li {
     position: relative;
-    padding-left: .5rem;
+    padding-left: 0.5rem;
     margin-bottom: 0.4rem;
     font-weight: normal;
     font-size: 0.95rem;
@@ -136,14 +148,64 @@ header {
     text-decoration: none;
 }
 
-/* Push catalog content lower */
-.catalog-wrapper {
-    padding-top: calc(115px);
+/* -------- Logo & branding -------- */
+#logo,
+#logo-md {
+    background-image: url('/static/images/fayno_logo_transparent_book.webp');
+    width: 70px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    flex-shrink: 0;
+    margin-right: -8px;
+    margin-left: 0px;
 }
 
-/* Push form content lower with less padding than catalog */
+.logo-container {
+    display: flex;
+    align-items: center;
+    max-width: 200px;
+}
+
+.logo-container-small {
+    max-width: 100px;
+}
+
+.logo-text h1,
+.logo-text h2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.logo-title {
+    font-family: var(--font-family-serif);
+    font-size: 1.5rem;
+    color: var(--main-color);
+    text-align: center;
+    margin: 3px 0 -6px 0;
+}
+
+.logo-subtitle {
+    font-family: var(--font-family-base);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: var(--main-color);
+    text-transform: uppercase;
+    line-height: 0.9;
+}
+
+/* -------- Content layout -------- */
+.catalog-wrapper {
+    padding-top: 115px;
+}
+
 .form-wrapper {
-    padding-top: calc(70px);
+    padding-top: 70px;
 }
 
 .carousel-frame {
@@ -161,7 +223,21 @@ header {
     object-position: center;
 }
 
-/* Font Source Sans Pro */
+.aspect-ratio-box {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+}
+
+.aspect-ratio-box img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* -------- Typography & utilities -------- */
 @font-face {
     font-family: 'Source Sans Pro';
     src: url('/static/fonts/SourceSansPro-Regular.ttf') format('truetype');
@@ -179,6 +255,27 @@ header {
     color: var(--main-color);
 }
 
+.text-blue {
+    color: var(--main-color) !important;
+    font-size: 0.8rem;
+}
+
+.promo-font {
+    display: inline-block;
+    background-color: white;
+    padding: 0 1rem;
+    line-height: 1.2;
+    color: var(--main-color);
+    font-family: var(--font-family-base);
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+
+.fa-lg {
+    font-size: 1em !important;
+}
+
+/* -------- Buttons -------- */
 .btn-blue {
     background: var(--main-color);
     color: white;
@@ -197,252 +294,49 @@ header {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.text-blue {
-    color: var(--main-color) !important;
-    font-size: 0.8rem;
+.btn-black {
+    background-color: var(--black);
+    border-color: var(--black);
+    color: white;
 }
 
-/* Logo image */
-#logo,
-#logo-md {
-    background-image: url('/static/images/fayno_logo_transparent_book.webp');
-    width: 70px;
-    height: 50px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    display: inline-block;
-    flex-shrink: 0;
-    margin-right: -8px;
-    margin-left: 0px;
+.btn-black:hover {
+    background-color: var(--gray-dark);
+    border-color: var(--gray-dark);
+    color: white;
 }
 
-/* Logo container for flex alignment */
-.logo-container {
-    display: flex;
-    align-items: center;
-    max-width: 200px;
+/* -------- Action buttons (edit/delete/cancel) -------- */
+.btn-edit,
+.btn-delete,
+.btn-cancel {
+    border-radius: 0.25rem;
 }
 
-/* Small logo container for mobile */
-.logo-container-small {
-    max-width: 100px;
+.btn-edit {
+    background-color: var(--success-color) !important;
+    border-color: var(--success-color) !important;
+    color: white !important;
 }
 
-/* Improve spacing for small screens */
-@media (max-width: 575px) {
-    .logo-container-small {
-        max-width: 85px;
-    }
-    
-    .logo-title {
-        font-size: 0.9rem;
-    }
-    
-    .logo-subtitle {
-        font-size: 0.55rem;
-    }
-    
-    .fa-lg {
-        font-size: 1.1em !important;
-    }
-    
-    .text-blue {
-        font-size: 0.8rem;
-    }
-    
-    /* Adjust list items spacing */
-    .list-inline-item {
-        margin-right: 0.5rem;
-    }
-    
-    /* Add extra padding to create more space */
-    .pr-3 {
-        padding-right: 1rem !important;
-    }
-    
-    /* Make logo area more compact */
-    .logo-container-small .logo-text {
-        line-height: 1.1;
-    }
-    
-    /* Make dropdown menu font smaller on mobile */
-    .dropdown-menu .dropdown-item {
-        font-size: 0.8rem;
-        padding: 0.4rem 1rem;
-    }
-    
-    /* Ensure proper spacing between logo and icons */
-    .d-sm-none .col-5:first-child {
-        padding-right: 0.25rem !important;
-    }
-    
-    .d-sm-none .col-5:last-child {
-        padding-left: 0.25rem !important;
-    }
-    
-    /* Make sure the spacer column is visible */
-    .d-sm-none .col-2 {
-        min-width: 16.66667% !important;
-        flex: 0 0 16.66667% !important;
-    }
-    
-    /* Mobile cart optimizations */
-    .d-block.d-md-none .card {
-        margin-bottom: 0.5rem !important;
-    }
-    
-    .d-block.d-md-none .card-body {
-        padding: 0.5rem !important;
-    }
-    
-    .d-block.d-md-none .card-title {
-        font-size: 0.9rem !important;
-        font-weight: normal !important;
-        margin-bottom: 0.25rem !important;
-    }
-    
-    .d-block.d-md-none .card-text {
-        font-size: 0.75rem !important;
-        margin-bottom: 0.25rem !important;
-    }
-    
-    .d-block.d-md-none .card-text small {
-        font-size: 0.7rem !important;
-    }
-    
-    .d-block.d-md-none .row {
-        margin: 0 !important;
-    }
-    
-    .d-block.d-md-none .row [class*="col-"] {
-        padding: 0.05rem 0.1rem !important;
-    }
-    
-    .d-block.d-md-none small {
-        font-size: 0.75rem !important;
-        font-weight: normal !important;
-    }
-    
-    /* Improve price and subtotal readability on mobile */
-    .mobile-cart-item .col-3 small strong {
-        font-size: 0.8rem !important;
-        white-space: nowrap;
-    }
+.btn-edit:hover {
+    background-color: var(--success-hover) !important;
+    border-color: #1e7e34 !important;
+    color: white !important;
 }
 
-.nav-link {
-    padding: 0 !important;
+.btn-delete,
+.btn-cancel {
+    background-color: var(--second-color) !important;
+    border-color: var(--second-color) !important;
+    color: white !important;
 }
 
-/*
-.logo-ornament {
-    width: 40%;
-    height: 40px;
-    background-image: url('/static/images/fayno_logo_transparent_7.webp');
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-right: 10px;
-}
-*/
-
-/* Logo title styling */
-.logo-text h1,
-.logo-text h2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-}
-
-/* Logo main title */
-.logo-title {
-    font-family: 'Volkhov', 'Georgia', 'Times New Roman', serif;
-    font-size: 1.5rem;
-    color: var(--main-color);
-    text-align: center;
-    margin: 3px 0 -6px 0;
-}
-
-/* Logo subtitle */
-.logo-subtitle {
-    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-    text-align: center;
-    color: var(--main-color);
-    text-transform: uppercase;
-    line-height: 0.9;
-}
-
-.aspect-ratio-box {
-    position: relative;
-    width: 100%;
-    padding-top: 100%;
-    overflow: hidden;
-}
-
-.aspect-ratio-box img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-}
-
-.bg-blue {
-    background-image: url('/static/images/promo_border_7.webp');
-    background-repeat: repeat-x;
-    background-size: auto 100%; /* scales the pattern to fill the row height */
-    background-position: center;
-}
-
-.overlay {
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    position: fixed;
-    background: white;
-    z-index: -1;
-}
-
-#loading-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(255,255,255,0.7);
-    z-index: 9999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
-
-#loading-overlay .spinner-border {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.promo-font {
-    display: inline-block;
-    background-color: white;
-    padding: 0 1rem;
-    line-height: 1.2;
-    color: var(--main-color);
-    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-    text-transform: uppercase;
-    font-size: 1.1rem;
-}
-
-.fa-lg {
-    font-size: 1em !important;
-}
-
-#search {
-    min-width: 150px;
-    max-width: 350px;
+.btn-delete:hover,
+.btn-cancel:hover {
+    background-color: #e6a800 !important;
+    border-color: #d39e00 !important;
+    color: white !important;
 }
 
 .buy-btn {
@@ -455,76 +349,7 @@ header {
     display: inline-block !important;
 }
 
-.btn-edit {
-    background-color: #28a745 !important;
-    color: white !important;
-    border-color: #28a745 !important;
-}
-
-.btn-edit:hover {
-    background-color: #218838 !important;
-    border-color: #1e7e34 !important;
-    color: white !important;
-}
-
-.btn-delete {
-    background-color: var(--second-color) !important;
-    border-color: var(--second-color) !important;
-    color: white !important;
-}
-
-.btn-delete:hover {
-    background-color: #e6a800 !important;
-    border-color: #d39e00 !important;
-    color: white !important;
-}
-
-.btn-cancel {
-    background-color: var(--second-color) !important;
-    border-color: var(--second-color) !important;
-    color: white !important;
-}
-
-.btn-cancel:hover {
-    background-color: #e6a800 !important;
-    border-color: #d39e00 !important;
-    color: white !important;
-}
-
-.dropdown-menu {
-    z-index: 1050;
-    font-size: 0.8rem;
-}
-
-/* Override for description textarea */
-#description-textarea {
-    font-size: 13px !important;
-    padding: 8px 12px !important;
-    resize: vertical;
-}
-
-.form-control {
-    /* max-width: 100px; */
-    padding: 2px 4px !important;
-    font-size: 0.8rem !important;
-}
-
-/* Hide number input spinners/arrows */
-.qty_input::-webkit-outer-spin-button,
-.qty_input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.qty_input {
-    -moz-appearance: textfield;
-}
-
-.img-fluid {
-    max-width: 90% !important;
-}
-
-/* Custom file input styling */
+/* -------- File input button -------- */
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -554,27 +379,75 @@ header {
     display: block;
 }
 
-.btn-black {
-    background-color: #000;
-    border-color: #000;
-    color: white;
+/* -------- Forms -------- */
+.form-control {
+    padding: 2px 4px !important;
+    font-size: 0.8rem !important;
 }
 
-.btn-black:hover {
-    background-color: #333;
-    border-color: #333;
-    color: white;
+#description-textarea {
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+    resize: vertical;
 }
 
-/* .bag-notification-wrapper {
-    height: 100px;
-    overflow-x: hidden;
-    overflow-y: auto;
-} */
+/* -------- Hide number input spinners -------- */
+.qty_input::-webkit-outer-spin-button,
+.qty_input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+.qty_input {
+    -moz-appearance: textfield;
+}
 
-/* ------------------------------- bootstrap toasts */
+/* -------- Images & media -------- */
+.img-fluid {
+    max-width: 90% !important;
+}
 
+.bg-blue {
+    background-image: url('/static/images/promo_border_7.webp');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+    background-position: center;
+}
+
+/* -------- Overlays & modals -------- */
+.overlay {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: white;
+    z-index: -1;
+}
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#loading-overlay .spinner-border {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* -------- Messages & toasts -------- */
 .message-container {
     position: fixed;
     top: 72px;
@@ -590,7 +463,228 @@ header {
     height: 2px;
 }
 
-/* ------------------------------------------------------ */
+.dropdown-menu {
+    z-index: 1050;
+    font-size: 0.8rem;
+}
+
+/* -------- Search -------- */
+#search {
+    min-width: 150px;
+    max-width: 350px;
+}
+
+/* -------- Cart layout - desktop (≥576px) -------- */
+.cart-table-item {
+    display: none !important;
+}
+
+.mobile-cart-item {
+    display: block !important;
+}
+
+/* -------- Cart header row -------- */
+.cart-header-row {
+    display: none;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--gray-light);
+    border-bottom: 2px solid var(--gray-border);
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.cart-header-image,
+.cart-header-price,
+.cart-header-quantity,
+.cart-header-delete,
+.cart-header-subtotal {
+    text-align: center;
+    margin-right: 0.5rem;
+}
+
+.cart-header-image {
+    flex: 0 0 60px;
+}
+
+.cart-header-info {
+    flex: 1 1 auto;
+    min-width: 150px;
+    margin-right: 0.5rem;
+}
+
+.cart-header-price {
+    flex: 0 0 60px;
+}
+
+.cart-header-quantity {
+    flex: 0 0 100px;
+}
+
+.cart-header-delete {
+    flex: 0 0 30px;
+}
+
+.cart-header-subtotal {
+    flex: 0 0 60px;
+    margin-right: 0;
+}
+
+/* -------- Cart row -------- */
+.cart-horizontal-row {
+    display: none;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-border);
+    margin: 0;
+}
+
+.cart-image-col {
+    flex: 0 0 60px;
+    max-width: 60px;
+    margin-right: 0.5rem;
+}
+
+.cart-info-col {
+    flex: 1 1 auto;
+    min-width: 150px;
+    margin-right: 0.5rem;
+}
+
+.cart-info-col h6 {
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.cart-info-col .author-info,
+.cart-info-col .publisher-info {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 0.125rem;
+}
+
+.cart-price-col,
+.cart-quantity-col,
+.cart-subtotal-col,
+.cart-delete-col {
+    text-align: center;
+    margin-right: 0.5rem;
+}
+
+.cart-price-col {
+    flex: 0 0 60px;
+}
+
+.cart-quantity-col {
+    flex: 0 0 100px;
+}
+
+.cart-subtotal-col {
+    flex: 0 0 60px;
+}
+
+.cart-delete-col {
+    flex: 0 0 30px;
+    margin-right: 0;
+}
+
+/* -------- Responsive - extra small (< 576px) -------- */
+@media (max-width: 575px) {
+    .logo-container-small {
+        max-width: 85px;
+    }
+
+    .logo-title {
+        font-size: 0.9rem;
+    }
+
+    .logo-subtitle {
+        font-size: 0.55rem;
+    }
+
+    .logo-container-small .logo-text {
+        line-height: 1.1;
+    }
+
+    .fa-lg {
+        font-size: 1.1em !important;
+    }
+
+    .text-blue {
+        font-size: 0.8rem;
+    }
+
+    .list-inline-item {
+        margin-right: 0.5rem;
+    }
+
+    .pr-3 {
+        padding-right: 1rem !important;
+    }
+
+    .dropdown-menu .dropdown-item {
+        font-size: 0.8rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .d-sm-none .col-5:first-child {
+        padding-right: 0.25rem !important;
+    }
+
+    .d-sm-none .col-5:last-child {
+        padding-left: 0.25rem !important;
+    }
+
+    .d-sm-none .col-2 {
+        min-width: 16.66667% !important;
+        flex: 0 0 16.66667% !important;
+    }
+
+    /* Mobile cart optimizations */
+    .d-block.d-md-none .card {
+        margin-bottom: 0.5rem !important;
+    }
+
+    .d-block.d-md-none .card-body {
+        padding: 0.5rem !important;
+    }
+
+    .d-block.d-md-none .card-title {
+        font-size: 0.9rem !important;
+        font-weight: normal !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .d-block.d-md-none .card-text {
+        font-size: 0.75rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .d-block.d-md-none .card-text small {
+        font-size: 0.7rem !important;
+    }
+
+    .d-block.d-md-none .row {
+        margin: 0 !important;
+    }
+
+    .d-block.d-md-none .row [class*="col-"] {
+        padding: 0.05rem 0.1rem !important;
+    }
+
+    .d-block.d-md-none small {
+        font-size: 0.75rem !important;
+        font-weight: normal !important;
+    }
+
+    .mobile-cart-item .col-3 small strong {
+        font-size: 0.8rem !important;
+        white-space: nowrap;
+    }
+}
+
+/* -------- Responsive - small (≥ 350px) -------- */
 @media (min-width: 350px) {
     .col-6-custom {
         flex: 0 0 80% !important;
@@ -602,6 +696,7 @@ header {
     }
 }
 
+/* -------- Responsive - medium (≥ 400px) -------- */
 @media (min-width: 400px) {
     #logo,
     #logo-md {
@@ -613,9 +708,6 @@ header {
         flex: 0 0 50% !important;
         max-width: 50% !important;
     }
-    /* .nav-link {
-        padding: .4rem 0.9rem !important;
-    } */
 
     .logo-title {
         font-size: 1.9rem;
@@ -638,6 +730,7 @@ header {
     }
 }
 
+/* -------- Responsive - tablet (≥ 576px) -------- */
 @media (min-width: 576px) {
     .header-container {
         padding-top: 124px;
@@ -652,7 +745,6 @@ header {
         max-width: 33% !important;
     }
 
-    /* Cart horizontal layout for tablets and desktops ≥576px */
     .mobile-cart-item {
         display: none !important;
     }
@@ -661,119 +753,21 @@ header {
         display: block !important;
     }
 
-    /* Cart header row for larger screens */
     .cart-header-row {
         display: flex !important;
-        align-items: center;
-        padding: 0.5rem 1rem;
-        background-color: #f8f9fa;
-        border-bottom: 2px solid #dee2e6;
-        margin: 0;
-        font-weight: bold;
-        font-size: 0.9rem;
-    }
-
-    .cart-header-image {
-        flex: 0 0 60px;
-        margin-right: 0.5rem;
-        text-align: center;
-    }
-
-    .cart-header-info {
-        flex: 1 1 auto;
-        min-width: 150px;
-        margin-right: 0.5rem;
-    }
-
-    .cart-header-price {
-        flex: 0 0 60px;
-        text-align: center;
-        margin-right: 0.5rem;
-    }
-
-    .cart-header-quantity {
-        flex: 0 0 100px;
-        text-align: center;
-        margin-right: 0.5rem;
-    }
-
-    .cart-header-delete {
-        flex: 0 0 30px;
-        text-align: center;
-        margin-right: 0.5rem;
-    }
-
-    .cart-header-subtotal {
-        flex: 0 0 60px;
-        text-align: center;
-        margin-right: 0;
     }
 
     .cart-horizontal-row {
         display: flex !important;
-        align-items: center;
-        padding: 1rem;
-        border-bottom: 1px solid #dee2e6;
-        margin: 0;
-    }
-
-    .cart-image-col {
-        flex: 0 0 60px;
-        max-width: 60px;
-        margin-right: 0.5rem;
-    }
-
-    .cart-info-col {
-        flex: 1 1 auto;
-        min-width: 150px;
-        margin-right: 0.5rem;
-    }
-
-    .cart-price-col {
-        flex: 0 0 60px;
-        text-align: center;
-        margin-right: 0.5rem;
-    }
-
-    .cart-quantity-col {
-        flex: 0 0 100px;
-        text-align: center;
-        margin-right: 0.5rem;
-    }
-
-    .cart-subtotal-col {
-        flex: 0 0 60px;
-        text-align: center;
-        margin-right: 0.5rem;
-    }
-
-    .cart-delete-col {
-        flex: 0 0 30px;
-        text-align: center;
-        margin-right: 0;
-    }
-
-    .cart-info-col h6 {
-        margin-bottom: 0.25rem;
-        font-size: 1rem;
-    }
-
-    .cart-info-col .author-info {
-        font-size: 0.875rem;
-        color: #6c757d;
-        margin-bottom: 0.125rem;
-    }
-
-    .cart-info-col .publisher-info {
-        font-size: 0.875rem;
-        color: #6c757d;
     }
 }
 
+/* -------- Responsive - desktop (≥ 776px) -------- */
 @media (min-width: 776px) {
     .body {
         font-size: 0.9rem;
     }
+
     .btn-grey {
         font-size: 1rem !important;
     }
@@ -785,7 +779,7 @@ header {
     }
 
     .nav-link {
-        padding: .5rem 1rem !important;
+        padding: 0.5rem 1rem !important;
     }
 
     .logo-title {
@@ -818,10 +812,11 @@ header {
     }
 
     .catalog-wrapper {
-        padding-top: calc(130px);
+        padding-top: 130px;
     }
 }
 
+/* -------- Responsive - large (≥ 992px) -------- */
 @media (min-width: 992px) {
     .fixed-top-desktop-only {
         position: fixed;
@@ -840,6 +835,6 @@ header {
     }
 
     .catalog-wrapper {
-        padding-top: calc(112px);
+        padding-top: 112px;
     }
 }
