@@ -27,7 +27,10 @@
 </table>
 
   {% endif %}
-  <button type="submit">{% trans "Register" %}</button>
+  <div class="d-flex gap-2 mt-3">
+    <a class="btn btn-grey border rounded-1 text-uppercase flex-fill cart-action-button" href="{% url 'home' %}">{% trans 'Home' %}</a>
+    <button class="btn border rounded-1 text-uppercase flex-fill checkout-button" type="submit">{% trans "Register" %}</button>
+  </div>
 </form>
 
 {% endblock %}
