@@ -125,10 +125,10 @@
             {% endif %}
             
             <div class="d-flex justify-content-end gap-2 mt-3">
-              <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase">
+              <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase" style="font-size: 0.8rem !important;">
                 Keep Shopping
               </a>
-              <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase" style="background-color: var(--second-color) !important; color: black !important;">
+              <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase" style="background-color: var(--second-color) !important; color: black !important; font-size: 0.8rem !important;">
                 Submit
               </a>
             </div>
@@ -233,8 +233,8 @@
           
           <!-- Mobile buttons -->
           <div class="d-flex mt-3 gap-2">
-            <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase flex-fill btn-sm" style="font-size: 0.75rem;">Keep Shopping</a>
-            <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase flex-fill btn-sm" style="font-size: 0.75rem; background-color: var(--second-color) !important; color: black !important;">Submit</a>
+            <a href="{% url 'books' %}" class="btn btn-grey border rounded-1 text-uppercase flex-fill btn-sm" style="font-size: 0.8rem !important;">Keep Shopping</a>
+            <a href="{% url 'checkout' %}" class="btn border rounded-1 text-uppercase flex-fill btn-sm" style="font-size: 0.8rem !important; background-color: var(--second-color) !important; color: black !important;">Submit</a>
           </div>
         </div>
       {% else %}

@@ -5,10 +5,10 @@ from .models import Order
 class OrderForm(forms.ModelForm):
     # Non-model fields for first and last name
     first_name = forms.CharField(
-        max_length=50, required=True, label=False
+        max_length=50, required=True
     )
     last_name = forms.CharField(
-        max_length=50, required=False, label=False
+        max_length=50, required=False
     )
 
     class Meta:
@@ -56,13 +56,14 @@ class OrderForm(forms.ModelForm):
             if field in ["first_name", "last_name"]:
                 # Handle non-model fields
                 placeholder = placeholders[field]
-            elif self.fields[field].required:
-                placeholder = f"{placeholders[field]} *"
+                label_text = placeholders[field]
             else:
                 placeholder = placeholders[field]
+                label_text = placeholders[field]
+            
             self.fields[field].widget.attrs["placeholder"] = placeholder
             self.fields[field].widget.attrs["class"] = "stripe-style-input"
-            self.fields[field].label = False
+            self.fields[field].label = label_text
 
     def clean(self):
         """

@@ -20,16 +20,42 @@
 .fieldset-label {
     position: relative;
     right: .5rem;
-    color:#4e4e4e;
+    color: #004085;
+    font-weight: 600;
+    font-size: 0.875rem;
 }
 
-#payment-form .form-control,
+#payment-form fieldset {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#payment-form .form-group {
+    margin-bottom: 1rem;
+}
+
+#payment-form .form-group label {
+    font-weight: 500;
+    display: block;
+    color: #004085;
+    margin-bottom: 0;
+}
+
+#payment-form .form-control {
+    width: 100%;
+    border: 1px solid #ddd !important;
+    padding: 0.5rem !important;
+    font-size: 1rem;
+}
+
+#payment-form .form-control:focus {
+    outline: none;
+    border-color: #004085 !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 64, 133, 0.25) !important;
+}
+
 #card-element {
-    border: 1px solid #000;
-}
-
-.form-control {
-    font-size: small;
+    border: 1px solid #ddd;
 }
 
 #loading-overlay {

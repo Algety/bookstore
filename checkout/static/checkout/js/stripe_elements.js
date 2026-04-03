@@ -28,6 +28,17 @@ var style = {
 var card = elements.create('card', {style: style});
 card.mount('#card-element');
 
+// Fix for Stripe Elements aria-hidden accessibility warning
+// Remove aria-hidden from Stripe elements when they gain focus
+card.addEventListener('focus', function() {
+    var stripeElements = document.querySelectorAll('[aria-hidden="true"]');
+    stripeElements.forEach(function(element) {
+        if (element.closest('#card-element')) {
+            element.removeAttribute('aria-hidden');
+        }
+    });
+});
+
 // Handle realtime validation errors on the card element
 card.addEventListener('change', function (event) {
     var errorDiv = document.getElementById('card-errors');
@@ -51,7 +62,9 @@ form.addEventListener('submit', function(ev) {
     ev.preventDefault();
     card.update({ 'disabled': true});
     $('#submit-button').attr('disabled', true);
+    $('#form-instructions').fadeToggle(100);
     $('#payment-form').fadeToggle(100);
+    $('#processing-message').fadeToggle(100);
     $('#loading-overlay').fadeToggle(100);
 
     var saveInfo = Boolean($('#id-save-info').attr('checked'));
@@ -104,7 +117,9 @@ form.addEventListener('submit', function(ev) {
                     </span>
                     <span>${result.error.message}</span>`;
                 $(errorDiv).html(html);
+                $('#form-instructions').fadeToggle(100);
                 $('#payment-form').fadeToggle(100);
+                $('#processing-message').fadeToggle(100);
                 $('#loading-overlay').fadeToggle(100);
                 card.update({ 'disabled': false});
                 $('#submit-button').attr('disabled', false);
