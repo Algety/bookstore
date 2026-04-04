@@ -90,6 +90,18 @@
 {% block postloadjs %}
     {{ block.super }}
     <script>
+        // Scroll to first validation error on form submission
+        $('form').on('submit', function() {
+            // Scroll to first error field
+            var firstError = $('.is-invalid').first();
+            if (firstError.length) {
+                setTimeout(function() {
+                    firstError.get(0).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }, 100);
+            }
+        });
+
         $('#new-image').change(function() {
             var file = $('#new-image')[0].files[0];
             $('#filename').text(`Image will be set to: ${file.name}`);
