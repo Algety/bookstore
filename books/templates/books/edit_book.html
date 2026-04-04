@@ -85,22 +85,31 @@
             var file = $('#new-image')[0].files[0];
             $('#filename').text(`Image will be set to: ${file.name}`);
             
-            // Show new image preview with same block structure as current image
+            // Show new image preview block as duplicate of current image block
             if (file) {
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    $('#new-image-preview-block').remove();
+                    $('#new-image-block').remove();
                     
-                    // Create new image block with exact same structure as current image
+                    // Create exact duplicate of current image block structure
                     var newImageBlock = `
-                        <div id="new-image-preview-block" style="display: inline-block; margin-left: 20px; vertical-align: top;">
+                        <div id="new-image-block" style="display: inline-block; vertical-align: top; margin-left: 20px;">
                             <p>New Image:</p>
                             <img width="96" height="96" class="rounded shadow-sm" src="${e.target.result}" alt="New image preview">
+                            <br>
                         </div>
                     `;
                     
-                    // Find the current image link and insert after it
-                    $('a[aria-label="View current book cover image"]').after(newImageBlock);
+                    // Find the current image block (from p tag to before the Select button)
+                    var currentImageP = $('p').filter(function() { return $(this).text() === 'Current Image:'; });
+                    
+                    // Wrap the current block if not already wrapped
+                    if (!currentImageP.parent().attr('id') || currentImageP.parent().attr('id') !== 'current-image-block') {
+                        currentImageP.nextUntil('span.btn-file').addBack().wrapAll('<div id="current-image-block" style="display: inline-block; vertical-align: top;"></div>');
+                    }
+                    
+                    // Insert new block right after current block
+                    $('#current-image-block').after(newImageBlock);
                 };
                 reader.readAsDataURL(file);
             }
