@@ -27,17 +27,6 @@
     font-size: 0.5rem;
 }
 
-/* -------- Cart actions -------- */
-.cart-action-button {
-    font-size: 0.8rem !important;
-}
-
-.checkout-button {
-    background-color: var(--second-color) !important;
-    color: black !important;
-    font-size: 0.8rem !important;
-}
-
 /* -------- Cart divider -------- */
 .cart-item-divider {
     border-bottom: 1px solid #dee2e6;
