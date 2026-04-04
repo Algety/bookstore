@@ -93,7 +93,7 @@
                     $('#new-image-block').remove();
                     
                     // Create new image block with remove checkbox
-                    var newImageBlock = `<div id="new-image-block" style="display: inline-block; vertical-align: top; margin-left: 20px;">
+                    var newImageBlock = `<div id="new-image-block">
                             <p>New Image:</p>
                             <img width="96" height="96" class="rounded shadow-sm" src="${e.target.result}" alt="New image preview">
                             <br>
@@ -106,15 +106,17 @@
                     // Find the current image block (from p tag to before the Select button)
                     var currentImageP = $('p').filter(function() { return $(this).text() === 'Current Image:'; });
                     
-                    // Create a wrapper for both blocks if needed
+                    // Create wrapper on first time
                     if (!$('#image-blocks-wrapper').length) {
-                        currentImageP.nextUntil('span.btn-file').addBack().wrapAll('<div id="image-blocks-wrapper" style="display: flex; flex-wrap: wrap; gap: 20px;"><div id="current-image-block" style="display: inline-block; vertical-align: top;"></div></div>');
+                        currentImageP.before('<div id="image-blocks-wrapper" style="display: flex; gap: 20px; align-items: flex-start;"></div>');
+                        currentImageP.nextUntil('span.btn-file').addBack().wrapAll('<div id="current-image-block"></div>');
+                        $('#current-image-block').prependTo('#image-blocks-wrapper');
                     }
                     
-                    // Insert new block inside wrapper after current block
+                    // Append new block to wrapper
                     $('#image-blocks-wrapper').append(newImageBlock);
                     
-                    // Handle remove checkbox - just clear the file input to trigger change event
+                    // Handle remove checkbox
                     $('#remove-new-image').on('change', function() {
                         if ($(this).is(':checked')) {
                             $('#new-image').val('').trigger('change');
