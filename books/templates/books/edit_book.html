@@ -79,27 +79,8 @@
 {% endblock %}
 
 {% block postloadjs %}
-    {{ block.super }}
+    {{ block.super %}
     <script>
-        // Scroll to first validation error on form submission
-        $('form').on('submit', function() {
-            // Check for validation errors and scroll to center them
-            setTimeout(function() {
-                var firstError = $('.is-invalid').first();
-                if (firstError.length) {
-                    var headerHeight = $('header').outerHeight() || 0;
-                    var windowHeight = $(window).height();
-                    var elementPosition = firstError.offset().top;
-                    var elementHeight = firstError.outerHeight();
-                    // Center the field in the middle of the viewport below the header
-                    var scrollPosition = elementPosition - headerHeight - (windowHeight / 2) + (elementHeight / 2);
-                    $('html, body').animate({ scrollTop: scrollPosition }, 500, function() {
-                        firstError.focus();
-                    });
-                }
-            }, 50);
-        });
-
         $('#new-image').change(function() {
             var file = $('#new-image')[0].files[0];
             
