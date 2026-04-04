@@ -83,20 +83,25 @@
     <script>
         $('#new-image').change(function() {
             var file = $('#new-image')[0].files[0];
-            $('#filename').text(`Image will be set to: ${file.name}`);
             
             // Show new image preview block as duplicate of current image block
             if (file) {
+                $('#filename').text(`Image will be set to: ${file.name}`);
+                
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     $('#new-image-block').remove();
                     
-                    // Create exact duplicate of current image block structure
+                    // Create new image block with remove checkbox
                     var newImageBlock = `
                         <div id="new-image-block" style="display: inline-block; vertical-align: top; margin-left: 20px;">
                             <p>New Image:</p>
                             <img width="96" height="96" class="rounded shadow-sm" src="${e.target.result}" alt="New image preview">
                             <br>
+                            <div class="custom-control custom-checkbox mt-2">
+                                <input class="custom-control-input" type="checkbox" id="remove-new-image">
+                                <label class="custom-control-label text-danger" for="remove-new-image">Remove</label>
+                            </div>
                         </div>
                     `;
                     
@@ -110,8 +115,19 @@
                     
                     // Insert new block right after current block
                     $('#current-image-block').after(newImageBlock);
+                    
+                    // Handle remove checkbox - just clear the file input to trigger change event
+                    $('#remove-new-image').on('change', function() {
+                        if ($(this).is(':checked')) {
+                            $('#new-image').val('').trigger('change');
+                        }
+                    });
                 };
                 reader.readAsDataURL(file);
+            } else {
+                // If no file selected, clear the preview and text
+                $('#new-image-block').remove();
+                $('#filename').text('');
             }
         });
     </script>

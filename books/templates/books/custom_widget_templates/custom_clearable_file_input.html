@@ -11,8 +11,8 @@
     {% endif %}<br>
     {{ widget.input_text }}
 {% endif %}
+<strong><p class="text-danger" id="filename"></p></strong>
 <label for="new-image" class="sr-only">Select book cover image</label>
 <span class="btn btn-success btn-sm px-2 btn-file">
-    Select Image <input id="new-image" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+    Change image <input id="new-image" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
 </span>
-<strong><p class="text-danger" id="filename"></p></strong>
