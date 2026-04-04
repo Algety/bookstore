@@ -93,8 +93,7 @@
                     $('#new-image-block').remove();
                     
                     // Create new image block with remove checkbox
-                    var newImageBlock = `
-                        <div id="new-image-block" style="display: inline-block; vertical-align: top; margin-left: 20px;">
+                    var newImageBlock = `<div id="new-image-block" style="display: inline-block; vertical-align: top; margin-left: 20px;">
                             <p>New Image:</p>
                             <img width="96" height="96" class="rounded shadow-sm" src="${e.target.result}" alt="New image preview">
                             <br>
@@ -102,19 +101,18 @@
                                 <input class="custom-control-input" type="checkbox" id="remove-new-image">
                                 <label class="custom-control-label text-danger" for="remove-new-image">Remove</label>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                     
                     // Find the current image block (from p tag to before the Select button)
                     var currentImageP = $('p').filter(function() { return $(this).text() === 'Current Image:'; });
                     
-                    // Wrap the current block if not already wrapped
-                    if (!currentImageP.parent().attr('id') || currentImageP.parent().attr('id') !== 'current-image-block') {
-                        currentImageP.nextUntil('span.btn-file').addBack().wrapAll('<div id="current-image-block" style="display: inline-block; vertical-align: top;"></div>');
+                    // Create a wrapper for both blocks if needed
+                    if (!$('#image-blocks-wrapper').length) {
+                        currentImageP.nextUntil('span.btn-file').addBack().wrapAll('<div id="image-blocks-wrapper" style="display: flex; flex-wrap: wrap; gap: 20px;"><div id="current-image-block" style="display: inline-block; vertical-align: top;"></div></div>');
                     }
                     
-                    // Insert new block right after current block
-                    $('#current-image-block').after(newImageBlock);
+                    // Insert new block inside wrapper after current block
+                    $('#image-blocks-wrapper').append(newImageBlock);
                     
                     // Handle remove checkbox - just clear the file input to trigger change event
                     $('#remove-new-image').on('change', function() {
