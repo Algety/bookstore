@@ -83,17 +83,21 @@
     <script>
         // Scroll to first validation error on form submission
         $('form').on('submit', function() {
-            // Scroll to first error field with offset for fixed header
-            var firstError = $('.is-invalid').first();
-            if (firstError.length) {
-                setTimeout(function() {
+            // Check for validation errors and scroll to center them
+            setTimeout(function() {
+                var firstError = $('.is-invalid').first();
+                if (firstError.length) {
                     var headerHeight = $('header').outerHeight() || 0;
+                    var windowHeight = $(window).height();
                     var elementPosition = firstError.offset().top;
-                    var scrollPosition = elementPosition - headerHeight - 20; // 20px extra padding
-                    $('html, body').animate({ scrollTop: scrollPosition }, 'smooth');
-                    firstError.focus();
-                }, 100);
-            }
+                    var elementHeight = firstError.outerHeight();
+                    // Center the field in the middle of the viewport below the header
+                    var scrollPosition = elementPosition - headerHeight - (windowHeight / 2) + (elementHeight / 2);
+                    $('html, body').animate({ scrollTop: scrollPosition }, 500, function() {
+                        firstError.focus();
+                    });
+                }
+            }, 50);
         });
 
         $('#new-image').change(function() {

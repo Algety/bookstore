@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from decimal import Decimal
 from slugify import slugify
 from multiselectfield import MultiSelectField
 
@@ -145,7 +146,7 @@ class Book(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     price = models.DecimalField(
-        max_digits=6, decimal_places=2, validators=[MinValueValidator(0.01)]
+        max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))]
     )
     stock_quantity = models.PositiveIntegerField(default=0)
     available = models.BooleanField(default=True)
