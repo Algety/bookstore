@@ -34,7 +34,7 @@ class BookForm(forms.ModelForm):
         ),
         widget=forms.SelectMultiple(
             attrs={
-                "class": "selectpicker form-control",
+                "class": "selectpicker",
                 "data-live-search": "true",
                 "data-actions-box": "true",
                 "title": "Choose categories...",
@@ -73,7 +73,7 @@ class BookForm(forms.ModelForm):
             "image": CustomClearableFileInput(),
             "authors": forms.SelectMultiple(
                 attrs={
-                    "class": "selectpicker form-control",
+                    "class": "selectpicker",
                     "data-live-search": "true",
                     "data-actions-box": "true",
                     "title": "Choose authors...",
@@ -81,7 +81,7 @@ class BookForm(forms.ModelForm):
             ),
             "illustrators": forms.SelectMultiple(
                 attrs={
-                    "class": "selectpicker form-control",
+                    "class": "selectpicker",
                     "data-live-search": "true",
                     "data-actions-box": "true",
                     "title": "Choose illustrators...",
