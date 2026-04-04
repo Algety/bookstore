@@ -7,5 +7,6 @@ env.py
 reset_password.py
 restore_original_categories.py
 commands
+convert_images_to_webp.py
 static/drafts/
 DEPLOYMENT draft.md

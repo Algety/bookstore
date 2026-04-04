@@ -56,21 +56,6 @@ class BookAdminForm(forms.ModelForm):
             f"{obj.parent.name} / {obj.name}" if obj.parent else obj.name
         )
 
-        # Add asterisks to required fields
-        required_fields = [
-            "title",
-            "cover_type",
-            "illustration_type",
-            "pages",
-            "price",
-            "stock_quantity",
-            "language",
-        ]
-        for field_name in required_fields:
-            if field_name in self.fields:
-                self.fields[field_name].label = f"{self.fields[field_name].label} *"
-
-
 class BookAdmin(admin.ModelAdmin):
     form = BookAdminForm
     filter_horizontal = ("authors", "illustrators")
